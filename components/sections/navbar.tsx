@@ -10,20 +10,7 @@ export default function Navbar() {
           <LogoSpan />
         </div>
         <div className="flex space-x-3 items-center">
-          {/* <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-            <div
-              className={cn(
-                buttonVariants({
-                  variant: "ghost",
-                }),
-                "w-9 px-0"
-              )}
-            >
-              <Icons.gitHub className="h-4 w-4" />
-              <span className="sr-only">GitHub</span>
-            </div>
-          </Link> */}
-          <Link href={"/sign-in"}><Button variant={"link"}>Sign In</Button></Link>
+          <Link href={"/login"}><Button variant={"link"}>Login</Button></Link>
           <Link href={"/sign-up"}><Button variant={"default"}>Sign Up</Button></Link>
         </div>
       </nav>
