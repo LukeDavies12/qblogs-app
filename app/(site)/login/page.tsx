@@ -21,16 +21,9 @@ export default function LoginPage() {
           <div className="relative space-y-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password</Label>
-              <Link className="ml-auto inline-block text-sm underline" href="#">
-                Forgot your password?
-              </Link>
             </div>
             <div className="relative">
               <Input id="password" required type="password" />
-              <Button className="absolute top-1 right-1 h-7 w-7" size="icon" variant="ghost" type="button">
-                <EyeIcon className="h-4 w-4" />
-                <span className="sr-only">Toggle password visibility</span>
-              </Button>
             </div>
           </div>
         </CardContent>
