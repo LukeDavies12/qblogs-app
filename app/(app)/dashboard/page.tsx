@@ -1,12 +1,12 @@
-import { createClient } from "@/utils/supabase/server";
+import UserInfo from './user-info'
+import { createClient } from '@/utils/supabase/server'
 
-export default async function DashboardPage() {
+export default async function Account() {
   const supabase = createClient()
 
-  return (
-    <>
-      <h1>Dashboard</h1>
-      <p>Welcome to the dashboard </p>
-    </>
-  );
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  return <UserInfo user={user} />
 }
