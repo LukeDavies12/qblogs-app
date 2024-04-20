@@ -1,4 +1,3 @@
-import Footer from "@/components/sections/footer";
 import Navbar from "@/components/sections/navbar";
 
 export default function SiteLayout({
@@ -12,7 +11,6 @@ export default function SiteLayout({
       <main className="container mx-auto px-4">
         {children}
       </main>
-      <Footer />
     </>
   );
 }

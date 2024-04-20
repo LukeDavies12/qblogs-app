@@ -1,4 +1,3 @@
-import Footer from "@/components/sections/footer";
 import Navbar from "@/components/sections/navbar";
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from "next/navigation";
@@ -21,7 +20,6 @@ export default async function SiteLayout({
       <main className="container mx-auto px-4">
         {children}
       </main>
-      <Footer />
     </>
   );
 }
