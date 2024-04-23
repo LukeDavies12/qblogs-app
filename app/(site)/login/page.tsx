@@ -10,19 +10,19 @@ import { useFormState, useFormStatus } from "react-dom"
 import AuthFormError from "@/components/auth/auth-form-error"
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(login, {
+  const [state, action] = useFormState(login, {
     error: "",
   });
 
   return (
     <Card className="lg:w-1/2 mx-auto my-16">
-      <form action={login}>
+      <form action={action}>
         <CardHeader className="space-y-2">
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your email and password below to log back in to your account.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <AuthFormError state={false} />
+          <AuthFormError state={state} />
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" placeholder="m@example.com" required type="email" />

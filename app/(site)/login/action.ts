@@ -1,54 +1,62 @@
-'use server'
+"use server";
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { z } from "zod";
+import { ActionResult } from "next/dist/server/app-render/types";
 
-import { createClient } from '@/utils/supabase/server'
-import { z } from 'zod'
-
-const SignInSchema = z.object({
+const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-})
+});
 
-export async function login(formData: FormData) {
-  const supabase = createClient()
+const getLoginErrorMessage = (errors: any): string => {
+  if (errors.email) return "Invalid Email";
+  if (errors.password) return "Invalid Password - " + errors.password[0];
+  return "";
+};
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email'),
-    password: formData.get('password'),
+const validateSignInformData = (
+  formData: FormData
+):
+  | { data: { email: string; password: string }; error: null }
+  | { data: null; error: string } => {
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const result = LoginSchema.safeParse({ email, password });
+
+  if (!result.success) {
+    return {
+      data: null,
+      error: getLoginErrorMessage(result.error.flatten().fieldErrors),
+    };
   }
+  return { data: result.data, error: null };
+};
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+export async function login(
+  _: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const supabase = createClient();
+  const { data, error } = validateSignInformData(formData);
+  if (error !== null) return { error };
 
-  if (error) {
-    console.log(data)
-    console.log(error)
-    redirect('/error')
+  try {
+    if (data) {
+      const { error: signInError } = await supabase.auth.signInWithPassword(
+        data
+      );
+      if (signInError) {
+        console.log(signInError);
+        redirect("/error");
+      }
+      revalidatePath("/", "layout");
+      redirect("/dashboard");
+    }
+  } catch (error) {
+    console.error(error);
+    redirect("/error");
   }
-
-  revalidatePath('/', 'layout')
-  redirect('/dashboard')
-}
-
-export async function signup(formData: FormData) {
-  const supabase = createClient()
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
-
-  const { error } = await supabase.auth.signUp(data)
-
-  if (error) {
-    redirect('/error')
-  }
-
-  revalidatePath('/', 'layout')
-  redirect('/dashboard')
 }
