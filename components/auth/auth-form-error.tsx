@@ -1,5 +1,5 @@
-export default function AuthFormError({ state }: { state: { error: string } }) {
-  if (state.error)
+export default function AuthFormError({ state }: { state: { error: string } | undefined }) {
+  if (state && state.error)
     return (
       <div className="w-full p-4 bg-destructive my-4 text-destructive-foreground text-xs rounded-lg">
         <h3 className="font-bold">Error</h3>

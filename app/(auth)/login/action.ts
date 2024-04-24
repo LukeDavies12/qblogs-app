@@ -11,7 +11,7 @@ const LoginSchema = z.object({
   password: z.string().min(8),
 });
 
-const getLoginErrorMessage = (errors: any): string => {
+const loginErrorMsg = (errors: any): string => {
   if (errors.email) return "Invalid Email";
   if (errors.password) return "Invalid Password - " + errors.password[0];
   return "";
@@ -29,7 +29,7 @@ const validateSignInformData = (
   if (!result.success) {
     return {
       data: null,
-      error: getLoginErrorMessage(result.error.flatten().fieldErrors),
+      error: loginErrorMsg(result.error.flatten().fieldErrors),
     };
   }
   return { data: result.data, error: null };
