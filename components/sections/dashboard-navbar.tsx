@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
-
 export default function DashboardNavbar({ userName }: { userName: string }) {
   function getInitials(name: string) {
     if (!name) return '';
@@ -22,7 +21,6 @@ export default function DashboardNavbar({ userName }: { userName: string }) {
   }
   const userInitials = getInitials(userName);
 
-  
   return (
     <div className="container px-4 mx-auto my-1">
       <nav className="flex justify-between items-center py-4">
