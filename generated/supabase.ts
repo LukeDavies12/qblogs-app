@@ -1,4 +1,6 @@
-export type Json =
+Need to install the following packages:
+supabase@1.163.6
+Ok to proceed? (y) export type Json =
   | string
   | number
   | boolean
@@ -155,6 +157,7 @@ export type Database = {
           hash: Database["public"]["Enums"]["hashes"] | null
           hot_throw_missed: Database["public"]["Enums"]["yes_no_na"] | null
           id: string
+          mis_execution_reason: string | null
           motion: string | null
           notes: string | null
           personnel: number | null
@@ -162,6 +165,8 @@ export type Database = {
           qb_ball_placement_good:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
+          qb_id: string
+          qb_maxed: boolean
           qb_read_correct: Database["public"]["Enums"]["yes_no_na"] | null
           redzone: boolean | null
           result: string
@@ -185,6 +190,7 @@ export type Database = {
           hash?: Database["public"]["Enums"]["hashes"] | null
           hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
+          mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
           personnel?: number | null
@@ -192,6 +198,8 @@ export type Database = {
           qb_ball_placement_good?:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
+          qb_id: string
+          qb_maxed: boolean
           qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
           redzone?: boolean | null
           result: string
@@ -215,6 +223,7 @@ export type Database = {
           hash?: Database["public"]["Enums"]["hashes"] | null
           hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
+          mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
           personnel?: number | null
@@ -222,6 +231,8 @@ export type Database = {
           qb_ball_placement_good?:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
+          qb_id?: string
+          qb_maxed?: boolean
           qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
           redzone?: boolean | null
           result?: string
@@ -231,6 +242,13 @@ export type Database = {
           yard_line?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "plays_user_id_fkey"
+            columns: ["qb_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["auth_id"]
+          },
           {
             foreignKeyName: "public_plays_game_id_fkey"
             columns: ["game_id"]
@@ -429,6 +447,8 @@ export type Database = {
       users: {
         Row: {
           auth_id: string
+          current_fall_season_id: string | null
+          current_spring_season_id: string | null
           current_team_id: string | null
           full_name: string
           role: Database["public"]["Enums"]["user_role"]
@@ -436,6 +456,8 @@ export type Database = {
         }
         Insert: {
           auth_id?: string
+          current_fall_season_id?: string | null
+          current_spring_season_id?: string | null
           current_team_id?: string | null
           full_name: string
           role: Database["public"]["Enums"]["user_role"]
@@ -443,12 +465,29 @@ export type Database = {
         }
         Update: {
           auth_id?: string
+          current_fall_season_id?: string | null
+          current_spring_season_id?: string | null
           current_team_id?: string | null
           full_name?: string
           role?: Database["public"]["Enums"]["user_role"]
           type?: Database["public"]["Enums"]["user_type"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "users_current_fall_season_id_fkey"
+            columns: ["current_fall_season_id"]
+            isOneToOne: false
+            referencedRelation: "seasons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_current_spring_season_id_fkey"
+            columns: ["current_spring_season_id"]
+            isOneToOne: false
+            referencedRelation: "spring_seasons"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

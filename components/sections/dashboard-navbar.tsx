@@ -10,7 +10,19 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 
-export default function DashboardNavbar() {
+export default function DashboardNavbar({ userName }: { userName: string }) {
+  function getInitials(name: string) {
+    if (!name) return '';
+    const nameArray = name.split(' ');
+    let initials = '';
+    for (let i = 0; i < nameArray.length; i++) {
+      initials += nameArray[i].charAt(0).toUpperCase();
+    }
+    return initials;
+  }
+  const userInitials = getInitials(userName);
+
+  
   return (
     <div className="container px-4 mx-auto my-1">
       <nav className="flex justify-between items-center py-4">
@@ -21,16 +33,15 @@ export default function DashboardNavbar() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{userInitials}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-52">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
