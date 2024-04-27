@@ -8,6 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import SignOutBtn from "../auth/log-out-btn";
+import { Settings, DollarSign } from "lucide-react";
+import Link from "next/link";
 
 export default function DashboardNavbar({ full_name }: { full_name: string }) {
   function getInitials(name: string) {
@@ -21,33 +24,46 @@ export default function DashboardNavbar({ full_name }: { full_name: string }) {
   }
   let userInitials = getInitials(full_name);
 
-  if(!full_name) {
+  if (!full_name) {
     userInitials = ('Acc')
   }
 
   return (
-    <div className="container px-4 mx-auto my-1">
-      <nav className="flex justify-between items-center py-4">
-        <div>
-          <LogoSpan />
-        </div>
-        <div className="flex items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarFallback>{userInitials}</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-52">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </nav>
+    <div className="border-b w-full">
+      <div className="container px-4 mx-auto">
+        <nav className="flex justify-between items-center py-4">
+          <div>
+            <LogoSpan />
+          </div>
+          <div className="flex items-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarFallback>{userInitials}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href={"/dashboard"}>
+                  <DropdownMenuItem className="cursor-pointer">
+                    <DollarSign className="mr-2 h-4 w-4" />
+                    Billing
+                  </DropdownMenuItem>
+                </Link>
+                <Link href={"/dashboard"}>
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuSeparator />
+                <SignOutBtn />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </nav>
+      </div>
     </div>
   );
 }

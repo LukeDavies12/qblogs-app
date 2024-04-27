@@ -7,7 +7,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }>) {
   const supabase = createClient()
-  
+
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
     redirect('/login')
@@ -15,9 +15,7 @@ export default async function AppLayout({
 
   return (
     <>
-      <main className="container mx-auto px-4">
-        {children}
-      </main>
+      {children}
     </>
   );
 }

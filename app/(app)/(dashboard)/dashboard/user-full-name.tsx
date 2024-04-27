@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { User } from "@supabase/supabase-js"
 
-export default async function UserInfo({ user }: { user: User | null }) {
+export default async function UserFullName({ user }: { user: User | null }) {
   const supabase = createClient()
 
   const { data } = await supabase
@@ -11,8 +11,8 @@ export default async function UserInfo({ user }: { user: User | null }) {
     .single()
 
   return (
-    <div>
+    <>
       {data?.full_name}
-    </div>
+    </>
   )
 }
