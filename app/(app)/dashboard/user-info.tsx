@@ -11,6 +11,7 @@ export default async function UserInfo({ user }: { user: User | null }) {
     .single()
 
   if (error) {
+    console.log('error user-info.tsx')
     throw error
   }
 

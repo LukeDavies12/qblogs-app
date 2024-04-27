@@ -38,25 +38,18 @@ const validateSignInformData = (
 export async function login(
   _: ActionResult,
   formData: FormData
-): Promise<ActionResult> {
+) {
   const supabase = createClient();
   const { data, error } = validateSignInformData(formData);
   if (error !== null) return { error };
 
-  try {
-    if (data) {
-      const { error: signInError } = await supabase.auth.signInWithPassword(
-        data
-      );
-      if (signInError) {
-        console.log(signInError);
-        redirect("/error");
-      }
-      revalidatePath("/", "layout");
-      redirect("/dashboard");
+  if (data) {
+    const { error: signInError } = await supabase.auth.signInWithPassword(data);
+    if (signInError) {
+      console.log(signInError);
+      redirect("/error");
     }
-  } catch (error) {
-    console.error(error);
-    redirect("/error");
+    revalidatePath("/", "layout");
+    redirect("/dashboard");
   }
 }

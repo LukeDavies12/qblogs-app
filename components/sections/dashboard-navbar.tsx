@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
-export default function DashboardNavbar({ userName }: { userName: string }) {
+export default function DashboardNavbar({ full_name }: { full_name: string }) {
   function getInitials(name: string) {
     if (!name) return '';
     const nameArray = name.split(' ');
@@ -19,7 +19,11 @@ export default function DashboardNavbar({ userName }: { userName: string }) {
     }
     return initials;
   }
-  const userInitials = getInitials(userName);
+  let userInitials = getInitials(full_name);
+
+  if(!full_name) {
+    userInitials = ('Acc')
+  }
 
   return (
     <div className="container px-4 mx-auto my-1">
