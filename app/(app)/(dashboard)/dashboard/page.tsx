@@ -9,11 +9,6 @@ export default async function Account() {
     data: { user }, error,
   } = await supabase.auth.getUser()
 
-  if (error) {
-    console.log('error page')
-    throw error
-  }
-
   return (
     <>
       <UserInfo user={user} />

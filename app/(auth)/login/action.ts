@@ -35,10 +35,7 @@ const validateSignInformData = (
   return { data: result.data, error: null };
 };
 
-export async function login(
-  _: ActionResult,
-  formData: FormData
-) {
+export async function login(state: { error: string; } | undefined, formData: FormData) {
   const supabase = createClient();
   const { data, error } = validateSignInformData(formData);
   if (error !== null) return { error };
