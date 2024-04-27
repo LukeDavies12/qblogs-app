@@ -1,6 +1,6 @@
 "use client"
 
-import { login } from "./action"
+import { Login } from "./action"
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button"
 import { useFormState, useFormStatus } from "react-dom"
 import AuthFormError from "@/components/auth/auth-form-error"
 
-export default function LoginPage() {
-  const [state, action] = useFormState(login, {
+export default function Page() {
+  const [state, action] = useFormState(Login, {
     error: "",
   });
 

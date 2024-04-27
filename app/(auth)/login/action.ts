@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
-import { ActionResult } from "next/dist/server/app-render/types";
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -35,7 +34,7 @@ const validateSignInformData = (
   return { data: result.data, error: null };
 };
 
-export async function login(state: { error: string; } | undefined, formData: FormData) {
+export async function Login(state: { error: string; } | undefined, formData: FormData) {
   const supabase = createClient();
   const { data, error } = validateSignInformData(formData);
   if (error !== null) return { error };

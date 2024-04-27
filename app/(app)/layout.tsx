@@ -7,15 +7,10 @@ export default async function AppLayout({
   children: React.ReactNode;
 }>) {
   const supabase = createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-
-  if (!user) {
-    return redirect('/login')
-  }
-
-  if (error) {
-    console.log('error layout')
-    throw error
+  
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    redirect('/login')
   }
 
   return (

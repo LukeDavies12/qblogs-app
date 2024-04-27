@@ -2,7 +2,7 @@ import Navbar from "@/components/sections/navbar";
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from "next/navigation";
 
-export default async function SiteLayout({
+export default async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
