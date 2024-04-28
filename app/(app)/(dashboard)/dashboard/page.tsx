@@ -2,6 +2,7 @@ import UserFullName from './user-full-name'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import CheckMembers from './check-members'
+import CreateTeam from './create-team'
 
 export default async function Page() {
   const supabase = createClient()
@@ -18,6 +19,7 @@ export default async function Page() {
           don&apos;t have a team setup yet. Let&apos;s get started!
         </div>
         <br />
+        <CreateTeam />
       </>
     )
   } else {

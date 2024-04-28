@@ -7,7 +7,7 @@ import { ModeToggleRadio } from "../theme/mode-toggle-radio"
 
 export default function Footer() {
   return (
-    <div className="container mx-auto px-4 flex justify-end items-center">
+    <div className="container mx-auto px-4 flex justify-end items-center pt-8">
       <Link href={siteConfig.links.youtube} target="_blank" rel="noreferrer">
         <div
           className={cn(

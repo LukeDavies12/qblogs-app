@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useFormState, useFormStatus } from "react-dom"
-import AuthFormError from "@/components/auth/auth-form-error"
+import AuthFormError from "@/components/forms/form-error"
 
 export default function Page() {
   const [state, action] = useFormState(Login, {
