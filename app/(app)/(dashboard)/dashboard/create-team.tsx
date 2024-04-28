@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import Avatar from "./avatar"
+import Image from 'next/image'
 import { useEffect, useState } from "react"
 import { createClient } from '@/utils/supabase/client'
 
@@ -90,15 +90,36 @@ export default function CreateTeam({
                 <Input id="level" placeholder="NAIA" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="logo">Logo URL</Label>
-                <Avatar
-                  uid={user?.id ?? null}
-                  url={avatar_url}
-                  size={150}
-                  onUpload={(url) => {
-                    setAvatarUrl(url)
-                  }}
-                />
+                <div>
+                  {avatarUrl ? (
+                    <Image
+                      width={size}
+                      height={size}
+                      src={avatarUrl}
+                      alt="Avatar"
+                      className="avatar image"
+                      style={{ height: size, width: size }}
+                    />
+                  ) : (
+                    <div className="avatar no-image" style={{ height: size, width: size }} />
+                  )}
+                  <div style={{ width: size }}>
+                    <Label className="button primary block" htmlFor="single">
+                      {uploading ? 'Uploading ...' : 'Upload'}
+                    </Label>
+                    <Input
+                      style={{
+                        visibility: 'hidden',
+                        position: 'absolute',
+                      }}
+                      type="file"
+                      id="single"
+                      accept="image/*"
+                      onChange={uploadAvatar}
+                      disabled={uploading}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="space-y-2">
