@@ -12,6 +12,8 @@ export default async function Page() {
   } = await supabase.auth.getUser()
 
   if (await CheckMembers({ user }) === false) {
+    if(!user) return null
+    
     return (
       <>
         <div className='flex items-center gap-2 font-medium text-lg'>
@@ -19,7 +21,7 @@ export default async function Page() {
           don&apos;t have a team setup yet. Let&apos;s get started!
         </div>
         <br />
-        <CreateTeam />
+        <CreateTeam uid={user.id}  />
       </>
     )
   } else {

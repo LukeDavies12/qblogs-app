@@ -30,40 +30,38 @@ export default function DashboardNavbar({ full_name }: { full_name: string }) {
 
   return (
     <div className="border-b w-full">
-      <div className="container px-4 mx-auto">
-        <nav className="flex justify-between items-center py-4">
-          <div>
-            <LogoSpan />
-          </div>
-          <div className="flex items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarFallback>{userInitials}</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <Link href={"/dashboard"}>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <DollarSign className="mr-2 h-4 w-4" />
-                    Billing
-                  </DropdownMenuItem>
-                </Link>
-                <Link href={"/dashboard"}>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuSeparator />
-                <SignOutBtn />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </nav>
-      </div>
+      <nav className="container mx-auto px-4 flex justify-between items-center py-4">
+        <div>
+          <LogoSpan />
+        </div>
+        <div className="flex items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarFallback>{userInitials}</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href={"/dashboard"}>
+                <DropdownMenuItem className="cursor-pointer">
+                  <DollarSign className="mr-2 h-4 w-4" />
+                  Billing
+                </DropdownMenuItem>
+              </Link>
+              <Link href={"/dashboard"}>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuSeparator />
+              <SignOutBtn />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </nav>
     </div>
   );
 }

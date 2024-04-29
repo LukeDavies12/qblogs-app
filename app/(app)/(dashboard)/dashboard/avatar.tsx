@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
+import { Database } from '@/generated/supabase'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+type Teams = Database['public']['Tables']['teams']['Row']
 
 export default function Avatar({
   uid,
@@ -12,19 +14,19 @@ export default function Avatar({
   size,
   onUpload,
 }: {
-  uid: string | null
-  url: string | null
+  uid: string
+  url: Teams['logo_url']
   size: number
   onUpload: (url: string) => void
 }) {
   const supabase = createClient()
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(url)
+  const [avatarUrl, setAvatarUrl] = useState<Teams['logo_url']>(url)
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     async function downloadImage(path: string) {
       try {
-        const { data, error } = await supabase.storage.from('team_photos').download(path)
+        const { data, error } = await supabase.storage.from('avatars').download(path)
         if (error) {
           throw error
         }
@@ -51,7 +53,7 @@ export default function Avatar({
       const fileExt = file.name.split('.').pop()
       const filePath = `${uid}-${Math.random()}.${fileExt}`
 
-      const { error: uploadError } = await supabase.storage.from('team_photos').upload(filePath, file)
+      let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
 
       if (uploadError) {
         throw uploadError
@@ -66,35 +68,18 @@ export default function Avatar({
   }
 
   return (
-    <div>
-      {avatarUrl ? (
-        <Image
-          width={size}
-          height={size}
-          src={avatarUrl}
-          alt="Avatar"
-          className="avatar image"
-          style={{ height: size, width: size }}
-        />
-      ) : (
-        <div className="avatar no-image" style={{ height: size, width: size }} />
-      )}
-      <div style={{ width: size }}>
-        <Label className="button primary block" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </Label>
-        <Input
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={uploadAvatar}
-          disabled={uploading}
-        />
-      </div>
+    <div className='space-y-2'>
+      <Label htmlFor="single">
+        {uploading ? 'Uploading ...' : 'Upload'}
+      </Label>
+      <Input
+        type="file"
+        id="single"
+        accept="image/*"
+        onChange={uploadAvatar}
+        disabled={uploading}
+        className='w-full'
+      />
     </div>
   )
 }
