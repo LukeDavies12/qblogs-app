@@ -19,7 +19,6 @@ const CreateTeamSchema = z.object({
   city: z.string().min(2),
   state: z.string().min(2).max(2),
   level: z.enum(level_options),
-  logo_url: z.string().url(),
   team_name: z.string().min(3),
 });
 
@@ -29,7 +28,6 @@ const createTeamErrorMsg = (errors: any): string => {
     return "Invalid State, must be exactly 2 characters long, IL";
   if (errors.level)
     return "Invalid Level, must be one of the following: High School, D3, NAIA, D2, D1 FCS, D1 FBS, Professional";
-  if (errors.logo) return "Invalid Logo URL";
   if (errors.name)
     return "Invalid Team Name, must be at least 3 characters long";
   return "";
@@ -74,15 +72,6 @@ export async function CreateTeamAction(
 ) {
   const { data, error } = validateCreateTeamformData(formData);
   if (error !== null) return { error };
-
-  console.log([
-    {
-      city: data.city,
-      state: data.state,
-      level: data.level,
-      name: data.team_name,
-    },
-  ]);
 
   const supabase = createClient();
 

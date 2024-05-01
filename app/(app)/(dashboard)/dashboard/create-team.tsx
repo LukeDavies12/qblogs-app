@@ -3,7 +3,6 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
 import { CreateTeamAction } from "./team-action"
 import { useFormState, useFormStatus } from "react-dom"
 import FormError from "@/components/forms/form-error"
@@ -67,7 +66,7 @@ const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
     <Button className="w-full" type="submit" disabled={pending}>
-      Creat{pending ? "ging" : "e"} Team
+      Creat{pending ? "ing" : "e"} Team
     </Button>
   );
 };
