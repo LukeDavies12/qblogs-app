@@ -51,21 +51,9 @@ export default function CreateTeam({
                 </datalist>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="logo_url">
-                  Logo
-                </Label>
-                <Input
-                  type="file"
-                  id="logo_url"
-                  accept="image/*"
-                  className='w-full'
-                  name='logo_url'
-                />
+                <Label htmlFor="name">Team Name</Label>
+                <Input id="name" placeholder="Briar Cliff Chargers" name="name" required />
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="name">Team Name</Label>
-              <Input id="name" placeholder="Briar Cliff Chargers" name="name" required />
             </div>
             <SubmitButton />
           </div>

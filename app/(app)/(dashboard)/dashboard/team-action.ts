@@ -44,22 +44,18 @@ const validateCreateTeamformData = (
         state: string;
         level: string;
         team_name: string;
-        logo_url: string;
       };
       error: null;
     }
   | { data: null; error: string } => {
-  console.log(formData.get("logo_url"));
   const city = formData.get("city");
   const state = formData.get("state");
   const level = formData.get("level");
-  const logo_url = formData.get("logo_url");
   const team_name = formData.get("name");
   const result = CreateTeamSchema.safeParse({
     city,
     state,
     level,
-    logo_url,
     team_name,
   });
 
@@ -76,14 +72,8 @@ export async function CreateTeamAction(
   state: { error: string } | undefined,
   formData: FormData
 ) {
-  console.log("just before validate");
-
   const { data, error } = validateCreateTeamformData(formData);
-  console.log(data);
   if (error !== null) return { error };
-  console.log(data);
-
-  console.log("just after validate");
 
   console.log([
     {
@@ -91,29 +81,34 @@ export async function CreateTeamAction(
       state: data.state,
       level: data.level,
       name: data.team_name,
-      logo_url: data.logo_url,
     },
   ]);
 
   const supabase = createClient();
 
-  console.log("just before insert");
   try {
-    console.log("just before insert in try");
-    const { error: insertError } = await supabase.from("teams").insert([
+    const { data: teamsData, error: teamsError } = await supabase
+      .from("teams")
+      .insert([
+        {
+          city: data.city,
+          state: data.state,
+          level: data.level,
+          name: data.team_name,
+        },
+      ])
+      .select("id");
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    const { error: memberError } = await supabase.from("members").insert([
       {
-        city: data.city,
-        state: data.state,
-        level: data.level,
-        name: data.team_name,
-        logo_url: data.logo_url,
+        team_id: teamsData?.[0].id,
+        user_id: userData.user?.id,
       },
     ]);
   } catch (error) {
     console.log(error);
     redirect("/error");
   }
-  console.log("just after insert");
 
   revalidatePath("/", "layout");
   redirect("/dashboard");
