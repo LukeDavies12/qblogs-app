@@ -5,16 +5,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { CreateTeamAction } from "./team-action"
-import { useFormState } from "react-dom"
+import { useFormState, useFormStatus } from "react-dom"
 import FormError from "@/components/forms/form-error"
-import Avatar from "./avatar"
 
 export default function CreateTeam({
   uid,
 }: {
   uid: string
 }) {
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null)
   const [state, action] = useFormState(CreateTeamAction, {
     error: ""
   })
@@ -31,11 +29,11 @@ export default function CreateTeam({
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="city">City</Label>
-                <Input id="city" placeholder="Sioux City" required />
+                <Input id="city" placeholder="Sioux City" name="city" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state">State</Label>
-                <Input id="state" placeholder="IA" maxLength={2} required />
+                <Input id="state" placeholder="IA" maxLength={2} name="state" required />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -52,20 +50,36 @@ export default function CreateTeam({
                   <option value="Professional" />
                 </datalist>
               </div>
-              <Avatar uid={uid} url={avatar_url} size={64} onUpload={(url) => {
-                setAvatarUrl(url)
-              }} />
+              <div className="space-y-2">
+                <Label htmlFor="logo_url">
+                  Logo
+                </Label>
+                <Input
+                  type="file"
+                  id="logo_url"
+                  accept="image/*"
+                  className='w-full'
+                  name='logo_url'
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="name">Team Name</Label>
-              <Input id="name" placeholder="Briar Cliff Chargers" required />
+              <Input id="name" placeholder="Briar Cliff Chargers" name="name" required />
             </div>
-            <Button className="w-full" type="submit">
-              Create Team
-            </Button>
+            <SubmitButton />
           </div>
         </form>
       </div>
     </>
   )
 }
+
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <Button className="w-full" type="submit" disabled={pending}>
+      Creat{pending ? "ging" : "e"} Team
+    </Button>
+  );
+};
