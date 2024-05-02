@@ -11,7 +11,7 @@ export default async function Page() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (await CheckMembers({ user }) === false) {
+  if (await CheckMembers() === false) {
     if(!user) return null
     
     return (
@@ -49,6 +49,7 @@ export default async function Page() {
           </div>
           <div className='lg:w-1/2'>
             <h2 className='font-medium'>Spring Balls</h2>
+            <Button variant={"link"}>Create New Season</Button>
           </div>
         </div>
       </>
