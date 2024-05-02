@@ -25,15 +25,32 @@ export default async function Page() {
       </>
     )
   } else {
+    const { data: teamData, error: teamError } = await supabase
+      .from('members')
+      .select('team_id')
+      .eq('user_id', user?.id as string)
+      .single()
+
+    const { data: teamNameData, error: teamNameError } = await supabase
+      .from('teams')
+      .select('name')
+      .eq('id', teamData?.team_id)
+      .single()
+
     return (
       <>
-        has a team
+        <div className='flex items-center gap-2 font-medium text-lg'>
+          {teamNameData?.name}
+        </div>
         <br />
-        <form action="/signout" method="post">
-          <Button type="submit" variant={"secondary"}>
-            Sign out
-          </Button>
-        </form>
+        <div className='flex'>
+          <div className='lg:w-1/2'>
+            <h2 className='font-medium'>Seasons</h2>
+          </div>
+          <div className='lg:w-1/2'>
+            <h2 className='font-medium'>Spring Balls</h2>
+          </div>
+        </div>
       </>
     )
   }
