@@ -87,13 +87,17 @@ export async function CreateTeamAction(
         },
       ])
       .select("id");
-    const { data: userData, error: userError } = await supabase.auth.getUser();
+    const { data: authData, error: userError } = await supabase.auth.getUser();
     const { error: memberError } = await supabase.from("members").insert([
       {
         team_id: teamsData?.[0].id,
-        user_id: userData.user?.id,
+        user_id: authData.user?.id,
       },
     ]);
+    const { error: currentTeamError } = await supabase
+      .from("users")
+      .update({ current_team: teamsData?.[0].id })
+      .eq("id", authData.user?.id);
   } catch (error) {
     console.log(error);
     redirect("/error");

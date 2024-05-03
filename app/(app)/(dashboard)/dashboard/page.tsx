@@ -1,8 +1,9 @@
 import UserFullName from './user-full-name'
 import { createClient } from '@/utils/supabase/server'
-import { Button } from '@/components/ui/button'
 import CheckMembers from './check-members'
 import CreateTeam from './create-team'
+import IsNonQBUserAndNeedsSpringSeason from './check-non-qb'
+import CreateSpringSeason from './create-spring-season'
 
 export default async function Page() {
   const supabase = createClient()
@@ -17,7 +18,7 @@ export default async function Page() {
     return (
       <>
         <div className='flex items-center gap-2 font-medium text-lg'>
-          Welcome {<UserFullName user={user} />}, it looks like you
+          Welcome {<UserFullName />}, it looks like you
           don&apos;t have a team setup yet. Let&apos;s get started!
         </div>
         <br />
@@ -43,13 +44,15 @@ export default async function Page() {
           {teamNameData?.name}
         </div>
         <br />
-        <div className='flex'>
+        <div className='flex gap-4'>
           <div className='lg:w-1/2'>
             <h2 className='font-medium'>Seasons</h2>
           </div>
           <div className='lg:w-1/2'>
-            <h2 className='font-medium'>Spring Balls</h2>
-            <Button variant={"link"}>Create New Season</Button>
+            <h2 className='font-medium'>Spring Seasons</h2>
+            {await IsNonQBUserAndNeedsSpringSeason() === true ? (
+                <CreateSpringSeason />
+            ) : null}
           </div>
         </div>
       </>
