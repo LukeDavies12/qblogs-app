@@ -7,20 +7,20 @@ export default async function IsNonQBUserAndNeedsSpringSeason() {
     .from('users')
     .select('type')
 
-  const { data: teamData } = await supabase
-    .from('users')
-    .select('current_team_id')
-    .single()
+    const { data: userData } = await supabase.from("users").select("current_team_id").single();
 
   const { data: springSeasonData } = await supabase
-    .from('spring_season')
+    .from('spring_seasons')
     .select('year')
-    .eq('team_id', teamData?.current_team_id as string)
+    .eq('team_id', userData?.current_team_id as string)
     .single()
 
-  if (data?.some(user => user.type === 'QB' && springSeasonData?.year !== new Date().getFullYear().toString())) {
+  if (data?.some(user => user.type === 'QB')) {
     return false
   } else {
+    if (springSeasonData?.year) {
+      return false
+    }
     return true
   }
 }
