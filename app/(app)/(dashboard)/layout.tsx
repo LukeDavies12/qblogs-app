@@ -1,4 +1,4 @@
-import DashboardNavbar from "@/components/sections/dashboard-navbar";
+import DashboardNavbar from "@/app/(app)/(dashboard)/dashboard/dashboard-navbar";
 import Footer from "@/components/sections/footer";
 import { createClient } from "@/utils/supabase/server";
 

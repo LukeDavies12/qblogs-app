@@ -1,4 +1,6 @@
-export type Json =
+Need to install the following packages:
+supabase@1.165.0
+Ok to proceed? (y) export type Json =
   | string
   | number
   | boolean
@@ -34,30 +36,30 @@ export type Database = {
       }
       game_drives: {
         Row: {
+          drive_in_game: number | null
           end: string
           game_id: string | null
           id: string
           notes: string | null
           result: Database["public"]["Enums"]["drive_results"]
-          spring_game_id: string | null
           start: string
         }
         Insert: {
+          drive_in_game?: number | null
           end: string
           game_id?: string | null
           id?: string
           notes?: string | null
           result: Database["public"]["Enums"]["drive_results"]
-          spring_game_id?: string | null
           start: string
         }
         Update: {
+          drive_in_game?: number | null
           end?: string
           game_id?: string | null
           id?: string
           notes?: string | null
           result?: Database["public"]["Enums"]["drive_results"]
-          spring_game_id?: string | null
           start?: string
         }
         Relationships: [
@@ -68,32 +70,25 @@ export type Database = {
             referencedRelation: "games"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "public_games_drives_spring_game_id_fkey"
-            columns: ["spring_game_id"]
-            isOneToOne: false
-            referencedRelation: "spring_games"
-            referencedColumns: ["id"]
-          },
         ]
       }
       games: {
         Row: {
           date: string
-          drive_td_percentage: number | null
           id: string
+          name: string
           season_id: string | null
         }
         Insert: {
           date: string
-          drive_td_percentage?: number | null
           id?: string
+          name: string
           season_id?: string | null
         }
         Update: {
           date?: string
-          drive_td_percentage?: number | null
           id?: string
+          name?: string
           season_id?: string | null
         }
         Relationships: [
@@ -151,24 +146,25 @@ export type Database = {
           down: number | null
           easy_audible_missed: Database["public"]["Enums"]["yes_no_na"] | null
           formation: string
-          game_id: string | null
-          hash: Database["public"]["Enums"]["hashes"] | null
+          game_drive_id: string | null
+          hash: Database["public"]["Enums"]["hashes"]
           hot_throw_missed: Database["public"]["Enums"]["yes_no_na"] | null
           id: string
           mis_execution_reason: string | null
           motion: string | null
           notes: string | null
-          personnel: number | null
+          personnel: string | null
+          play_call_tag: string | null
+          play_in_drive: number
           practice_block_id: string | null
           qb_ball_placement_good:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
-          qb_id: string
-          qb_maxed: boolean
+          qb_full_name: string
+          qb_maximized_play: boolean
           qb_read_correct: Database["public"]["Enums"]["yes_no_na"] | null
           redzone: boolean | null
           result: string
-          spring_game_id: string | null
           two_minute: boolean | null
           type: Database["public"]["Enums"]["run_or_pass"] | null
           yard_line: string | null
@@ -184,24 +180,25 @@ export type Database = {
           down?: number | null
           easy_audible_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           formation: string
-          game_id?: string | null
-          hash?: Database["public"]["Enums"]["hashes"] | null
+          game_drive_id?: string | null
+          hash: Database["public"]["Enums"]["hashes"]
           hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
           mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
-          personnel?: number | null
+          personnel?: string | null
+          play_call_tag?: string | null
+          play_in_drive: number
           practice_block_id?: string | null
           qb_ball_placement_good?:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
-          qb_id: string
-          qb_maxed: boolean
+          qb_full_name: string
+          qb_maximized_play: boolean
           qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
           redzone?: boolean | null
           result: string
-          spring_game_id?: string | null
           two_minute?: boolean | null
           type?: Database["public"]["Enums"]["run_or_pass"] | null
           yard_line?: string | null
@@ -217,41 +214,35 @@ export type Database = {
           down?: number | null
           easy_audible_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           formation?: string
-          game_id?: string | null
-          hash?: Database["public"]["Enums"]["hashes"] | null
+          game_drive_id?: string | null
+          hash?: Database["public"]["Enums"]["hashes"]
           hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
           mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
-          personnel?: number | null
+          personnel?: string | null
+          play_call_tag?: string | null
+          play_in_drive?: number
           practice_block_id?: string | null
           qb_ball_placement_good?:
             | Database["public"]["Enums"]["yes_no_na"]
             | null
-          qb_id?: string
-          qb_maxed?: boolean
+          qb_full_name?: string
+          qb_maximized_play?: boolean
           qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
           redzone?: boolean | null
           result?: string
-          spring_game_id?: string | null
           two_minute?: boolean | null
           type?: Database["public"]["Enums"]["run_or_pass"] | null
           yard_line?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "plays_user_id_fkey"
-            columns: ["qb_id"]
+            foreignKeyName: "plays_game_drive_id_fkey"
+            columns: ["game_drive_id"]
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["auth_id"]
-          },
-          {
-            foreignKeyName: "public_plays_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
+            referencedRelation: "game_drives"
             referencedColumns: ["id"]
           },
           {
@@ -259,13 +250,6 @@ export type Database = {
             columns: ["practice_block_id"]
             isOneToOne: false
             referencedRelation: "practice_blocks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_plays_spring_game_id_fkey"
-            columns: ["spring_game_id"]
-            isOneToOne: false
-            referencedRelation: "spring_games"
             referencedColumns: ["id"]
           },
         ]
@@ -339,29 +323,25 @@ export type Database = {
             referencedRelation: "games"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "public_practices_spring_game_id_fkey"
-            columns: ["spring_game_id"]
-            isOneToOne: false
-            referencedRelation: "spring_games"
-            referencedColumns: ["id"]
-          },
         ]
       }
       seasons: {
         Row: {
           id: string
           team_id: string | null
+          type: Database["public"]["Enums"]["season_type"]
           year: number
         }
         Insert: {
           id?: string
           team_id?: string | null
+          type: Database["public"]["Enums"]["season_type"]
           year: number
         }
         Update: {
           id?: string
           team_id?: string | null
+          type?: Database["public"]["Enums"]["season_type"]
           year?: number
         }
         Relationships: [
@@ -373,53 +353,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      spring_games: {
-        Row: {
-          date: string
-          drive_td_percentage: number | null
-          id: string
-          spring_season_id: string
-        }
-        Insert: {
-          date: string
-          drive_td_percentage?: number | null
-          id?: string
-          spring_season_id: string
-        }
-        Update: {
-          date?: string
-          drive_td_percentage?: number | null
-          id?: string
-          spring_season_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_spring_games_spring_season_id_fkey"
-            columns: ["spring_season_id"]
-            isOneToOne: false
-            referencedRelation: "spring_seasons"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      spring_seasons: {
-        Row: {
-          drive_id: string | null
-          id: string
-          year: number
-        }
-        Insert: {
-          drive_id?: string | null
-          id?: string
-          year: number
-        }
-        Update: {
-          drive_id?: string | null
-          id?: string
-          year?: number
-        }
-        Relationships: []
       }
       teams: {
         Row: {
@@ -448,44 +381,38 @@ export type Database = {
       users: {
         Row: {
           auth_id: string
-          current_fall_season_id: string | null
-          current_spring_season_id: string | null
+          current_season_id: string | null
           current_team_id: string | null
           full_name: string
-          role: Database["public"]["Enums"]["user_role"]
           type: Database["public"]["Enums"]["user_type"]
         }
         Insert: {
           auth_id?: string
-          current_fall_season_id?: string | null
-          current_spring_season_id?: string | null
+          current_season_id?: string | null
           current_team_id?: string | null
           full_name: string
-          role: Database["public"]["Enums"]["user_role"]
           type: Database["public"]["Enums"]["user_type"]
         }
         Update: {
           auth_id?: string
-          current_fall_season_id?: string | null
-          current_spring_season_id?: string | null
+          current_season_id?: string | null
           current_team_id?: string | null
           full_name?: string
-          role?: Database["public"]["Enums"]["user_role"]
           type?: Database["public"]["Enums"]["user_type"]
         }
         Relationships: [
           {
-            foreignKeyName: "users_current_fall_season_id_fkey"
-            columns: ["current_fall_season_id"]
+            foreignKeyName: "users_current_season_id_fkey"
+            columns: ["current_season_id"]
             isOneToOne: false
             referencedRelation: "seasons"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "users_current_spring_season_id_fkey"
-            columns: ["current_spring_season_id"]
+            foreignKeyName: "users_current_team_id_fkey"
+            columns: ["current_team_id"]
             isOneToOne: false
-            referencedRelation: "spring_seasons"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
@@ -525,7 +452,7 @@ export type Database = {
         | "Team Thud"
         | "Team Live"
         | "Team Helmets Only"
-      run_or_pass: "Run" | "Pass"
+      run_or_pass: "Run" | "Pass" | "Penalty"
       season_type: "Fall" | "Spring"
       user_role: "QB" | "Coach"
       user_type:

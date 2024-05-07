@@ -1,4 +1,6 @@
-import LogoSpan from "./logo-span"
+'use-client'
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +8,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import SignOutBtn from "../auth/log-out-btn";
-import { Settings, DollarSign } from "lucide-react";
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { DollarSign, Settings } from "lucide-react";
 import Link from "next/link";
+import SignOutBtn from "../../../../components/auth/log-out-btn";
+import LogoSpan from "../../../../components/sections/logo-span";
+import GetCurrents from "./get-currents";
 
 export default function DashboardNavbar({ full_name }: { full_name: string }) {
   function getInitials(name: string) {
@@ -28,11 +38,25 @@ export default function DashboardNavbar({ full_name }: { full_name: string }) {
     userInitials = ('Acc')
   }
 
+  let teamAndSeasonData = GetCurrents();
+
   return (
     <div className="border-b w-full">
       <nav className="container mx-auto px-4 flex justify-between items-center py-4">
         <div>
           <LogoSpan />
+          <form action="">
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+          </form>
         </div>
         <div className="flex items-center">
           <DropdownMenu>
