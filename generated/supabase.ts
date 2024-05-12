@@ -1,6 +1,4 @@
-Need to install the following packages:
-supabase@1.165.0
-Ok to proceed? (y) export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -136,106 +134,100 @@ export type Database = {
       }
       plays: {
         Row: {
+          back_tag: string | null
           backed_up: boolean | null
+          bad_play_reason: string | null
           call: string
-          call_family: string | null
+          call_family: string
+          call_tag: string | null
           defense_coverage: string | null
           defense_front: string | null
-          defense_pressure: boolean | null
-          distance: number | null
-          down: number | null
-          easy_audible_missed: Database["public"]["Enums"]["yes_no_na"] | null
+          distance: number
+          down: number
           formation: string
           game_drive_id: string | null
           hash: Database["public"]["Enums"]["hashes"]
-          hot_throw_missed: Database["public"]["Enums"]["yes_no_na"] | null
           id: string
-          mis_execution_reason: string | null
           motion: string | null
           notes: string | null
-          personnel: string | null
-          play_call_tag: string | null
-          play_in_drive: number
+          num_in_drive: number
+          pass_pro: string | null
+          personnel: string
           practice_block_id: string | null
-          qb_ball_placement_good:
-            | Database["public"]["Enums"]["yes_no_na"]
-            | null
-          qb_full_name: string
-          qb_maximized_play: boolean
-          qb_read_correct: Database["public"]["Enums"]["yes_no_na"] | null
+          qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
+          qb_id: string | null
+          qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
+          qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
           redzone: boolean | null
-          result: string
+          strength: string | null
           two_minute: boolean | null
-          type: Database["public"]["Enums"]["run_or_pass"] | null
-          yard_line: string | null
+          type: Database["public"]["Enums"]["play_results"]
+          yard_line: string
+          yards: string
         }
         Insert: {
+          back_tag?: string | null
           backed_up?: boolean | null
+          bad_play_reason?: string | null
           call: string
-          call_family?: string | null
+          call_family: string
+          call_tag?: string | null
           defense_coverage?: string | null
           defense_front?: string | null
-          defense_pressure?: boolean | null
-          distance?: number | null
-          down?: number | null
-          easy_audible_missed?: Database["public"]["Enums"]["yes_no_na"] | null
+          distance: number
+          down: number
           formation: string
           game_drive_id?: string | null
           hash: Database["public"]["Enums"]["hashes"]
-          hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
-          mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
-          personnel?: string | null
-          play_call_tag?: string | null
-          play_in_drive: number
+          num_in_drive: number
+          pass_pro?: string | null
+          personnel: string
           practice_block_id?: string | null
-          qb_ball_placement_good?:
-            | Database["public"]["Enums"]["yes_no_na"]
-            | null
-          qb_full_name: string
-          qb_maximized_play: boolean
-          qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
+          qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
+          qb_id?: string | null
+          qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
+          qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
           redzone?: boolean | null
-          result: string
+          strength?: string | null
           two_minute?: boolean | null
-          type?: Database["public"]["Enums"]["run_or_pass"] | null
-          yard_line?: string | null
+          type: Database["public"]["Enums"]["play_results"]
+          yard_line: string
+          yards: string
         }
         Update: {
+          back_tag?: string | null
           backed_up?: boolean | null
+          bad_play_reason?: string | null
           call?: string
-          call_family?: string | null
+          call_family?: string
+          call_tag?: string | null
           defense_coverage?: string | null
           defense_front?: string | null
-          defense_pressure?: boolean | null
-          distance?: number | null
-          down?: number | null
-          easy_audible_missed?: Database["public"]["Enums"]["yes_no_na"] | null
+          distance?: number
+          down?: number
           formation?: string
           game_drive_id?: string | null
           hash?: Database["public"]["Enums"]["hashes"]
-          hot_throw_missed?: Database["public"]["Enums"]["yes_no_na"] | null
           id?: string
-          mis_execution_reason?: string | null
           motion?: string | null
           notes?: string | null
-          personnel?: string | null
-          play_call_tag?: string | null
-          play_in_drive?: number
+          num_in_drive?: number
+          pass_pro?: string | null
+          personnel?: string
           practice_block_id?: string | null
-          qb_ball_placement_good?:
-            | Database["public"]["Enums"]["yes_no_na"]
-            | null
-          qb_full_name?: string
-          qb_maximized_play?: boolean
-          qb_read_correct?: Database["public"]["Enums"]["yes_no_na"] | null
+          qb_ball_placement_good?: Database["public"]["Enums"]["yes_no_na"]
+          qb_id?: string | null
+          qb_play_yn?: Database["public"]["Enums"]["yes_no_na"]
+          qb_read_yn?: Database["public"]["Enums"]["yes_no_na"]
           redzone?: boolean | null
-          result?: string
+          strength?: string | null
           two_minute?: boolean | null
-          type?: Database["public"]["Enums"]["run_or_pass"] | null
-          yard_line?: string | null
+          type?: Database["public"]["Enums"]["play_results"]
+          yard_line?: string
+          yards?: string
         }
         Relationships: [
           {
@@ -243,6 +235,13 @@ export type Database = {
             columns: ["game_drive_id"]
             isOneToOne: false
             referencedRelation: "game_drives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plays_qb_id_fkey"
+            columns: ["qb_id"]
+            isOneToOne: false
+            referencedRelation: "team_qbs"
             referencedColumns: ["id"]
           },
           {
@@ -354,6 +353,42 @@ export type Database = {
           },
         ]
       }
+      team_qbs: {
+        Row: {
+          full_name: string
+          id: string
+          team_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          full_name: string
+          id?: string
+          team_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          full_name?: string
+          id?: string
+          team_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_qbs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_qbs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["auth_id"]
+          },
+        ]
+      }
       teams: {
         Row: {
           city: string | null
@@ -437,6 +472,14 @@ export type Database = {
         | "8 Point Drive"
         | "6 Point Drive"
       hashes: "L" | "LM" | "M" | "RM" | "R"
+      play_results:
+        | "Complete"
+        | "Incomplete"
+        | "Rush"
+        | "QB Rush"
+        | "Sack"
+        | "PenaltyFumble"
+        | "Interception"
       practice_block_situation:
         | "Base Downs"
         | "Redzone"
