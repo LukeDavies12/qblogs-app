@@ -1,5 +1,22 @@
+/* Apply styles to both input and select elements */
 input {
-  @apply bg-neutral-100 px-4 py-2 text-lg rounded-sm w-full placeholder:text-neutral-500 md:w-80;
+  @apply bg-neutral-100 px-4 py-2 text-lg rounded-sm w-full placeholder:text-neutral-500 md:w-96;
+}
+select {
+  /* Common styles */
+  background-color: #f4f5f7;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  /* Specific styles for select */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Apply styles to the placeholder text */
+::placeholder {
+  color: #a0aec0;
 }
 
 label {

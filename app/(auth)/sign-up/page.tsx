@@ -21,6 +21,16 @@ export default function Page() {
             <div className="flex flex-col gap-4">
               <label htmlFor="full_name">Full Name</label>
               <input type="text" name="full_name" id="full_name" placeholder="Coach John" />
+              <label htmlFor="title">Title</label>
+              <select name="title" id="title" className="w-full">
+                <option value="Head Coach">Head Coach</option>
+                <option value="Offensive Coordinator">Offensive Coordinator</option>
+                <option value="QB Coach">QB Coach</option>
+                <option value="RB Coach">RB Coach</option>
+                <option value="WR Coach">WR Coach</option>
+                <option value="OL Coach">OL Coach</option>
+              </select>
+
               <label htmlFor="email">Email</label>
               <input type="email" name="email" id="email" placeholder="coachjohn@school.edu" className="w-full" />
               <label htmlFor="password">Password</label>
