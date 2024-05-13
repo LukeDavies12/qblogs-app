@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useFormStatus } from "react-dom"
 import { Login } from "./action"
+import "../auth.css"
 
 export default function Page() {
   return (

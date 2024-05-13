@@ -1,7 +1,4 @@
-const { fontFamily } = require("tailwindcss/defaultTheme");
-
 const config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -15,11 +12,6 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-      },
-    },
-    extend: {
-      fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
     },
   },
