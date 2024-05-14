@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+select {
+  @apply text-sm;
+}
+
+button {
+  @apply font-medium px-8 py-1 bg-neutral-700 text-white rounded-sm;
+}
