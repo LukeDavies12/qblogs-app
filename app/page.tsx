@@ -4,7 +4,7 @@ import Link from "next/link"
 export default function Page() {
   return (
     <>
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 mt-4">
         <div className="flex gap-2 items-center select-none cursor-default">
           <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={44} height={44} />
           <span className="font-bold text-lg">QB Logs</span>

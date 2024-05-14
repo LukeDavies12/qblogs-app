@@ -33,13 +33,13 @@ export async function SignUp(formData: FormData) {
 
   const publicUserData = {
     auth_id: authData.user?.id,
-    current_team_id: newTeam[0]?.id,
-    full_name: formData.get("full_name") as string,
     type: formData.get("title") as string,
+    full_name: formData.get("full_name") as string,
+    current_team_id: newTeam[0]?.id,
   };
 
   const { data: newPublicUser, error: publicUserError } = await supabase
-    .from("public_users")
+    .from("users")
     .insert(publicUserData)
     .select();
 

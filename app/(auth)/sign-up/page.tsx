@@ -8,7 +8,7 @@ import "../auth.css"
 export default function Page() {
   return (
     <>
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 mt-4">
         <div className="flex gap-2 items-center select-none cursor-default">
           <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={44} height={44} />
           <span className="font-bold text-lg">QB Logs</span>
@@ -18,11 +18,11 @@ export default function Page() {
         </div>
         <div>
           <form action={SignUp}>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
               <label htmlFor="full_name">Full Name</label>
-              <input type="text" name="full_name" id="full_name" placeholder="Coach John" />
+              <input type="text" name="full_name" id="full_name" placeholder="Coach John" required />
               <label htmlFor="title">Title</label>
-              <select name="title" id="title" className="w-full">
+              <select name="title" id="title" className="w-full" required>
                 <option value="Head Coach">Head Coach</option>
                 <option value="Offensive Coordinator">Offensive Coordinator</option>
                 <option value="QB Coach">QB Coach</option>
@@ -30,13 +30,12 @@ export default function Page() {
                 <option value="WR Coach">WR Coach</option>
                 <option value="OL Coach">OL Coach</option>
               </select>
-
               <label htmlFor="email">Email</label>
-              <input type="email" name="email" id="email" placeholder="coachjohn@school.edu" className="w-full" />
+              <input type="email" name="email" id="email" placeholder="coachjohn@school.edu" className="w-full" required />
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" id="password" placeholder="************" />
+              <input type="password" name="password" id="password" placeholder="************" required />
               <label htmlFor="team_name">Team Name</label>
-              <input type="text" name="team_name" id="team_name" placeholder="New England Patriots" />
+              <input type="text" name="team_name" id="team_name" placeholder="New England Patriots" required />
               <SubmitButton />
             </div>
           </form>

@@ -1,6 +1,6 @@
 /* Apply styles to both input and select elements */
 input {
-  @apply bg-neutral-100 px-4 py-2 text-lg rounded-sm w-full placeholder:text-neutral-500 md:w-96;
+  @apply bg-neutral-100 px-4 py-2 text-lg rounded-sm w-full placeholder:text-neutral-500 md:w-96 mb-3;
 }
 select {
   /* Common styles */
@@ -12,6 +12,7 @@ select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  @apply mb-3;
 }
 
 /* Apply styles to the placeholder text */
