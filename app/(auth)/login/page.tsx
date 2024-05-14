@@ -10,8 +10,8 @@ export default function Page() {
     <>
       <div className="flex flex-col items-center gap-4">
         <div className="flex gap-2 items-center select-none cursor-default">
-          <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={44} height={44} />
-          <span className="font-bold text-lg">QB Logs</span>
+          <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
+          <span className="font-medium">QB Logs</span>
         </div>
         <div>
           <form action={Login}>

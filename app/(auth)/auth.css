@@ -3,21 +3,7 @@ input {
   @apply bg-neutral-100 px-4 py-2 text-lg rounded-sm w-full placeholder:text-neutral-500 md:w-96 mb-3;
 }
 select {
-  /* Common styles */
-  background-color: #f4f5f7;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border-radius: 0.25rem;
-  /* Specific styles for select */
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  @apply mb-3;
-}
-
-/* Apply styles to the placeholder text */
-::placeholder {
-  color: #a0aec0;
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
 }
 
 label {

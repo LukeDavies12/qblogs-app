@@ -26,8 +26,8 @@ export default async function Page() {
       <>
         <div className="flex flex-col items-center gap-4 mt-4">
           <div className="flex gap-2 items-center select-none cursor-default">
-            <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={44} height={44} />
-            <span className="font-bold text-lg">QB Logs</span>
+            <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
+            <span className="font-medium">QB Logs</span>
           </div>
           <div className="flex gap-4">
             <Link href={"/sign-up"}><button className="px-8 py-2 font-medium bg-emerald-700 text-white rounded-sm">Sign Up</button></Link>

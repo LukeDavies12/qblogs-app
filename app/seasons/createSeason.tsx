@@ -23,7 +23,8 @@ export default function CreateSeason() {
               <label htmlFor="year">Year</label>
               <input type="number" name="year" id="year" placeholder="2024" required />
               <label htmlFor="type">Type</label>
-              <select name="type" id="type" className="w-full" required>
+              <select name="type" id="type" className="w-full mb-4" required>
+                <option disabled selected hidden>Choose Fall/Spring</option>
                 <option value="Fall">Fall</option>
                 <option value="Spring">Spring</option>
               </select>
