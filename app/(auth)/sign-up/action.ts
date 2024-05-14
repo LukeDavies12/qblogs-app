@@ -15,7 +15,6 @@ export async function SignUp(formData: FormData) {
   const { data: authData, error: signUpError } = await supabase.auth.signUp(data);
 
   if (signUpError) {
-    console.log("Error signing up:", signUpError);
     redirect("/error");
   }
 
@@ -29,13 +28,12 @@ export async function SignUp(formData: FormData) {
     .select();
 
   if (teamError) {
-    console.log("team error", teamError);
     redirect("/error");
   }
 
   const publicUserData = {
-    user_id: authData.user?.id,
-    team_id: newTeam[0]?.id,
+    auth_id: authData.user?.id,
+    current_team_id: newTeam[0]?.id,
     full_name: formData.get("full_name") as string,
     type: formData.get("title") as string,
   };
@@ -46,7 +44,6 @@ export async function SignUp(formData: FormData) {
     .select();
 
   if (publicUserError) {
-    console.log("public user error", publicUserError);
     redirect("/error");
   }
 
@@ -56,7 +53,6 @@ export async function SignUp(formData: FormData) {
     .select();
 
   if (memberError) {
-    console.log("member error", memberError);
     redirect("/error");
   }
 
