@@ -82,41 +82,35 @@ export default async function RootLayout({
         <html lang="en" suppressHydrationWarning>
           <body className="container mx-auto px-2 flex flex-col">
             <nav className="border-b border-neutral-200 py-3 flex items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <div>
-                  <Link href={"/"} className="flex gap-2 items-center">
-                    <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
-                    <span className="font-medium">QB Logs</span>
-                  </Link>
-                </div>
-                <div>
-                  <select name="team" id="team" className="w-44 p-2" required>
-                    {currentTeamId && (
-                      <option value={currentTeamId}>
-                        {currentTeamName}
-                      </option>
-                    )}
-                    {allTeams.map(team => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <select name="season" id="season" className="w-44 p-2" required>
-                    {currentSeasonId && (
-                      <option value={currentSeasonId}>
-                        {currentSeasonName}
-                      </option>
-                    )}
-                    {allSeasons.map(season => (
-                      <option key={season.id} value={season.id}>
-                        {season.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="flex gap-4 items-center justify-center">
+                <Link href={"/"} className="flex gap-2 items-center">
+                  <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
+                  <span className="font-medium">QB Logs</span>
+                </Link>
+                <select name="team" id="team" className="w-44 mb-0" required>
+                  {currentTeamId && (
+                    <option value={currentTeamId}>
+                      {currentTeamName}
+                    </option>
+                  )}
+                  {allTeams.map(team => (
+                    <option key={team.id} value={team.id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+                <select name="season" id="season" className="w-44 mb-0" required>
+                  {currentSeasonId && (
+                    <option value={currentSeasonId}>
+                      {currentSeasonName}
+                    </option>
+                  )}
+                  {allSeasons.map(season => (
+                    <option key={season.id} value={season.id}>
+                      {season.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex gap-4">
                 <Link href={"/"}>Dashboard</Link>
