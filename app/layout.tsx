@@ -120,6 +120,7 @@ export default async function RootLayout({
               </div>
               <div className="flex gap-4">
                 <Link href={"/"}>Dashboard</Link>
+                <Link href={"/season"}>Season</Link>
                 <Link href={"/team"}>My Team</Link>
                 <Link href={"/"}>Settings</Link>
               </div>
