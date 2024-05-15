@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import CreateSpringGame from "../games/createSpringGame";
-import Link from "next/link";
 import { BtnLink } from "@/components/btn-link";
 import DeleteGame from "../game/deleteGame";
 

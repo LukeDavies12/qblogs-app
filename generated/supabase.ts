@@ -39,7 +39,7 @@ export type Database = {
           game_id: string | null
           id: string
           notes: string | null
-          result: Database["public"]["Enums"]["drive_results"]
+          result: Database["public"]["Enums"]["game_drive_results"] | null
           start: string
         }
         Insert: {
@@ -48,7 +48,7 @@ export type Database = {
           game_id?: string | null
           id?: string
           notes?: string | null
-          result: Database["public"]["Enums"]["drive_results"]
+          result?: Database["public"]["Enums"]["game_drive_results"] | null
           start: string
         }
         Update: {
@@ -57,7 +57,7 @@ export type Database = {
           game_id?: string | null
           id?: string
           notes?: string | null
-          result?: Database["public"]["Enums"]["drive_results"]
+          result?: Database["public"]["Enums"]["game_drive_results"] | null
           start?: string
         }
         Relationships: [
@@ -491,6 +491,15 @@ export type Database = {
         | "End of Half"
         | "8 Point Drive"
         | "6 Point Drive"
+      game_drive_results:
+        | "TD Pass"
+        | "TD Run"
+        | "Field Goal Made"
+        | "Field Goal Missed"
+        | "Punt"
+        | "Interception"
+        | "Fumble"
+        | "End of Half"
       hashes: "L" | "LM" | "M" | "RM" | "R"
       play_results:
         | "Complete"
