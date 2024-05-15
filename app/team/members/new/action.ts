@@ -1,8 +1,21 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+const authCreateUser = async (data: { email: string; password: string }) => {
+  const supabase = createAdminClient();
+
+  // Access auth admin api
+  const result = await supabase.auth.admin.createUser({
+    email: data.email,
+    password: data.password,
+    email_confirm: false,
+  });
+  return result;
+};
 
 export async function CreateNewMember(formData: FormData) {
   const supabase = createClient();
@@ -12,8 +25,7 @@ export async function CreateNewMember(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { data: authData, error: signUpError } =
-    await supabase.auth.admin.createUser(data);
+  const { data: authData, error: signUpError } = await authCreateUser(data);
 
   if (signUpError) {
     redirect("/error");
