@@ -1,6 +1,5 @@
 'use client'
 
-import Link from "next/link";
 import { DeleteGameAction } from "./gameAction";
 
 export default function DeleteGame({ gameId }: { gameId: string }) {

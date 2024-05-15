@@ -24,7 +24,7 @@ export default async function Page() {
               <span className="text-gray-500"> {springGame.date}</span>
             </div>
             <div>
-              <BtnLink text="Log Plays" href="/games/log" extraStyles="mr-4" />
+              <BtnLink text="Log Plays" href={`/game/log/${springGame.id}`} extraStyles="mr-4" />
               <DeleteGame gameId={springGame.id} />
             </div>
           </div>

@@ -1,6 +1,4 @@
-Need to install the following packages:
-supabase@1.167.4
-Ok to proceed? (y) export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -146,6 +144,7 @@ export type Database = {
           defense_front: string | null
           distance: number
           down: number
+          explosive_play: boolean
           formation: string
           game_drive_id: string | null
           hash: Database["public"]["Enums"]["hashes"]
@@ -157,11 +156,13 @@ export type Database = {
           personnel: string
           practice_block_id: string | null
           qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
-          qb_id: string | null
+          qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
+          qb_pressured: boolean
           qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
           redzone: boolean | null
           strength: string | null
+          turnover_worthy_play: boolean
           two_minute: boolean | null
           type: Database["public"]["Enums"]["play_results"]
           yard_line: string
@@ -178,6 +179,7 @@ export type Database = {
           defense_front?: string | null
           distance: number
           down: number
+          explosive_play: boolean
           formation: string
           game_drive_id?: string | null
           hash: Database["public"]["Enums"]["hashes"]
@@ -189,11 +191,13 @@ export type Database = {
           personnel: string
           practice_block_id?: string | null
           qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
-          qb_id?: string | null
+          qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
+          qb_pressured: boolean
           qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
           redzone?: boolean | null
           strength?: string | null
+          turnover_worthy_play: boolean
           two_minute?: boolean | null
           type: Database["public"]["Enums"]["play_results"]
           yard_line: string
@@ -210,6 +214,7 @@ export type Database = {
           defense_front?: string | null
           distance?: number
           down?: number
+          explosive_play?: boolean
           formation?: string
           game_drive_id?: string | null
           hash?: Database["public"]["Enums"]["hashes"]
@@ -221,11 +226,13 @@ export type Database = {
           personnel?: string
           practice_block_id?: string | null
           qb_ball_placement_good?: Database["public"]["Enums"]["yes_no_na"]
-          qb_id?: string | null
+          qb_id?: string
           qb_play_yn?: Database["public"]["Enums"]["yes_no_na"]
+          qb_pressured?: boolean
           qb_read_yn?: Database["public"]["Enums"]["yes_no_na"]
           redzone?: boolean | null
           strength?: string | null
+          turnover_worthy_play?: boolean
           two_minute?: boolean | null
           type?: Database["public"]["Enums"]["play_results"]
           yard_line?: string
@@ -409,6 +416,8 @@ export type Database = {
       users: {
         Row: {
           auth_id: string
+          current_game_drive_id: string | null
+          current_practice_block_id: string | null
           current_season_id: string | null
           current_team_id: string | null
           full_name: string
@@ -416,6 +425,8 @@ export type Database = {
         }
         Insert: {
           auth_id?: string
+          current_game_drive_id?: string | null
+          current_practice_block_id?: string | null
           current_season_id?: string | null
           current_team_id?: string | null
           full_name: string
@@ -423,12 +434,28 @@ export type Database = {
         }
         Update: {
           auth_id?: string
+          current_game_drive_id?: string | null
+          current_practice_block_id?: string | null
           current_season_id?: string | null
           current_team_id?: string | null
           full_name?: string
           type?: Database["public"]["Enums"]["user_type"]
         }
         Relationships: [
+          {
+            foreignKeyName: "users_current_game_drive_id_fkey"
+            columns: ["current_game_drive_id"]
+            isOneToOne: false
+            referencedRelation: "game_drives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_current_practice_block_id_fkey"
+            columns: ["current_practice_block_id"]
+            isOneToOne: false
+            referencedRelation: "practice_blocks"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "users_current_season_id_fkey"
             columns: ["current_season_id"]
