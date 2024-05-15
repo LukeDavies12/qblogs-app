@@ -6,7 +6,7 @@ export default function Page() {
       <h1 className="font-bold">My Team</h1>
       <h2 className="font-medium">Members</h2>
       <Link href={"team/members/new"}>
-        <button>Invite New Member</button>
+        <button>Create New Member</button>
       </Link>
     </div>
   )

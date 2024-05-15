@@ -28,6 +28,7 @@ export async function CreateNewMember(formData: FormData) {
   const { data: authData, error: signUpError } = await authCreateUser(data);
 
   if (signUpError) {
+    console.log(signUpError.message);
     redirect("/error");
   }
 
@@ -47,13 +48,14 @@ export async function CreateNewMember(formData: FormData) {
       auth_id: authData.user.id,
       type: publicUserData.type,
       full_name: publicUserData.full_name,
-      current_team_id: currentPublicUserData?.current_season_id,
+      current_team_id: currentPublicUserData?.current_team_id,
       current_season_id: currentPublicUserData?.current_season_id,
     })
     .select()
     .single();
 
   if (publicUserError) {
+    console.log(publicUserError.message);
     redirect("/error");
   }
 
@@ -65,6 +67,7 @@ export async function CreateNewMember(formData: FormData) {
     });
 
   if (newMemberError) {
+    console.log(newMemberError.message);
     redirect("/error");
   }
 
@@ -78,10 +81,11 @@ export async function CreateNewMember(formData: FormData) {
       });
 
     if (teamQbError) {
+      console.log(teamQbError.message);
       redirect("/error");
     }
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/team/members");
 }

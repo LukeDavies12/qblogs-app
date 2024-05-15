@@ -8,7 +8,7 @@ export default async function Page() {
 
   const { data: authUser, error } = await supabase.auth.getUser()
   if (authUser?.user) {
-    const { data: publicUserCurrentSeason, error } = await supabase.from("users").select('current_season_id').single()
+    const { data: publicUserCurrentSeason, error } = await supabase.from("users").select('current_season_id').eq("auth_id", authUser.user.id).single()
 
     if (publicUserCurrentSeason?.current_season_id) {
       return (

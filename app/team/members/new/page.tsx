@@ -19,7 +19,7 @@ export default function Page() {
         <label htmlFor="title">Title</label>
         <select name="title" id="title" className="mb-4" required>
           <option disabled selected hidden>Choose Their Title</option>
-          <option value="Head Coach">QB</option>
+          <option value="QB">QB</option>
           <option value="Head Coach">Head Coach</option>
           <option value="Offensive Coordinator">Offensive Coordinator</option>
           <option value="QB Coach">QB Coach</option>
