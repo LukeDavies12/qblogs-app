@@ -1,6 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import CreateSpringGame from "../games/createSpringGame";
 import Link from "next/link";
+import { BtnLink } from "@/components/btn-link";
+import DeleteGame from "../game/deleteGame";
 
 export default async function Page() {
   const supabase = createClient();
@@ -16,14 +18,15 @@ export default async function Page() {
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">{currentSeason.type} {currentSeason.year}</h1>
           <h2 className="font-medium">Game</h2>
-          <div className="bg-white shadow rounded-md p-4 flex gap-4 items-center md:w-1/2">
+          <div className="bg-white shadow rounded-md p-4 flex gap-4 items-center justify-between md:w-1/2">
             <div>
               <span className="text-gray-800 font-semibold">{springGame.name}</span>
               <span className="text-gray-500"> {springGame.date}</span>
             </div>
-            <div className="flex-grow"></div> {/* Empty div for spacing */}
-            <Link href={"/game/log"}><button>Log Plays</button></Link>
-            <button className="text-white bg-red-700" type="submit">Delete</button>
+            <div>
+              <BtnLink text="Log Plays" href="/games/log" extraStyles="mr-4" />
+              <DeleteGame gameId={springGame.id} />
+            </div>
           </div>
         </div>
       )
