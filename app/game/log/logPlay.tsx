@@ -2,36 +2,201 @@
 
 import "@/app/(auth)/auth.css"
 import { useFormStatus } from "react-dom";
-import Link from "next/link";
+import { LogPlayAction } from "./playAction";
 
-export default function LogPlay() {
+interface CreateGameDriveProps {
+  gameDriveId: string;
+  teamQbs: any[];
+}
+
+export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }) => {
+  const LogPlayOnDrive = LogPlayAction.bind(null, gameDriveId);
+
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="font-bold">Log Play</h1>
-      <p className="md:w-1/2 text-neutral-700 -mt-3">Create an account for a new Coach or QB on your team.
-       Once created give this person their login details and remind them to reset their password immediately.</p>
-      <form className="flex flex-col gap-1" action={CreateNewMember}>
-        <label htmlFor="email">Email</label>
-        <input type="text" name="email" id="email" placeholder="tombrady@patriots.com" required />
-        <label htmlFor="full_name">Full Name</label>
-        <input type="text" name="full_name" id="full_name" placeholder="Tom Brady" required />
-        <label htmlFor="title">Title</label>
-        <select name="title" id="title" className="mb-4" required>
-          <option disabled selected hidden>Choose Their Title</option>
-          <option value="QB">QB</option>
-          <option value="Head Coach">Head Coach</option>
-          <option value="Offensive Coordinator">Offensive Coordinator</option>
-          <option value="QB Coach">QB Coach</option>
-          <option value="RB Coach">RB Coach</option>
-          <option value="WR Coach">WR Coach</option>
-          <option value="OL Coach">OL Coach</option>
-        </select>
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="************" required />
+      <p className="text-neutral-500">
+        Start is yards away from the end zone, for example the -33 is 67 yards away.
+      </p>
+      <form className="flex flex-col gap-1" action={LogPlayOnDrive}>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="num_in_drive">Play # in Drive*</label>
+            <input type="number" name="num_in_drive" id="num_in_drive" placeholder="1" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="down">Down*</label>
+            <input type="number" name="down" id="down" placeholder="1" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="distance">Distance*</label>
+            <input type="number" name="distance" id="distance" placeholder="10" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="hash">Hash*</label>
+            <select name="title" id="title" className="w-full" required>
+              <option disabled selected hidden>Select a Hash</option>
+              <option value="L">L</option>
+              <option value="LM">LM</option>
+              <option value="M">M</option>
+              <option value="RM">RM</option>
+              <option value="R">R</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="yard_line">Yard Line*</label>
+            <input type="number" name="yard_line" id="yard_line" placeholder="67" className="w-full" required />
+          </div>
+        </div>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="qb_id">Qb In*</label>
+            <select name="qb_id" id="qb_id" className="w-full" required>
+              <option disabled selected hidden>Choose QB</option>
+              {teamQbs.map((qb) => (
+                <option key={qb.id} value={qb.id}>{qb.full_name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="personnel">Personnel*</label>
+            <input type="number" name="personnel" id="personnel" placeholder="20" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="formation">Formation*</label>
+            <input type="text" name="formation" id="formation" placeholder="Strong" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="back_tag">Back Tag</label>
+            <input type="text" name="back_tag" id="back_tag" placeholder="B" className="w-full" />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="strength">Strength*</label>
+            <input type="text" name="strength" id="strength" placeholder="R" className="w-full" required />
+          </div>
+        </div>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="motion">Motion</label>
+            <input type="text" name="motion" id="motion" placeholder="Fap" className="w-full" />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="pass_pro">Pass Pro</label>
+            <input type="text" name="pass_pro" id="pass_pro" placeholder="57" className="w-full" />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="call">Play Call*</label>
+            <input type="text" name="call" id="call" placeholder="Even Elk" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="tags">Tags</label>
+            <input type="text" name="tags" id="tags" placeholder="Key Houston" className="w-full" />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="call_family">Play Family*</label>
+            <input type="text" name="call_family" id="call_family" placeholder="OZ RPO" className="w-full" required />
+          </div>
+        </div>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/4 flex flex-col gap-1">
+            <label htmlFor="result">Result*</label>
+            <select name="result" id="result" className="w-full" required>
+              <option value="Complete">Complete</option>
+              <option value="Incomplete">Incomplete</option>
+              <option value="Rush">Rush</option>
+              <option value="QB Rush">QB Rush</option>
+              <option value="Sack">Sack</option>
+              <option value="Penalty">Penalty</option>
+              <option value="Interception">Interception</option>
+              <option value="Fumble">Fumble</option>
+            </select>
+          </div>
+          <div className="md:w-1/4 flex flex-col gap-1">
+            <label htmlFor="yards">Yards*</label>
+            <input type="number" name="yards" id="yards" placeholder="4" className="w-full" required />
+          </div>
+          <div className="md:w-1/4 flex flex-col gap-1">
+            <label htmlFor="notes">Notes</label>
+            <textarea className="w-full" name="notes" id="notes" placeholder="Enter Notes"></textarea>
+          </div>
+          <div className="md:w-1/4 flex flex-col gap-1">
+            <label htmlFor="bad_play_reason">Bad Play Reason</label>
+            <textarea className="w-full" name="bad_play_reason" id="bad_play_reason" placeholder="Rolled into run we didn't throw RPO"></textarea>
+          </div>
+        </div>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="qb_pressured">QB Pressured</label>
+            <select name="qb_pressured" id="qb_pressured" className="w-full" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="qb_read_yn" className="font-bold">QB Read Correct</label>
+            <select name="qb_read_yn" id="qb_read_yn" className="w-full" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="qb_play_yn" className="font-bold">QB Maxed Execution</label>
+            <select name="qb_play_yn" id="qb_play_yn" className="w-full" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="qb_ball_placement_good">QB Ball Placement Good</label>
+            <select name="qb_ball_placement_good" id="qb_ball_placement_good" className="w-full">
+              <option value="NA">NA</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="turnover_worthy_play">Turnover Worthy Play</label>
+            <select name="turnover_worthy_play" id="turnover_worthy_play" className="w-full" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+        </div>
+        <div className="md:flex md:gap-2 md:w-3/4">
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="defense_front">Defense Front</label>
+            <input type="text" name="defense_front" id="defense_front" placeholder="Enter defense front" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="defense_coverage">Defense Coverage</label>
+            <input type="text" name="defense_coverage" id="defense_coverage" placeholder="Enter defense coverage" className="w-full" required />
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="redzone">Redzone</label>
+            <select name="redzone" id="redzone" className="w-full" required>
+              <option value="No">No</option>
+
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="backed_up">Backed Up</label>
+            <select name="backed_up" id="backed_up" className="w-full" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div className="md:w-1/5 flex flex-col gap-1">
+            <label htmlFor="two_minute">Two Minute</label>
+            <select name="two_minute" id="two_minute" className="w-full" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+        </div>
         <SubmitButton />
       </form>
-      <Link href={"/team"} className="px-8 py-2 w-full md:w-1/2 bg-neutral-100 text-emerald-700 underline text-center">View Members</Link>
-      <Link href={"/"} className="px-8 py-2 w-full md:w-1/2 bg-neutral-100 text-neutral-700 underline text-center">Dashboard</Link>
     </div>
   )
 }
@@ -39,8 +204,8 @@ export default function LogPlay() {
 const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
-    <button className="w-full md:w-1/2 font-medium bg-emerald-700 text-white rounded-sm px-8 py-2" type="submit" disabled={pending}>
-      {pending ? "Logging" : "Log"} Play 
+    <button className="w-full md:w-3/4 font-medium bg-emerald-700 text-white rounded-sm px-8 py-2" type="submit" disabled={pending}>
+      {pending ? "Logging" : "Log"} Play
     </button>
   );
 };
