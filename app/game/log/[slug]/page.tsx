@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server"
 import { CreateGameDrive } from "../createGameDrive"
+import { CreateGameDriveToggleOne } from "../createGameDriveTogglable";
 import { redirect } from "next/navigation";
 import { LogPlay } from "../logPlay";
 
@@ -15,7 +16,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { data: gameDrive } = await supabase
     .from("game_drives")
     .select("drive_in_game")
-    .eq("game_id", game.id)
+    .eq("id", publicUser.current_game_drive_id)
     .single()
 
   if (publicUser.current_game_drive_id) {
@@ -26,7 +27,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
           <h2 className="text-neutral-700">Game: <span className="font-medium text-black">{game.name}</span>, Game Drive: <span className="font-medium text-black">{gameDrive?.drive_in_game}</span></h2>
-          <LogPlay gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
+          <CreateGameDriveToggleOne gameId={game.id} teamQbs={teamQbs} />
+          <LogPlay gameId={game.id} gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
         </div>
       )
     }

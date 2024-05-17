@@ -34,6 +34,7 @@ export const CreateGameDrive: React.FC<CreateGameDriveProps> = ({ gameId, teamQb
           <option value="Field Goal Made">Field Goal Made</option>
           <option value="Field Goal Missed">Field Goal Missed</option>
           <option value="Punt">Punt</option>
+          <option value="Turnover on Downs">Turnover on Downs</option>
           <option value="Interception">Interception</option>
           <option value="Fumble">Fumble</option>
           <option value="End of Half">End of Half</option>

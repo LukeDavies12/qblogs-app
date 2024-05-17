@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function CreateGameDriveAction(gameId: any, formData: FormData) {
+export async function CreateGameDriveAction(gameId: string, formData: FormData) {
   const supabase = createClient();
 
   const data = {

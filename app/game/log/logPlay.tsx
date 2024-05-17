@@ -3,21 +3,29 @@
 import "@/app/(auth)/auth.css"
 import { useFormStatus } from "react-dom";
 import { LogPlayAction } from "./playAction";
+import { useRef } from "react";
 
 interface CreateGameDriveProps {
+  gameId: string;
   gameDriveId: string;
   teamQbs: any[];
 }
 
-export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }) => {
-  const LogPlayOnDrive = LogPlayAction.bind(null, gameDriveId);
+export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, teamQbs }) => {
+  const LogPlayOnDrive = LogPlayAction.bind(null, gameId, gameDriveId);
+  const ref = useRef<HTMLFormElement>(null);
+
+  async function onLog(formData: FormData) {
+    const res = await LogPlayAction(gameId, gameDriveId, formData);
+    ref.current?.reset();
+  }
 
   return (
     <div className="flex flex-col gap-4">
       <p className="text-neutral-500">
         Start is yards away from the end zone, for example the -33 is 67 yards away.
       </p>
-      <form className="flex flex-col gap-1" action={LogPlayOnDrive}>
+      <form className="flex flex-col gap-1" action={onLog} ref={ref}>
         <div className="md:flex md:gap-2 md:w-3/4">
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="num_in_drive">Play # in Drive*</label>
@@ -33,8 +41,8 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }
           </div>
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="hash">Hash*</label>
-            <select name="title" id="title" className="w-full" required>
-              <option disabled selected hidden>Select a Hash</option>
+            <select name="hash" id="hash" className="w-full" required defaultValue={"hash"}>
+              <option value={"hash"}disabled hidden>Select a Hash</option>
               <option value="L">L</option>
               <option value="LM">LM</option>
               <option value="M">M</option>
@@ -59,7 +67,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }
           </div>
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="personnel">Personnel*</label>
-            <input type="number" name="personnel" id="personnel" placeholder="20" className="w-full" required />
+            <input type="text" name="personnel" id="personnel" placeholder="20" className="w-full" required />
           </div>
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="formation">Formation*</label>
@@ -127,6 +135,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="qb_pressured">QB Pressured</label>
             <select name="qb_pressured" id="qb_pressured" className="w-full" required>
+            <option value="NA">NA</option>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
@@ -171,28 +180,6 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameDriveId, teamQbs }
           <div className="md:w-1/5 flex flex-col gap-1">
             <label htmlFor="defense_coverage">Defense Coverage</label>
             <input type="text" name="defense_coverage" id="defense_coverage" placeholder="Enter defense coverage" className="w-full" required />
-          </div>
-          <div className="md:w-1/5 flex flex-col gap-1">
-            <label htmlFor="redzone">Redzone</label>
-            <select name="redzone" id="redzone" className="w-full" required>
-              <option value="No">No</option>
-
-              <option value="Yes">Yes</option>
-            </select>
-          </div>
-          <div className="md:w-1/5 flex flex-col gap-1">
-            <label htmlFor="backed_up">Backed Up</label>
-            <select name="backed_up" id="backed_up" className="w-full" required>
-              <option value="No">No</option>
-              <option value="Yes">Yes</option>
-            </select>
-          </div>
-          <div className="md:w-1/5 flex flex-col gap-1">
-            <label htmlFor="two_minute">Two Minute</label>
-            <select name="two_minute" id="two_minute" className="w-full" required>
-              <option value="No">No</option>
-              <option value="Yes">Yes</option>
-            </select>
           </div>
         </div>
         <SubmitButton />
