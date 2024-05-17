@@ -24,6 +24,7 @@ import {
   SelectGroup
 } from "@/components/ui/select"
 import { UserDropdownMenu } from "@/components/UserDropdown";
+import DynamicBreadcrumb from "@/components/Breadcrumb";
 
 export default async function RootLayout({
   children,
@@ -203,6 +204,7 @@ export default async function RootLayout({
                     </div>
                   </nav>
                   <div className="mt-4">
+                    <DynamicBreadcrumb />
                     {children}
                   </div>
                 </div>

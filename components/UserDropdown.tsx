@@ -27,7 +27,7 @@ export function UserDropdownMenu() {
       <DropdownMenuContent align="end" className="w-52">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <Link href={'/settings'}>Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
