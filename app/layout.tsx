@@ -1,10 +1,29 @@
 import Link from "next/link";
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server"
-import Image from "next/image"
 import GetAllTeams from "./teams/userGetAllTeams";
 import GetAllSeasons from "./seasons/teamGetAllSeasons";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ModeToggleRadio } from "@/components/ModeToggleRadio";
+import { Button } from "@/components/ui/button";
+import LogoSpanNoText from "@/components/LogoSpanNoText";
+import { Group, CalendarFold, Home } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup
+} from "@/components/ui/select"
+import { UserDropdownMenu } from "@/components/UserDropdown";
 
 export default async function RootLayout({
   children,
@@ -81,53 +100,112 @@ export default async function RootLayout({
 
       return (
         <html lang="en" suppressHydrationWarning>
-          <body className="container mx-auto px-2 flex flex-col">
+          <body className="bg-gray-100 dark:bg-gray-900">
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
             >
-              <nav className="border-b border-neutral-200 py-3 flex items-center justify-between">
-                <div className="flex gap-4 items-center justify-center">
-                  <Link href={"/"} className="flex gap-2 items-center">
-                    <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
-                    <span className="font-medium">QB Logs</span>
-                  </Link>
-                  <select name="team" id="team" className="w-44 mb-0" required>
-                    {currentTeamId && (
-                      <option value={currentTeamId}>
-                        {currentTeamName}
-                      </option>
-                    )}
-                    {allTeams.map(team => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                  </select>
-                  <select name="season" id="season" className="w-44 mb-0" required>
-                    {currentSeasonId && (
-                      <option value={currentSeasonId}>
-                        {currentSeasonName}
-                      </option>
-                    )}
-                    {allSeasons.map(season => (
-                      <option key={season.id} value={season.id}>
-                        {season.name}
-                      </option>
-                    ))}
-                  </select>
+              <div className="flex">
+                <div className="min-h-screen bg-white dark:bg-gray-950 w-12 md:w-16 flex flex-col gap-4 items-center py-4">
+                  <LogoSpanNoText />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href={"/"}>
+                          <Button variant="outline" size="icon">
+                            <Home className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Dashboard</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href={"/season"}>
+                          <Button variant="outline" size="icon">
+                            <CalendarFold className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Current Season</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href={"/team"}>
+                          <Button variant="outline" size="icon">
+                            <Group className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>My Team</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-                <div className="flex gap-4">
-                  <Link href={"/"}>Dashboard</Link>
-                  <Link href={"/season"}>Season</Link>
-                  <Link href={"/team"}>My Team</Link>
-                  <Link href={"/"}>Settings</Link>
+                <div className="w-full container px-4 mx-auto">
+                  <nav className="py-3 flex items-center justify-between">
+                    <div className="flex gap-4 items-center justify-center">
+                      <Select defaultValue={currentTeamId?.toString()} name="team">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select Team" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Teams</SelectLabel>
+                            {currentTeamId && (
+                              <SelectItem value={currentTeamId.toString()}>
+                                {currentTeamName}
+                              </SelectItem>
+                            )}
+                            {allTeams.map(team => (
+                              <SelectItem key={team.id} value={team.id}>
+                                {team.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      <Select defaultValue={currentSeasonId?.toString()} name="season">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select a Season" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Seasons</SelectLabel>
+                            {currentSeasonId && (
+                              <SelectItem value={currentSeasonId.toString()}>
+                                {currentSeasonName}
+                              </SelectItem>
+                            )}
+                            {allSeasons.map(season => (
+                              <SelectItem key={season.id} value={season.id}>
+                                {season.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <UserDropdownMenu />
+                      <ModeToggleRadio />
+                    </div>
+                  </nav>
+                  <div className="mt-4">
+                    {children}
+                  </div>
                 </div>
-              </nav>
-              <div className="mt-4">
-                {children}
               </div>
             </ThemeProvider>
           </body>

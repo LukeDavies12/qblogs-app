@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import CreateSpringGame from "../games/createSpringGame";
-import { BtnLink } from "@/components/btn-link";
+import { BtnLink } from "@/components/BtnLink";
 import DeleteGame from "../game/deleteGame";
 
 export default async function Page() {
