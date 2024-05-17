@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server"
 import Image from "next/image"
 import GetAllTeams from "./teams/userGetAllTeams";
 import GetAllSeasons from "./seasons/teamGetAllSeasons";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default async function RootLayout({
   children,
@@ -81,56 +82,70 @@ export default async function RootLayout({
       return (
         <html lang="en" suppressHydrationWarning>
           <body className="container mx-auto px-2 flex flex-col">
-            <nav className="border-b border-neutral-200 py-3 flex items-center justify-between">
-              <div className="flex gap-4 items-center justify-center">
-                <Link href={"/"} className="flex gap-2 items-center">
-                  <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
-                  <span className="font-medium">QB Logs</span>
-                </Link>
-                <select name="team" id="team" className="w-44 mb-0" required>
-                  {currentTeamId && (
-                    <option value={currentTeamId}>
-                      {currentTeamName}
-                    </option>
-                  )}
-                  {allTeams.map(team => (
-                    <option key={team.id} value={team.id}>
-                      {team.name}
-                    </option>
-                  ))}
-                </select>
-                <select name="season" id="season" className="w-44 mb-0" required>
-                  {currentSeasonId && (
-                    <option value={currentSeasonId}>
-                      {currentSeasonName}
-                    </option>
-                  )}
-                  {allSeasons.map(season => (
-                    <option key={season.id} value={season.id}>
-                      {season.name}
-                    </option>
-                  ))}
-                </select>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <nav className="border-b border-neutral-200 py-3 flex items-center justify-between">
+                <div className="flex gap-4 items-center justify-center">
+                  <Link href={"/"} className="flex gap-2 items-center">
+                    <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
+                    <span className="font-medium">QB Logs</span>
+                  </Link>
+                  <select name="team" id="team" className="w-44 mb-0" required>
+                    {currentTeamId && (
+                      <option value={currentTeamId}>
+                        {currentTeamName}
+                      </option>
+                    )}
+                    {allTeams.map(team => (
+                      <option key={team.id} value={team.id}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+                  <select name="season" id="season" className="w-44 mb-0" required>
+                    {currentSeasonId && (
+                      <option value={currentSeasonId}>
+                        {currentSeasonName}
+                      </option>
+                    )}
+                    {allSeasons.map(season => (
+                      <option key={season.id} value={season.id}>
+                        {season.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex gap-4">
+                  <Link href={"/"}>Dashboard</Link>
+                  <Link href={"/season"}>Season</Link>
+                  <Link href={"/team"}>My Team</Link>
+                  <Link href={"/"}>Settings</Link>
+                </div>
+              </nav>
+              <div className="mt-4">
+                {children}
               </div>
-              <div className="flex gap-4">
-                <Link href={"/"}>Dashboard</Link>
-                <Link href={"/season"}>Season</Link>
-                <Link href={"/team"}>My Team</Link>
-                <Link href={"/"}>Settings</Link>
-              </div>
-            </nav>
-            <div className="mt-4">
-              {children}
-            </div>
+            </ThemeProvider>
           </body>
         </html>
       );
     } else {
       return (
         <html lang="en" suppressHydrationWarning>
-          <body className="container mx-auto px-4 sm:px-0">
-            {children}
-          </body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <body className="container mx-auto px-4 sm:px-0">
+              {children}
+            </body>
+          </ThemeProvider>
         </html>
       );
     }
