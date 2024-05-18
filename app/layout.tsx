@@ -24,7 +24,6 @@ import {
   SelectGroup
 } from "@/components/ui/select"
 import { UserDropdownMenu } from "@/components/UserDropdown";
-import DynamicBreadcrumb from "@/components/Breadcrumb";
 
 export default async function RootLayout({
   children,
@@ -204,7 +203,6 @@ export default async function RootLayout({
                     </div>
                   </nav>
                   <div className="mt-4">
-                    <DynamicBreadcrumb />
                     {children}
                   </div>
                 </div>
@@ -213,21 +211,22 @@ export default async function RootLayout({
           </body>
         </html>
       );
-    } else {
-      return (
-        <html lang="en" suppressHydrationWarning>
+    }
+  }
+  else {
+    return (
+      <html lang="en" suppressHydrationWarning>
+        <body className="container mx-auto px-4 sm:px-0">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <body className="container mx-auto px-4 sm:px-0">
-              {children}
-            </body>
+            {children}
           </ThemeProvider>
-        </html>
-      );
-    }
+        </body>
+      </html>
+    );
   }
 }
