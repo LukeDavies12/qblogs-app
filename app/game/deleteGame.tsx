@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import { DeleteGameAction } from "./gameAction";
 
 export default function DeleteGame({ gameId }: { gameId: string }) {
@@ -12,6 +13,6 @@ export default function DeleteGame({ gameId }: { gameId: string }) {
   }
 
   return (
-    <button className="text-red-500" onClick={handleDelete}>Delete</button>
+    <Button variant={"ghost"} className="text-red-500" onClick={handleDelete}>Delete</Button>
   );
 }

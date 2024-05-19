@@ -1,7 +1,19 @@
 import { createClient } from "@/utils/supabase/server";
 import CreateSpringGame from "../games/createSpringGame";
-import { BtnLink } from "@/components/BtnLink";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import DeleteGame from "../game/deleteGame";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+
 
 export default async function Page() {
   const supabase = createClient();
@@ -15,20 +27,29 @@ export default async function Page() {
     if (springGame) {
       return (
         <div className="flex flex-col gap-2">
-          <h1 className="font-bold">{currentSeason.type} {currentSeason.year}</h1>
-          <h2 className="font-medium">Game</h2>
-          <div className="bg-white shadow rounded-md p-4 flex gap-4 items-center justify-between md:w-1/2">
-            <div>
-              <span className="text-gray-800 font-semibold">{springGame.name}</span>
-              <span className="text-gray-500"> {springGame.date}</span>
-            </div>
-            <div>
-              <BtnLink text="Log Plays" href={`/game/log/${springGame.id}`} extraStyles="mr-4" />
-              <DeleteGame gameId={springGame.id} />
-            </div>
-          </div>
+          <h1 className="font-bold text-xl">{currentSeason.type} {currentSeason.year}</h1>
+          <h2 className="font-medium text-lg">Game</h2>
+          <Table>
+            <TableCaption>All Games for your current season.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Invoice</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium">INV001</TableCell>
+                <TableCell>Paid</TableCell>
+                <TableCell>Credit Card</TableCell>
+                <TableCell className="text-right">$250.00</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
-      )
+      );
     } else {
       return (
         <div className="flex flex-col gap-2">

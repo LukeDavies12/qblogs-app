@@ -2,6 +2,8 @@ import { createClient } from "@/utils/supabase/server"
 import Image from "next/image"
 import Link from "next/link"
 import CreateSeason from "./seasons/createSeason"
+import { Button } from "@/components/ui/button"
+import LogoSpan from "@/components/LogoSpan"
 
 export default async function Page() {
   const supabase = createClient()
@@ -23,14 +25,12 @@ export default async function Page() {
     }
   } else {
     return (
-      <div className="flex flex-col items-center gap-4 mt-4">
+      <div className="flex flex-col gap-4 mt-4 ml-4">
         <div className="flex gap-2 items-center select-none cursor-default">
-          <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={32} height={32} />
-          <span className="font-medium">QB Logs</span>
+          <LogoSpan />
         </div>
         <div className="flex gap-4">
-          <Link href={"/sign-up"}><button className="px-8 py-2 font-medium bg-emerald-700 text-white rounded-sm">Sign Up</button></Link>
-          <Link href={"/login"}><button className="px-8 py-2 font-medium bg-neutral-100 text-emereald-700 rounded-sm">Login</button></Link>
+          <Link href={"/login"}><Button variant={"outline"}>Login</Button></Link>
         </div>
         <div>
           space for demo youtube video for alpha
