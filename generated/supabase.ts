@@ -39,6 +39,7 @@ export type Database = {
           game_id: string | null
           id: string
           notes: string | null
+          qb_id: string | null
           result: Database["public"]["Enums"]["game_drive_results"] | null
           start: string
         }
@@ -48,6 +49,7 @@ export type Database = {
           game_id?: string | null
           id?: string
           notes?: string | null
+          qb_id?: string | null
           result?: Database["public"]["Enums"]["game_drive_results"] | null
           start: string
         }
@@ -57,10 +59,18 @@ export type Database = {
           game_id?: string | null
           id?: string
           notes?: string | null
+          qb_id?: string | null
           result?: Database["public"]["Enums"]["game_drive_results"] | null
           start?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "game_drives_qb_id_fkey"
+            columns: ["qb_id"]
+            isOneToOne: false
+            referencedRelation: "team_qbs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "public_game_drives_game_id_fkey"
             columns: ["game_id"]
@@ -135,7 +145,6 @@ export type Database = {
       plays: {
         Row: {
           back_tag: string | null
-          backed_up: boolean | null
           bad_play_reason: string | null
           call: string
           call_family: string
@@ -144,7 +153,6 @@ export type Database = {
           defense_front: string | null
           distance: number
           down: number
-          explosive_play: boolean
           formation: string
           game_drive_id: string | null
           hash: Database["public"]["Enums"]["hashes"]
@@ -158,19 +166,16 @@ export type Database = {
           qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
           qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
-          qb_pressured: boolean
+          qb_pressured: Database["public"]["Enums"]["yes_no_na"] | null
           qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
-          redzone: boolean | null
           strength: string | null
-          turnover_worthy_play: boolean
-          two_minute: boolean | null
+          turnover_worthy_play: Database["public"]["Enums"]["yes_no_na"] | null
           type: Database["public"]["Enums"]["play_results"]
           yard_line: string
           yards: string
         }
         Insert: {
           back_tag?: string | null
-          backed_up?: boolean | null
           bad_play_reason?: string | null
           call: string
           call_family: string
@@ -179,7 +184,6 @@ export type Database = {
           defense_front?: string | null
           distance: number
           down: number
-          explosive_play: boolean
           formation: string
           game_drive_id?: string | null
           hash: Database["public"]["Enums"]["hashes"]
@@ -193,19 +197,16 @@ export type Database = {
           qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
           qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
-          qb_pressured: boolean
+          qb_pressured?: Database["public"]["Enums"]["yes_no_na"] | null
           qb_read_yn: Database["public"]["Enums"]["yes_no_na"]
-          redzone?: boolean | null
           strength?: string | null
-          turnover_worthy_play: boolean
-          two_minute?: boolean | null
+          turnover_worthy_play?: Database["public"]["Enums"]["yes_no_na"] | null
           type: Database["public"]["Enums"]["play_results"]
           yard_line: string
           yards: string
         }
         Update: {
           back_tag?: string | null
-          backed_up?: boolean | null
           bad_play_reason?: string | null
           call?: string
           call_family?: string
@@ -214,7 +215,6 @@ export type Database = {
           defense_front?: string | null
           distance?: number
           down?: number
-          explosive_play?: boolean
           formation?: string
           game_drive_id?: string | null
           hash?: Database["public"]["Enums"]["hashes"]
@@ -228,12 +228,10 @@ export type Database = {
           qb_ball_placement_good?: Database["public"]["Enums"]["yes_no_na"]
           qb_id?: string
           qb_play_yn?: Database["public"]["Enums"]["yes_no_na"]
-          qb_pressured?: boolean
+          qb_pressured?: Database["public"]["Enums"]["yes_no_na"] | null
           qb_read_yn?: Database["public"]["Enums"]["yes_no_na"]
-          redzone?: boolean | null
           strength?: string | null
-          turnover_worthy_play?: boolean
-          two_minute?: boolean | null
+          turnover_worthy_play?: Database["public"]["Enums"]["yes_no_na"] | null
           type?: Database["public"]["Enums"]["play_results"]
           yard_line?: string
           yards?: string
@@ -480,35 +478,28 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      drive_results:
-        | "TD Pass"
-        | "TD Run"
-        | "Field Goal Made"
-        | "Field Goal Missed"
-        | "Punt"
-        | "Interception"
-        | "Fumble"
-        | "End of Half"
-        | "8 Point Drive"
-        | "6 Point Drive"
       game_drive_results:
         | "TD Pass"
         | "TD Run"
         | "Field Goal Made"
         | "Field Goal Missed"
         | "Punt"
+        | "Turnover on Downs"
         | "Interception"
         | "Fumble"
         | "End of Half"
+        | "Safety"
       hashes: "L" | "LM" | "M" | "RM" | "R"
       play_results:
         | "Complete"
         | "Incomplete"
+        | "Incomplete Drop"
         | "Rush"
         | "QB Rush"
         | "Sack"
-        | "PenaltyFumble"
+        | "Penalty"
         | "Interception"
+        | "Fumble"
       practice_block_situation:
         | "Base Downs"
         | "Redzone"
