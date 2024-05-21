@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import DeleteGame from "../game/deleteGame";
 import Link from "next/link";
+import DeleteGame from "../game/deleteGame";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
@@ -27,23 +27,23 @@ export default async function Page() {
     if (springGame) {
       return (
         <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">{currentSeason.type} {currentSeason.year}</h1>
-          <Table>
+          <h1 className="font-bold">{currentSeason.type} {currentSeason.year}</h1>
+          <Table className="md:w-1/2">
             <TableCaption>All Games for your current season.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>Game</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Log Link</TableHead>
+                <TableHead className="text-right text-red-500">Delete Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
+                <TableCell className="font-medium">{springGame.name}</TableCell>
+                <TableCell>{springGame.date}</TableCell>
+                <TableCell><Link href={`/game/log/${springGame.id}`}><Button variant={"link"}>Log Plays</Button></Link></TableCell>
+                <TableCell className="text-right"><DeleteGame gameId={springGame.id} /></TableCell>
               </TableRow>
             </TableBody>
           </Table>

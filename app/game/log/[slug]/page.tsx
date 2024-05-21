@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
-          <h2 className="text-neutral-700">Game: <span className="font-medium text-black">{game.name}</span>, Game Drive: <span className="font-medium text-black">{gameDrive?.drive_in_game}</span></h2>
+          <h2 className="text-muted-foreground">Game: <span className="font-medium text-foreground">{game.name}</span>, Game Drive: <span className="font-medium text-foreground">{gameDrive?.drive_in_game}</span></h2>
           <CreateGameDriveToggleOne gameId={game.id} teamQbs={teamQbs} />
           <LogPlay gameId={game.id} gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
         </div>
