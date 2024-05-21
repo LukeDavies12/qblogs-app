@@ -44,8 +44,8 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="font-bold">My Team</h1>
-      <h2 className="font-medium">Members</h2>
+      <h1 className="font-bold text-xl">My Team</h1>
+      <h2 className="font-medium text-lg">Members</h2>
       <table className="w-full md:w-1/2 border border-gray-200">
         <thead>
           <tr className="bg-gray-100">

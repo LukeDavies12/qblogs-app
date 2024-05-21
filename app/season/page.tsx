@@ -27,7 +27,7 @@ export default async function Page() {
     if (springGame) {
       return (
         <div className="flex flex-col gap-2">
-          <h1 className="font-bold">{currentSeason.type} {currentSeason.year}</h1>
+          <h1 className="font-bold text-xl">{currentSeason.type} {currentSeason.year}</h1>
           <Table className="md:w-1/2">
             <TableCaption>All Games for your current season.</TableCaption>
             <TableHeader>

@@ -13,9 +13,13 @@ export default async function Page() {
     const { data: publicUserCurrentSeason, error } = await supabase.from("users").select('current_season_id').eq("auth_id", authUser.user.id).single()
 
     if (publicUserCurrentSeason?.current_season_id) {
+
+
       return (
         <div>
-          has season
+          <h1 className="font-bold text-xl">Dashboard</h1>
+          <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
+
         </div>
       )
     } else {
