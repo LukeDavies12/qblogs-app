@@ -28,7 +28,6 @@ export default async function Page() {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-xl">{currentSeason.type} {currentSeason.year}</h1>
-          <h2 className="font-medium text-lg">Game</h2>
           <Table>
             <TableCaption>All Games for your current season.</TableCaption>
             <TableHeader>

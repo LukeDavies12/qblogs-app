@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useFormStatus } from "react-dom"
 import { SignUp } from "./action"
+import { Button } from "@/components/ui/button"
 import "../auth.css"
 
 export default function Page() {
@@ -17,7 +18,8 @@ export default function Page() {
           <h1 className="font-bold text-2xl">Sign Up</h1>
         </div>
         <div>
-          <form action={SignUp}>
+          <p>To sign up contact <a href="mailto:luketdavies12e@gmail.com"><Button variant={"link"}>Luke</Button></a>.</p>
+          {/* <form action={SignUp}>
             <div className="flex flex-col gap-1">
               <label htmlFor="full_name">Full Name</label>
               <input type="text" name="full_name" id="full_name" placeholder="Coach John" required />
@@ -39,18 +41,18 @@ export default function Page() {
               <input type="text" name="team_name" id="team_name" placeholder="New England Patriots" required />
               <SubmitButton />
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </>
   )
 }
 
-const SubmitButton = () => {
-  const { pending } = useFormStatus();
-  return (
-    <button className="w-full font-medium bg-emerald-700 text-white rounded-sm px-8 py-2" type="submit" disabled={pending}>
-      Sign{pending ? "ing" : ""} Up
-    </button>
-  );
-};
+// const SubmitButton = () => {
+//   const { pending } = useFormStatus();
+//   return (
+//     <button className="w-full font-medium bg-emerald-700 text-white rounded-sm px-8 py-2" type="submit" disabled={pending}>
+//       Sign{pending ? "ing" : ""} Up
+//     </button>
+//   );
+// };
