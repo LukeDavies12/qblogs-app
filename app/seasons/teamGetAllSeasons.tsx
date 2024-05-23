@@ -10,7 +10,7 @@ export default async function GetAllSeasons() {
   const { data: seasons } = await supabase
     .from("seasons")
     .select("id, type, year")
-    .eq("team_id", currentUser?.current_team_id)
+    .eq("team_id", currentUser?.current_team_id as string)
 
   // Map the fetched data to the desired format
   if (seasons) {

@@ -42,14 +42,25 @@ export async function CreateNewMember(formData: FormData) {
     .select("current_team_id, current_season_id")
     .single();
 
+  type TeamRole =
+    | "QB"
+    | "Head Coach"
+    | "Offensive Coordinator"
+    | "Pass Game Coordinator"
+    | "Run Game Coordinator"
+    | "QB Coach"
+    | "RB Coach"
+    | "WR Coach"
+    | "OL Coach";
+
   const { data: newPublicUser, error: publicUserError } = await supabase
     .from("users")
     .insert({
-      auth_id: authData.user.id,
-      type: publicUserData.type,
-      full_name: publicUserData.full_name,
-      current_team_id: currentPublicUserData?.current_team_id,
-      current_season_id: currentPublicUserData?.current_season_id,
+      auth_id: authData.user.id as string,
+      type: publicUserData.type as TeamRole,
+      full_name: publicUserData.full_name as string,
+      current_team_id: currentPublicUserData?.current_team_id as string,
+      current_season_id: currentPublicUserData?.current_season_id as string,
     })
     .select()
     .single();
@@ -62,8 +73,8 @@ export async function CreateNewMember(formData: FormData) {
   const { data: newMemberData, error: newMemberError } = await supabase
     .from("members")
     .insert({
-      user_id: newPublicUser.auth_id,
-      team_id: newPublicUser.current_team_id,
+      user_id: newPublicUser.auth_id as string,
+      team_id: newPublicUser.current_team_id as string,
     });
 
   if (newMemberError) {

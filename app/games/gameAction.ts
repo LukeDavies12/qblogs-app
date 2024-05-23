@@ -15,7 +15,7 @@ export async function CreateSpringGameAction(formData: FormData) {
   const { data: publicUser } = await supabase
     .from("users")
     .select("current_season_id")
-    .eq("auth_id", (await supabase.auth.getUser()).data.user?.id)
+    .eq("auth_id", (await supabase.auth.getUser()).data.user?.id as string)
     .single();
 
   const { error } = await supabase.from("games").insert({

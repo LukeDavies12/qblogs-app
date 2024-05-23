@@ -53,7 +53,7 @@ export default async function RootLayout({
     if (teamIdError) {
       console.error("Error fetching current team ID:", teamIdError.message);
     } else {
-      currentTeamId = currentTeamIdData?.current_team_id;
+      currentTeamId = currentTeamIdData?.current_team_id as string;
     }
 
     const { data: currentSeasonIdData, error: seasonIdError } = await supabase
@@ -65,13 +65,13 @@ export default async function RootLayout({
     if (seasonIdError) {
       console.error("Error fetching current season ID:", seasonIdError.message);
     } else {
-      currentSeasonId = currentSeasonIdData?.current_season_id;
+      currentSeasonId = currentSeasonIdData?.current_season_id as string;
     }
 
     const { data: currentTeamNameData, error: teamNameError } = await supabase
       .from("teams")
       .select("name")
-      .eq("id", currentTeamId)
+      .eq("id", currentTeamId as string)
       .single();
 
     if (teamNameError) {
@@ -83,7 +83,7 @@ export default async function RootLayout({
     const { data: currentSeasonNameData, error: seasonNameError } = await supabase
       .from("seasons")
       .select("type, year")
-      .eq("id", currentSeasonId)
+      .eq("id", currentSeasonId as string)
       .single();
 
     if (seasonNameError) {

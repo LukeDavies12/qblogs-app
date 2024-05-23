@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { useFormStatus } from "react-dom";
 import { CreateSeasonAction } from "./sznAction";
-import "../(auth)/auth.css"
 
 export default function CreateSeason() {
   return (

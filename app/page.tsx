@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import LogoSpan from "@/components/LogoSpan"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import CircularProgress from "@/components/ProgressBar"
 
 
 export default async function Page() {
@@ -38,13 +39,37 @@ export default async function Page() {
               const end = Number(drive.end);
               if (!isNaN(start) && !isNaN(end)) {
                 const availableYdsPerc = (start - end) / start;
-                console.log(`Drive Start: ${start}, Drive End: ${end}, Available Yds Perc: ${availableYdsPerc}`);
                 return acc + availableYdsPerc;
               } else {
-                console.error(`Invalid start or end for drive: ${JSON.stringify(drive)}`);
                 return acc;
               }
             }, 0) / qbDrives.length
+            : 0;
+
+          const totalYardsGained = qbDrives.length > 0
+            ? qbDrives.reduce((acc, drive) => {
+              const start = Number(drive.start);
+              const end = Number(drive.end);
+              if (!isNaN(start) && !isNaN(end)) {
+                const yardsGained = start - end;
+                return acc + yardsGained; // Add yardsGained to acc
+              } else {
+                return acc; // Return acc if start or end is NaN
+              }
+            }, 0)
+            : 0;
+
+          const totalYardsAvailable = qbDrives.length > 0
+            ? qbDrives.reduce((acc, drive) => {
+              const start = Number(drive.start);
+              const end = Number(drive.end);
+              if (!isNaN(start) && !isNaN(end)) {
+                const availableYds = start;
+                return acc + availableYds;
+              } else {
+                return acc;
+              }
+            }, 0)
             : 0;
 
           const ptsPerDrive = qbDrives.length > 0
@@ -78,9 +103,9 @@ export default async function Page() {
             ? (completions + qbPlays.filter(play => play.type === 'Incomplete Drop').length) / attempts
             : 0;
 
-          const explosivePasses = qbPlays.filter(play => Number(play.yards) >= 20).length;
+          const explosivePasses = qbPlays.filter(play => Number(play.yards) >= 25 && play.type == "Complete" ||  Number(play.yards) >= 25 && play.type == "QB Rush").length;
 
-          const passes10PlusYards = qbPlays.filter(play => Number(play.yards) >= 10).length;
+          const passes10PlusYards = qbPlays.filter(play => Number(play.yards) >= 10 && play.type == "Complete" ||  Number(play.yards) >= 10 && play.type == "QB Rush").length;
 
           const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === 'Yes').length;
 
@@ -91,6 +116,8 @@ export default async function Page() {
           return {
             qbId: qb.id,
             qbName: qb.full_name,
+            yardsGained: totalYardsGained,
+            totalYardsAvailable: totalYardsAvailable,
             avgAvailableYdsPerc: avgAvailableYdsPerc.toFixed(2),
             ptsPerDrive: ptsPerDrive.toFixed(2),
             executionPercentage: (executionPercentage * 100).toFixed(2),
@@ -104,74 +131,112 @@ export default async function Page() {
         }
       });
 
-      return (
-        <div>
-          <h1 className="font-bold text-xl">Dashboard</h1>
-          <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
+      if (qbStats) {
+        return (
           <div>
-            <ul className="space-y-4">
-              {qbStats?.map(stat => (
-                <li key={stat?.qbId}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>{stat?.qbName}</CardTitle>
-                      <CardDescription>{`QB ID: ${stat?.qbId}`}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div>
-                        <p>Average Available Yards Percentage</p>
-                        <Progress value={parseFloat(stat?.avgAvailableYdsPerc || '0')} max={100} />
-                        <p>{`${stat?.avgAvailableYdsPerc}%`}</p>
-                      </div>
-                      <div>
-                        <p>Points Per Drive</p>
-                        <Progress value={parseFloat(stat?.ptsPerDrive || '0')} max={7} />
+            <h1 className="font-bold text-xl">Dashboard</h1>
+            <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
+            <div>
+              <ul className="space-y-4">
+                {qbStats.map(stat => (
+                  <li key={stat?.qbId}>
+                    <Card className="w-1/2 mt-4">
+                      <CardHeader>
+                        <CardTitle>QB: {stat?.qbName}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="flex items-center">
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={(parseFloat(stat?.avgAvailableYdsPerc || '0')) * 100} max={100} />
+                            </div>
+                            <div>
+                              <p>{stat?.yardsGained} yds / {stat?.totalYardsAvailable} yds</p>
+                              <p className="text-muted-foreground">Avg Available Yards Gained per Drive %</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.ptsPerDrive || '0')} max={7} />
+                            </div>
+                            <div>
+                              <p>{stat?.ptsPerDrive}</p>
+                              <p className="text-muted-foreground">Avg Points Per Drive</p>
+                            </div>
+                          </div>
+                        </div>
 
-                        <p>{stat?.ptsPerDrive}</p>
-                      </div>
-                      <div>
-                        <p>Execution Percentage</p>
-                        <Progress value={parseFloat(stat?.executionPercentage || '0')} max={100} />
+                        <div className="flex items-center">
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.executionPercentage || '0')} max={100} />
+                            </div>
+                            <div>
+                              <p>{`${stat?.executionPercentage}%`}</p>
+                              <p className="text-muted-foreground">Avg Play Maxed %</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.readPercentage || '0')} max={100} />
+                            </div>
+                            <div>
+                              <p>{`${stat?.readPercentage}%`}</p>
+                              <p className="text-muted-foreground">Avg Play Read %</p>
+                            </div>
+                          </div>
+                        </div>
 
-                        <p>{`${stat?.executionPercentage}%`}</p>
-                      </div>
-                      <div>
-                        <p>Read Percentage</p>
-                        <Progress value={parseFloat(stat?.readPercentage || '0')} max={100} />
+                        <div className="flex items-center">
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.completionPercentage || '0')} max={100} />
+                            </div>
+                            <div>
+                              <p>{`${stat?.completionPercentage}%`}</p>
+                              <p className="text-muted-foreground">Adjusted Completion %</p>
+                            </div>
+                          </div>
 
-                        <p>{`${stat?.readPercentage}%`}</p>
-                      </div>
-                      <div>
-                        <p>Completion Percentage</p>
-                        <Progress value={parseFloat(stat?.completionPercentage || '0')} max={100} />
-                        <p>{`${stat?.completionPercentage}%`}</p>
-                      </div>
-                      <div>
-                        <p>Adjusted Completion Percentage</p>
-                        <Progress value={parseFloat(stat?.adjustedCompletionPercentage || '0')} max={100} />
-                        <p>{`${stat?.adjustedCompletionPercentage}%`}</p>
-                      </div>
-                      <div className="flex justify-between">
-                        <p>Explosive Passes</p>
-                        <p>{stat?.explosivePasses}</p>
-                      </div>
-                      <div className="flex justify-between">
-                        <p>10+ Yards Passes</p>
-                        <p>{stat?.passes10PlusYards}</p>
-                      </div>
-                      <div>
-                        <p>Turnover Worthy Play Percentage</p>
-                        <Progress value={parseFloat(stat?.turnoverWorthyPlayPercentage || '0' )} max={100} />
-                        <p>{`${stat?.turnoverWorthyPlayPercentage}%`}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </li>
-              ))}
-            </ul>
+                          <div className="flex gap-2 items-center md:w-1/2">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.adjustedCompletionPercentage || '0')} max={100} />
+                            </div>
+                            <div>
+                              <p>{`${stat?.adjustedCompletionPercentage}%`}</p>
+                              <p className="text-muted-foreground">Completion %</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center">
+                          <div className="flex gap-2 items-center md:w-1/3">
+                            <p className="text-4xl font-bold">{stat?.explosivePasses}</p>
+                            <p className="text-muted-foreground">Explosive Plays Responsible For</p>
+                          </div>
+                          <div className="flex gap-2 items-center md:w-1/3">
+                            <p className="text-4xl font-bold">{stat?.passes10PlusYards}</p>
+                            <p className="text-muted-foreground">10+ Yards Plays Responsible For</p>
+                          </div>
+                          <div className="flex gap-2 items-center md:w-1/3">
+                            <div>
+                              <CircularProgress value={parseFloat(stat?.turnoverWorthyPlayPercentage || '0')} max={100} />
+                            </div>
+                            <div>
+                              <p>{`${stat?.turnoverWorthyPlayPercentage}%`}</p>
+                              <p className="text-muted-foreground">Turnover Worthy Play %</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
     } else {
       return (
         <CreateSeason />

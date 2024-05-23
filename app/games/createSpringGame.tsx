@@ -1,6 +1,5 @@
 "use client"
 
-import "@/app/(auth)/auth.css"
 import { useFormStatus } from "react-dom";
 import { CreateSpringGameAction } from "./gameAction";
 import Link from "next/link";

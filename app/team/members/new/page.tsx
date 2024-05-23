@@ -1,6 +1,5 @@
 "use client"
 
-import "@/app/(auth)/auth.css"
 import { useFormStatus } from "react-dom";
 import { CreateNewMember } from "./action";
 import Link from "next/link";

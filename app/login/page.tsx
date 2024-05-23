@@ -1,12 +1,10 @@
 "use client"
 
-import Image from "next/image"
 import { useFormStatus } from "react-dom"
 import { Login } from "./action"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { LockIcon } from "lucide-react"
 import LogoSpan from "@/components/LogoSpan"
 
 export default function Page() {

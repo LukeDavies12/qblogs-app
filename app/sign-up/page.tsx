@@ -4,7 +4,6 @@ import Image from "next/image"
 import { useFormStatus } from "react-dom"
 import { SignUp } from "./action"
 import { Button } from "@/components/ui/button"
-import "../auth.css"
 
 export default function Page() {
   return (

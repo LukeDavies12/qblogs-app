@@ -11,36 +11,36 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { data: publicUser } = await supabase
     .from("users")
     .select("*")
-    .eq("auth_id", (await supabase.auth.getUser()).data.user?.id)
+    .eq("auth_id", (await supabase.auth.getUser()).data.user?.id as string)
     .single()
   const { data: gameDrive } = await supabase
     .from("game_drives")
     .select("drive_in_game")
-    .eq("id", publicUser.current_game_drive_id)
+    .eq("id", publicUser?.current_game_drive_id as string)
     .single()
 
-  if (publicUser.current_game_drive_id) {
-    const { data: teamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUser.current_team_id)
+  if (publicUser?.current_game_drive_id) {
+    const { data: teamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUser?.current_team_id as string)
 
     if (teamQbs) {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
-          <h2 className="text-muted-foreground">Game: <span className="font-medium text-foreground">{game.name}</span>, Game Drive: <span className="font-medium text-foreground">{gameDrive?.drive_in_game}</span></h2>
-          <CreateGameDriveToggleOne gameId={game.id} teamQbs={teamQbs} />
-          <LogPlay gameId={game.id} gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
+          <h2 className="text-muted-foreground">Game: <span className="font-medium text-foreground">{game?.name}</span>, Game Drive: <span className="font-medium text-foreground">{gameDrive?.drive_in_game}</span></h2>
+          <CreateGameDriveToggleOne gameId={game?.id as string} teamQbs={teamQbs} />
+          <LogPlay gameId={game?.id as string} gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
         </div>
       )
     }
   } else {
-    const { data: teamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUser.current_team_id)
+    const { data: teamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUser?.current_team_id as string)
 
     if (teamQbs) {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
-          <h2 className="font-medium">Game: {game.name}, Game Drive: No Drive Selected</h2>
-          <CreateGameDrive gameId={game.id} teamQbs={teamQbs} />
+          <h2 className="font-medium">Game: {game?.name}, Game Drive: No Drive Selected</h2>
+          <CreateGameDrive gameId={game?.id as string} teamQbs={teamQbs} />
         </div>
       )
     } else {

@@ -35,33 +35,33 @@ export type Database = {
       game_drives: {
         Row: {
           drive_in_game: number | null
-          end: string
+          end: number
           game_id: string | null
           id: string
           notes: string | null
           qb_id: string | null
           result: Database["public"]["Enums"]["game_drive_results"] | null
-          start: string
+          start: number
         }
         Insert: {
           drive_in_game?: number | null
-          end: string
+          end: number
           game_id?: string | null
           id?: string
           notes?: string | null
           qb_id?: string | null
           result?: Database["public"]["Enums"]["game_drive_results"] | null
-          start: string
+          start: number
         }
         Update: {
           drive_in_game?: number | null
-          end?: string
+          end?: number
           game_id?: string | null
           id?: string
           notes?: string | null
           qb_id?: string | null
           result?: Database["public"]["Enums"]["game_drive_results"] | null
-          start?: string
+          start?: number
         }
         Relationships: [
           {

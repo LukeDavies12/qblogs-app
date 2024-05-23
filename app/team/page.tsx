@@ -1,5 +1,15 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 export default async function Page() {
   const supabase = createClient();
@@ -9,7 +19,7 @@ export default async function Page() {
   const { data: currentUserData } = await supabase
     .from("users")
     .select("current_team_id")
-    .eq("auth_id", currentUser.user?.id)
+    .eq("auth_id", currentUser.user?.id as string)
     .single();
 
   // If the current user doesn't belong to any team, handle it accordingly
@@ -46,30 +56,27 @@ export default async function Page() {
     <div className="flex flex-col gap-2">
       <h1 className="font-bold text-xl">My Team</h1>
       <h2 className="font-medium text-lg">Members</h2>
-      <table className="w-full md:w-1/2 border border-gray-200">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 text-left font-medium">Type</th>
-            <th className="px-4 py-2 text-left font-medium">Full Name</th>
-            <th className="px-4 py-2 text-left font-medium">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className="md:w-1/2">
+        <TableCaption>List of all team members.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Type</TableHead>
+            <TableHead>Full Name</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {publicUsers.map((user) => (
-            <tr key={user.full_name} className="border-b border-gray-200">
-              <td className="px-4 py-2">{user.type}</td>
-              <td className="px-4 py-2">{user.full_name}</td>
-              <td className="px-4 py-2">
-                <Link href={`team/members/delete/${user.type}`}>
-                  <span className="text-red-500 cursor-pointer">Delete</span>
-                </Link>
-              </td>
-            </tr>
+            <TableRow key={user.full_name}>
+              <TableCell className="px-4 py-2">{user.type}</TableCell>
+              <TableCell className="px-4 py-2">{user.full_name}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-      <Link href={"team/members/new"} className="px-8 py-2 w-full md:w-1/2 bg-neutral-100 text-emerald-700 underline text-center mt-2">
-        Create New Member
+        </TableBody>
+      </Table>
+      <Link href={"team/members/new"}>
+        <Button variant={"link"} className="md:w-1/2">
+          Create New Member
+        </Button>
       </Link>
     </div>
   );
