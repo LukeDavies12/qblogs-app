@@ -114,5 +114,5 @@ export async function CreateNewMember(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/team/members");
+  redirect("/team/");
 }
