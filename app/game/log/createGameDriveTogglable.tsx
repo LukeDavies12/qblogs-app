@@ -39,7 +39,7 @@ export const CreateGameDriveToggleOne: React.FC<CreateGameDriveProps> = ({ gameI
       {showForm && (
         <>
           <h3 className="font-bold">Create Game Drive</h3>
-          <p className="-mt-3">
+          <p className="-mt-3 text-muted-foreground">
             Start is yards away from the end zone, for example the -22 is 78 yards away.
           </p>
           <form className="flex flex-col gap-1 -mt-3 md:w-1/2" action={onCreate} ref={ref}>
@@ -61,7 +61,7 @@ export const CreateGameDriveToggleOne: React.FC<CreateGameDriveProps> = ({ gameI
               <div className='md:w-1/2'>
                 <Label htmlFor="result">Result</Label>
                 <Select name="result" required>
-                  <SelectTrigger id="result">
+                  <SelectTrigger tabIndex={0} id="result">
                     <SelectValue placeholder="Select Result" />
                   </SelectTrigger>
                   <SelectContent>

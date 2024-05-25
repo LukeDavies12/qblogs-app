@@ -36,7 +36,6 @@ export default async function Page() {
                 <TableHead>Game</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Log Link</TableHead>
-                <TableHead className="text-right text-red-500">Delete Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -44,7 +43,6 @@ export default async function Page() {
                 <TableCell className="font-medium">{springGame.name}</TableCell>
                 <TableCell>{springGame.date}</TableCell>
                 <TableCell><Link href={`/game/log/${springGame.id}`}><Button variant={"link"}>Log Plays</Button></Link></TableCell>
-                <TableCell className="text-right"><DeleteGame gameId={springGame.id} /></TableCell>
               </TableRow>
             </TableBody>
           </Table>

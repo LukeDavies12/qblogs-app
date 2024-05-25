@@ -41,7 +41,7 @@ export const CreateGameDrive: React.FC<CreateGameDriveProps> = ({ gameId, teamQb
           <div className='md:w-1/2'>
             <Label htmlFor="result">Result</Label>
             <Select name="result" required>
-              <SelectTrigger id="result">
+              <SelectTrigger tabIndex={0} id="result">
                 <SelectValue placeholder="Select Result" />
               </SelectTrigger>
               <SelectContent>

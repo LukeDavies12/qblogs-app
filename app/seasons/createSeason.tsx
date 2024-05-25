@@ -3,15 +3,15 @@
 import Image from "next/image"
 import { useFormStatus } from "react-dom";
 import { CreateSeasonAction } from "./sznAction";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import * as select from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 export default function CreateSeason() {
   return (
     <>
-      <div className="flex flex-col items-center gap-4 mt-4">
-        <div className="flex gap-2 items-center select-none cursor-default">
-          <Image src="/qblogs_logo_lightmode.svg" alt="logo" width={44} height={44} />
-          <span className="font-bold text-lg">QB Logs</span>
-        </div>
+      <div className="flex flex-col items-center gap-4 mt-4 md:w-1/2">
         <div className="flex flex-col gap-4">
           <p className="text-lg">It looks like you are just setting up QB Logs, let&apos;s create a season to work with.</p>
           <h1 className="font-bold text-2xl text-center">New Season</h1>
@@ -19,14 +19,18 @@ export default function CreateSeason() {
         <div>
           <form action={CreateSeasonAction}>
             <div className="flex flex-col gap-1">
-              <label htmlFor="year">Year</label>
-              <input type="number" name="year" id="year" placeholder="2024" required />
-              <label htmlFor="type">Type</label>
-              <select name="type" id="type" className="w-full mb-4" required>
-                <option disabled selected hidden>Choose Fall/Spring</option>
-                <option value="Fall">Fall</option>
-                <option value="Spring">Spring</option>
-              </select>
+              <Label htmlFor="year">Year</Label>
+              <Input type="number" name="year" id="year" placeholder="2024" required />
+              <Label htmlFor="type">Type</Label>
+              <select.Select name="type" required>
+                <select.SelectTrigger tabIndex={0} id="type">
+                  <select.SelectValue placeholder="Choose Fall/Spring" />
+                </select.SelectTrigger>
+                <select.SelectContent>
+                  <select.SelectItem value="Fall">Fall</select.SelectItem>
+                  <select.SelectItem value="Spring">Spring</select.SelectItem>
+                </select.SelectContent>
+              </select.Select>
               <SubmitButton />
             </div>
           </form>
@@ -39,8 +43,8 @@ export default function CreateSeason() {
 const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
-    <button className="w-full font-medium bg-emerald-700 text-white rounded-sm px-8 py-2" type="submit" disabled={pending}>
-      {pending ? "Creating" : "Create"} Season
-    </button>
+    <Button className='w-full mt-2' type="submit" disabled={pending}>
+      {pending ? "Creating" : "Create"} New Season
+    </Button>
   );
 };

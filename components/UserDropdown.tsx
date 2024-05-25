@@ -27,9 +27,11 @@ export function UserDropdownMenu() {
       <DropdownMenuContent align="end" className="w-52">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
-          <Link href={'/settings'}>Settings</Link>
-        </DropdownMenuItem>
+        <Link href={'/settings'}>
+          <DropdownMenuItem className="cursor-pointer">
+            Settings
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <form action="/auth/logout" method="post" className="w-full text-left">
           <MenuBtn />
