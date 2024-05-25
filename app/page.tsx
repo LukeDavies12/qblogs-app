@@ -251,9 +251,9 @@ export default async function Page() {
         <div className="flex gap-4">
           <Link href={"/login"}><Button variant={"outline"}>Login</Button></Link>
         </div>
-        <div>
+        {/* <div>
           space for demo youtube video for alpha
-        </div>
+        </div> */}
       </div>
     )
   }
