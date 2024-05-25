@@ -137,9 +137,9 @@ export default async function Page() {
             <h1 className="font-bold text-xl">Dashboard</h1>
             <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
             <div>
-              <ul className="space-y-4">
+              <div className="space-y-4 md:flex gap-2">
                 {qbStats.map(stat => (
-                  <li key={stat?.qbId}>
+                  <div key={stat?.qbId}>
                     <Card className="w-1/2 mt-4">
                       <CardHeader>
                         <CardTitle>QB: {stat?.qbName}</CardTitle>
@@ -230,9 +230,9 @@ export default async function Page() {
                         </div>
                       </CardContent>
                     </Card>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         )
