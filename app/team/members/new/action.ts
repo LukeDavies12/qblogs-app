@@ -37,10 +37,26 @@ export async function CreateNewMember(formData: FormData) {
     type: formData.get("title") as string,
   };
 
-  const { data: currentPublicUserData } = await supabase
-    .from("users")
-    .select("current_team_id, current_season_id")
-    .single();
+  const { data: authUser } = await supabase.auth.getUser();
+  const { data: currentPublicUserData, error: currentPublicUserDataError } =
+    await supabase
+      .from("users")
+      .select("current_team_id, current_season_id")
+      .eq("auth_id", authUser.user?.id as string)
+      .single();
+
+  if (currentPublicUserDataError) {
+    console.log(currentPublicUserDataError.message);
+    redirect("/error");
+  }
+
+  if (
+    !currentPublicUserData?.current_team_id ||
+    !currentPublicUserData?.current_season_id
+  ) {
+    console.log("Current team ID or season ID is missing");
+    redirect("/error");
+  }
 
   type TeamRole =
     | "QB"
@@ -59,8 +75,8 @@ export async function CreateNewMember(formData: FormData) {
       auth_id: authData.user.id as string,
       type: publicUserData.type as TeamRole,
       full_name: publicUserData.full_name as string,
-      current_team_id: currentPublicUserData?.current_team_id as string,
-      current_season_id: currentPublicUserData?.current_season_id as string,
+      current_team_id: currentPublicUserData.current_team_id as string,
+      current_season_id: currentPublicUserData.current_season_id as string,
     })
     .select()
     .single();
@@ -82,7 +98,7 @@ export async function CreateNewMember(formData: FormData) {
     redirect("/error");
   }
 
-  if ((formData.get("title") as string) == "QB") {
+  if ((formData.get("title") as string) === "QB") {
     const { data: teamQbData, error: teamQbError } = await supabase
       .from("team_qbs")
       .insert({
