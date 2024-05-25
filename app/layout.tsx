@@ -199,7 +199,7 @@ export default async function RootLayout({
                     <ModeToggleRadio />
                   </div>
                 </nav>
-                <div className="mt-4">
+                <div className="mt-4 mb-4">
                   {children}
                 </div>
               </div>

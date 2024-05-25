@@ -103,9 +103,9 @@ export default async function Page() {
             ? (completions + qbPlays.filter(play => play.type === 'Incomplete Drop').length) / attempts
             : 0;
 
-          const explosivePasses = qbPlays.filter(play => Number(play.yards) >= 25 && play.type == "Complete" ||  Number(play.yards) >= 25 && play.type == "QB Rush").length;
+          const explosivePasses = qbPlays.filter(play => Number(play.yards) >= 25 && play.type == "Complete" || Number(play.yards) >= 25 && play.type == "QB Rush").length;
 
-          const passes10PlusYards = qbPlays.filter(play => Number(play.yards) >= 10 && play.type == "Complete" ||  Number(play.yards) >= 10 && play.type == "QB Rush").length;
+          const passes10PlusYards = qbPlays.filter(play => Number(play.yards) >= 10 && play.type == "Complete" || Number(play.yards) >= 10 && play.type == "QB Rush").length;
 
           const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === 'Yes').length;
 
@@ -136,103 +136,101 @@ export default async function Page() {
           <div>
             <h1 className="font-bold text-xl">Dashboard</h1>
             <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
-            <div>
-              <div className="space-y-4 md:flex gap-2">
-                {qbStats.map(stat => (
-                  <div key={stat?.qbId}>
-                    <Card className="w-1/2 mt-4">
-                      <CardHeader>
-                        <CardTitle>QB: {stat?.qbName}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-2">
-                        <div className="flex items-center">
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={(parseFloat(stat?.avgAvailableYdsPerc || '0')) * 100} max={100} />
-                            </div>
-                            <div>
-                              <p>{stat?.yardsGained} yds / {stat?.totalYardsAvailable} yds</p>
-                              <p className="text-muted-foreground">Avg Available Yards Gained per Drive %</p>
-                            </div>
+            <div className="space-y-4 md:grid grid-cols-2 gap-2 w-full">
+              {qbStats.map(stat => (
+                <div key={stat?.qbId} className="mt-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>QB: {stat?.qbName}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex items-center">
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={(parseFloat(stat?.avgAvailableYdsPerc || '0')) * 100} max={100} />
                           </div>
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.ptsPerDrive || '0')} max={7} />
-                            </div>
-                            <div>
-                              <p>{stat?.ptsPerDrive}</p>
-                              <p className="text-muted-foreground">Avg Points Per Drive</p>
-                            </div>
+                          <div>
+                            <p>{stat?.yardsGained} yds / {stat?.totalYardsAvailable} yds</p>
+                            <p className="text-muted-foreground">Avg Available Yards Gained per Drive %</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.ptsPerDrive || '0')} max={7} />
+                          </div>
+                          <div>
+                            <p>{stat?.ptsPerDrive}</p>
+                            <p className="text-muted-foreground">Avg Points Per Drive</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center">
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.executionPercentage || '0')} max={100} />
+                          </div>
+                          <div>
+                            <p>{`${stat?.executionPercentage}%`}</p>
+                            <p className="text-muted-foreground">Avg Play Maxed %</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.readPercentage || '0')} max={100} />
+                          </div>
+                          <div>
+                            <p>{`${stat?.readPercentage}%`}</p>
+                            <p className="text-muted-foreground">Avg Play Read %</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center">
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.completionPercentage || '0')} max={100} />
+                          </div>
+                          <div>
+                            <p>{`${stat?.completionPercentage}%`}</p>
+                            <p className="text-muted-foreground">Adjusted Completion %</p>
                           </div>
                         </div>
 
-                        <div className="flex items-center">
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.executionPercentage || '0')} max={100} />
-                            </div>
-                            <div>
-                              <p>{`${stat?.executionPercentage}%`}</p>
-                              <p className="text-muted-foreground">Avg Play Maxed %</p>
-                            </div>
+                        <div className="flex gap-2 items-center md:w-1/2">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.adjustedCompletionPercentage || '0')} max={100} />
                           </div>
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.readPercentage || '0')} max={100} />
-                            </div>
-                            <div>
-                              <p>{`${stat?.readPercentage}%`}</p>
-                              <p className="text-muted-foreground">Avg Play Read %</p>
-                            </div>
+                          <div>
+                            <p>{`${stat?.adjustedCompletionPercentage}%`}</p>
+                            <p className="text-muted-foreground">Completion %</p>
                           </div>
                         </div>
+                      </div>
 
-                        <div className="flex items-center">
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.completionPercentage || '0')} max={100} />
-                            </div>
-                            <div>
-                              <p>{`${stat?.completionPercentage}%`}</p>
-                              <p className="text-muted-foreground">Adjusted Completion %</p>
-                            </div>
+                      <div className="flex items-center">
+                        <div className="flex gap-2 items-center md:w-1/3">
+                          <p className="text-4xl font-bold">{stat?.explosivePasses}</p>
+                          <p className="text-muted-foreground">Explosive Plays Responsible For</p>
+                        </div>
+                        <div className="flex gap-2 items-center md:w-1/3">
+                          <p className="text-4xl font-bold">{stat?.passes10PlusYards}</p>
+                          <p className="text-muted-foreground">10+ Yards Plays Responsible For</p>
+                        </div>
+                        <div className="flex gap-2 items-center md:w-1/3">
+                          <div>
+                            <CircularProgress value={parseFloat(stat?.turnoverWorthyPlayPercentage || '0')} max={100} />
                           </div>
-
-                          <div className="flex gap-2 items-center md:w-1/2">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.adjustedCompletionPercentage || '0')} max={100} />
-                            </div>
-                            <div>
-                              <p>{`${stat?.adjustedCompletionPercentage}%`}</p>
-                              <p className="text-muted-foreground">Completion %</p>
-                            </div>
+                          <div>
+                            <p>{`${stat?.turnoverWorthyPlayPercentage}%`}</p>
+                            <p className="text-muted-foreground">Turnover Worthy Play %</p>
                           </div>
                         </div>
-
-                        <div className="flex items-center">
-                          <div className="flex gap-2 items-center md:w-1/3">
-                            <p className="text-4xl font-bold">{stat?.explosivePasses}</p>
-                            <p className="text-muted-foreground">Explosive Plays Responsible For</p>
-                          </div>
-                          <div className="flex gap-2 items-center md:w-1/3">
-                            <p className="text-4xl font-bold">{stat?.passes10PlusYards}</p>
-                            <p className="text-muted-foreground">10+ Yards Plays Responsible For</p>
-                          </div>
-                          <div className="flex gap-2 items-center md:w-1/3">
-                            <div>
-                              <CircularProgress value={parseFloat(stat?.turnoverWorthyPlayPercentage || '0')} max={100} />
-                            </div>
-                            <div>
-                              <p>{`${stat?.turnoverWorthyPlayPercentage}%`}</p>
-                              <p className="text-muted-foreground">Turnover Worthy Play %</p>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
             </div>
           </div>
         )
