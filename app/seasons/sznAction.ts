@@ -12,9 +12,19 @@ export async function CreateSeasonAction(formData: FormData) {
     .select("current_team_id")
     .single();
 
-  const type = formData.get("type") as string;
   const yearRaw = formData.get("year");
+
+  function isSeasonType(str: string): str is "Fall" | "Spring" {
+    return str === "Fall" || str === "Spring";
+  }
+
   if (yearRaw) {
+    const typeRaw = formData.get("type") as string;
+    if (!isSeasonType(typeRaw)) {
+      throw new Error(`Invalid season type: ${typeRaw}`);
+    }
+    const type = typeRaw;
+
     const data = {
       type: type,
       year: parseInt(yearRaw.toString()),
@@ -33,11 +43,11 @@ export async function CreateSeasonAction(formData: FormData) {
     const { error: updatePublicUserError } = await supabase
       .from("users")
       .update({ current_season_id: insertSeason[0]?.id })
-      .eq('auth_id', (await supabase.auth.getUser()).data.user?.id)
-      .select()
+      .eq("auth_id", (await supabase.auth.getUser()).data.user?.id as string)
+      .select();
 
-    if(updatePublicUserError) {
-      redirect("/error")
+    if (updatePublicUserError) {
+      redirect("/error");
     }
 
     revalidatePath("/", "layout");
