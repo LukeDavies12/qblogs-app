@@ -171,7 +171,7 @@ export type Database = {
           strength: string | null
           turnover_worthy_play: Database["public"]["Enums"]["yes_no_na"] | null
           type: Database["public"]["Enums"]["play_results"]
-          yard_line: string
+          yard_line: number
           yards: string
         }
         Insert: {
@@ -202,7 +202,7 @@ export type Database = {
           strength?: string | null
           turnover_worthy_play?: Database["public"]["Enums"]["yes_no_na"] | null
           type: Database["public"]["Enums"]["play_results"]
-          yard_line: string
+          yard_line: number
           yards: string
         }
         Update: {
@@ -233,7 +233,7 @@ export type Database = {
           strength?: string | null
           turnover_worthy_play?: Database["public"]["Enums"]["yes_no_na"] | null
           type?: Database["public"]["Enums"]["play_results"]
-          yard_line?: string
+          yard_line?: number
           yards?: string
         }
         Relationships: [

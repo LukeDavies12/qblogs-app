@@ -31,9 +31,19 @@ export async function SignUp(formData: FormData) {
     redirect("/error");
   }
 
+  function isType(value: string): value is "QB" | "Head Coach" | "Offensive Coordinator" | "Pass Game Coordinator" | "Run Game Coordinator" | "QB Coach" | "RB Coach" | "WR Coach" | "OL Coach" {
+    return ["QB", "Head Coach", "Offensive Coordinator", "Pass Game Coordinator", "Run Game Coordinator", "QB Coach", "RB Coach", "WR Coach", "OL Coach"].includes(value);
+  }
+  
+  const title = formData.get("title") as string;
+  
+  if (!isType(title)) {
+    throw new Error("Invalid type");
+  }
+  
   const publicUserData = {
     auth_id: authData.user?.id,
-    type: formData.get("title") as string,
+    type: title,
     full_name: formData.get("full_name") as string,
     current_team_id: newTeam[0]?.id,
   };
@@ -49,7 +59,7 @@ export async function SignUp(formData: FormData) {
 
   const { data: newMemberData, error: memberError } = await supabase
     .from("members")
-    .insert({ user_id: newPublicUser[0]?.id, team_id: newTeam[0]?.id })
+    .insert({ user_id: newPublicUser[0]?.auth_id, team_id: newTeam[0]?.id })
     .select();
 
   if (memberError) {
