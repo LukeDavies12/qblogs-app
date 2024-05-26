@@ -77,12 +77,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <table.TableRow>
             <table.TableHead>Drive #</table.TableHead>
             <table.TableHead>Play #</table.TableHead>
-            <table.TableHead>QB</table.TableHead>
             <table.TableHead>Down</table.TableHead>
             <table.TableHead>Distance</table.TableHead>
             <table.TableHead>From the</table.TableHead>
             <table.TableHead>Result</table.TableHead>
             <table.TableHead>Yards</table.TableHead>
+            <table.TableHead>QB</table.TableHead>
             <table.TableHead>ALL FIELDS</table.TableHead>
             <table.TableHead>UPDATE</table.TableHead>
           </table.TableRow>
@@ -92,14 +92,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <table.TableRow key={play.id}>
               <table.TableCell className="px-4 py-2">{play.drive_in_game}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.num_in_drive}</table.TableCell>
-              <table.TableCell className="px-4 py-2">{qbMap[play.qb_id]}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.down}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.distance}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.yard_line}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.type}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.yards}</table.TableCell>
-              <table.TableCell className="px-4 py-2"><Link href={"/"}><Button variant={"link"}>All Fields</Button></Link></table.TableCell>
-              <table.TableCell className="px-4 py-2"><Link href={"/"}><Button variant={"link"}>Update</Button></Link></table.TableCell>
+              <table.TableCell className="px-4 py-2">{qbMap[play.qb_id]}</table.TableCell>
+              <table.TableCell className="px-4 py-2"><Link href={`/play/${play.id}`}><Button variant={"link"}>View All Fields</Button></Link></table.TableCell>
+              <table.TableCell className="px-4 py-2"><Link href={`/play/${play.id}/update`}><Button variant={"link"}>Update</Button></Link></table.TableCell>
             </table.TableRow>
           ))}
         </table.TableBody>

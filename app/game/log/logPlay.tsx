@@ -110,7 +110,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="md:w-1/9 flex flex-col gap-1">
             <Label htmlFor="tags">Tags</Label>
-            <Input type="text" name="tags" id="tags" placeholder="Key Houston" />
+            <Input type="text" name="tags" id="tags"placeholder="Call Tag if one" />
           </div>
           <div className="md:w-1/9 flex flex-col gap-1">
             <Label htmlFor="call_family">Play Family*</Label>
@@ -118,7 +118,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
         </div>
 
-        <div className="md:grid md:grid-cols-8 md:gap-2 md:mt-3">
+        <div className="md:grid md:grid-cols-9 md:gap-2 md:mt-3">
           <div className="flex flex-col gap-1">
             <Label htmlFor="result">Result*</Label>
             <Select name="result" required>
@@ -136,6 +136,10 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
                 <SelectItem value="Fumble">Fumble</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="yards">Yards*</Label>
+            <Input type="text" name="yards" id="yards" placeholder="7" />
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_pressured">QB Pressured</Label>
@@ -218,7 +222,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="md:w-1/2 flex flex-col gap-1">
             <Label htmlFor="bad_play_reason">Bad Play Reason</Label>
-            <Textarea name="bad_play_reason" id="bad_play_reason" placeholder="Rolled into run we didn't throw RPO"></Textarea>
+            <Textarea name="bad_play_reason" id="bad_play_reason" placeholder="If it was a bad play explain why"></Textarea>
           </div>
         </div>
         <SubmitButton />
