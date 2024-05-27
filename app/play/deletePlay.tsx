@@ -24,6 +24,7 @@ export default function DeletePlay({ playId, gameId }: { playId: string, gameId:
         }}
         className='text-red-700 bg-red-100 hover:text-red-700'
         variant={"outline"}
+        disabled={isDeleting}
       >
         {isDeleting ? "Deleting" : "Delete"} Play
       </Button>

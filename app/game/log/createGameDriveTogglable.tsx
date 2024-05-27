@@ -1,14 +1,13 @@
 "use client"
 
-import React, { useState } from 'react';
-import { useFormStatus } from "react-dom";
-import { CreateGameDriveAction } from "./gameDriveAction";
-import { useRef } from "react";
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import React, { useRef, useState } from 'react';
+import { useFormStatus } from "react-dom";
+import { CreateGameDriveAction } from "./gameDriveAction";
 
 interface CreateGameDriveProps {
   gameId: string;
@@ -30,11 +29,11 @@ export const CreateGameDriveToggleOne: React.FC<CreateGameDriveProps> = ({ gameI
   return (
     <div className="flex flex-col gap-4">
       <Button
-        className="mb-4 md:w-1/2"
+        className="mb-1"
         onClick={toggleFormVisibility}
         variant={"outline"}
       >
-        {showForm ? 'Hide' : 'Toggle New Game Drive'}
+        {showForm ? 'Hide' : 'Create New Game Drive'}
       </Button>
       {showForm && (
         <>
@@ -42,7 +41,7 @@ export const CreateGameDriveToggleOne: React.FC<CreateGameDriveProps> = ({ gameI
           <p className="-mt-3 text-muted-foreground">
             Start is yards away from the end zone, for example the -22 is 78 yards away.
           </p>
-          <form className="flex flex-col gap-1 -mt-3 md:w-1/2" action={onCreate} ref={ref}>
+          <form className="flex flex-col gap-1 -mt-3" action={onCreate} ref={ref}>
             <div className='flex gap-2'>
               <div className='md:w-1/3'>
                 <Label htmlFor="drive_in_game">Drive in Game</Label>
