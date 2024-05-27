@@ -1,12 +1,11 @@
 "use client"
 
-import Image from "next/image"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import * as select from "@/components/ui/select";
 import { useFormStatus } from "react-dom";
 import { CreateSeasonAction } from "./sznAction";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import * as select from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
 export default function CreateSeason() {
   return (

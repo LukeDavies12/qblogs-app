@@ -1,11 +1,10 @@
+import LogoSpan from "@/components/LogoSpan"
+import CircularProgress from "@/components/ProgressBar"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createClient } from "@/utils/supabase/server"
 import Link from "next/link"
 import CreateSeason from "./seasons/createSeason"
-import { Button } from "@/components/ui/button"
-import LogoSpan from "@/components/LogoSpan"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import CircularProgress from "@/components/ProgressBar"
 
 
 export default async function Page() {

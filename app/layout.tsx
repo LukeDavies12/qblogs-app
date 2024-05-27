@@ -1,29 +1,29 @@
-import Link from "next/link";
-import "./globals.css";
-import { createClient } from "@/utils/supabase/server"
-import GetAllTeams from "./teams/userGetAllTeams";
-import GetAllSeasons from "./seasons/teamGetAllSeasons";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ModeToggleRadio } from "@/components/ModeToggleRadio";
-import { Button } from "@/components/ui/button";
 import LogoSpanNoText from "@/components/LogoSpanNoText";
-import { Group, CalendarFold, Home } from "lucide-react";
+import { ModeToggleRadio } from "@/components/ModeToggleRadio";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { UserDropdownMenu } from "@/components/UserDropdown";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup
-} from "@/components/ui/select"
-import { UserDropdownMenu } from "@/components/UserDropdown";
+} from "@/components/ui/tooltip";
+import { createClient } from "@/utils/supabase/server";
+import { CalendarFold, Group, Home } from "lucide-react";
+import Link from "next/link";
+import "./globals.css";
+import GetAllSeasons from "./seasons/teamGetAllSeasons";
+import GetAllTeams from "./teams/userGetAllTeams";
 
 export default async function RootLayout({
   children,

@@ -1,10 +1,8 @@
-"use client";
+'use client'
 
-import { useState, useRef } from "react";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useFormStatus } from "react-dom";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,9 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { updatePlayById } from "./[slug]/update/updatePlay";
+import { Textarea } from "@/components/ui/textarea";
 import { Database } from "@/generated/supabase";
+import { default as React, useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { updatePlayById } from "./updatePlayAction";
 
 export default function UpdatePlay({
   playId,

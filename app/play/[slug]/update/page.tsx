@@ -1,8 +1,8 @@
-import Link from "next/link";
-import UpdatePlay from "../../updatePlay";
-import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 import DeletePlay from "../../deletePlay";
+import UpdatePlay from "../../updatePlay";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const supabase = createClient();
@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         Drive {gameDrive?.drive_in_game} Play {play?.num_in_drive} from {game?.name}
       </h1>
       <UpdatePlay playId={play.id} playToUpdate={play} teamQbs={teamQbs} />
-      <DeletePlay playId={play.id} fromGameId={game?.id as string} />
+      <DeletePlay playId={play.id} gameId={game?.id as string} />
       <Link href={`/game/plays/${game?.id}`}><Button variant={"link"} className="w-full">View All Plays from {game?.name}</Button></Link>
     </div>
   );
