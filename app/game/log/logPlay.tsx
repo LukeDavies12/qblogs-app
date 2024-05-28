@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { LogPlayAction } from "./playAction";
-import { useRef } from "react";
 
 interface CreateGameDriveProps {
   gameId: string;
@@ -19,9 +19,30 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   const LogPlayOnDrive = LogPlayAction.bind(null, gameId, gameDriveId);
   const ref = useRef<HTMLFormElement>(null);
 
+  const [hash, setHash] = useState("");
+  const [qbId, setQbId] = useState("");
+  const [result, setResult] = useState("");
+  const [qbPressured, setQbPressured] = useState("");
+  const [qbReadYn, setQbReadYn] = useState("");
+  const [qbPlayYn, setQbPlayYn] = useState("");
+  const [qbBallPlacementGood, setQbBallPlacementGood] = useState("");
+  const [turnoverWorthyPlay, setTurnoverWorthyPlay] = useState("");
+
   async function onLog(formData: FormData) {
     const res = await LogPlayAction(gameId, gameDriveId, formData);
     ref.current?.reset();
+    resetSelectComponents();
+  }
+
+  function resetSelectComponents() {
+    setHash("");
+    setQbId("");
+    setResult("");
+    setQbPressured("");
+    setQbReadYn("");
+    setQbPlayYn("");
+    setQbBallPlacementGood("");
+    setTurnoverWorthyPlay("");
   }
 
   return (
@@ -45,7 +66,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="md:w-1/6 flex flex-col gap-1">
             <Label htmlFor="hash">Hash*</Label>
-            <Select name="hash" required>
+            <Select name="hash" required value={hash} onValueChange={setHash}>
               <SelectTrigger tabIndex={0} id="hash">
                 <SelectValue placeholder="Select a Hash" />
               </SelectTrigger>
@@ -64,7 +85,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="md:w-1/6 flex flex-col gap-1">
             <Label htmlFor="qb_id">Qb In*</Label>
-            <Select name="qb_id" required>
+            <Select name="qb_id" required value={qbId} onValueChange={setQbId}>
               <SelectTrigger tabIndex={0} id="qb_id">
                 <SelectValue placeholder="Choose QB" />
               </SelectTrigger>
@@ -110,7 +131,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="md:w-1/9 flex flex-col gap-1">
             <Label htmlFor="tags">Tags</Label>
-            <Input type="text" name="tags" id="tags"placeholder="Call Tag if one" />
+            <Input type="text" name="tags" id="tags" placeholder="Call Tag if one" />
           </div>
           <div className="md:w-1/9 flex flex-col gap-1">
             <Label htmlFor="call_family">Play Family*</Label>
@@ -121,13 +142,14 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
         <div className="md:grid md:grid-cols-9 md:gap-2 md:mt-3">
           <div className="flex flex-col gap-1">
             <Label htmlFor="result">Result*</Label>
-            <Select name="result" required>
+            <Select name="result" required value={result} onValueChange={setResult}>
               <SelectTrigger tabIndex={0} id="result">
                 <SelectValue placeholder="Select Result" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Complete">Complete</SelectItem>
                 <SelectItem value="Incomplete">Incomplete</SelectItem>
+                <SelectItem value="Incomplete Drop">Incomplete Drop</SelectItem>
                 <SelectItem value="Rush">Rush</SelectItem>
                 <SelectItem value="QB Rush">QB Rush</SelectItem>
                 <SelectItem value="Sack">Sack</SelectItem>
@@ -143,7 +165,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_pressured">QB Pressured</Label>
-            <Select name="qb_pressured" required>
+            <Select name="qb_pressured" required value={qbPressured} onValueChange={setQbPressured}>
               <SelectTrigger tabIndex={0} id="qb_pressured">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -156,7 +178,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_read_yn" className="font-bold">QB Read Correct</Label>
-            <Select name="qb_read_yn" required>
+            <Select name="qb_read_yn" required value={qbReadYn} onValueChange={setQbReadYn}>
               <SelectTrigger tabIndex={0} id="qb_read_yn">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -169,7 +191,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_play_yn" className="font-bold">QB Maxed Execution</Label>
-            <Select name="qb_play_yn" required>
+            <Select name="qb_play_yn" required value={qbPlayYn} onValueChange={setQbPlayYn}>
               <SelectTrigger tabIndex={0} id="qb_play_yn">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -182,7 +204,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_ball_placement_good">QB Accurate</Label>
-            <Select name="qb_ball_placement_good">
+            <Select name="qb_ball_placement_good" value={qbBallPlacementGood} onValueChange={setQbBallPlacementGood}>
               <SelectTrigger tabIndex={0} id="qb_ball_placement_good">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -195,7 +217,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="turnover_worthy_play">Turnover Worthy Play</Label>
-            <Select name="turnover_worthy_play" required>
+            <Select name="turnover_worthy_play" required value={turnoverWorthyPlay} onValueChange={setTurnoverWorthyPlay}>
               <SelectTrigger tabIndex={0} id="turnover_worthy_play">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>

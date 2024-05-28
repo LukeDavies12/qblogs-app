@@ -1,245 +1,17 @@
-import LogoSpan from "@/components/LogoSpan"
-import CircularProgress from "@/components/ProgressBar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { createClient } from "@/utils/supabase/server"
-import Link from "next/link"
-import CreateSeason from "./seasons/createSeason"
-
+import LogoSpan from "@/components/LogoSpan";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import calculatePoints from "@/config/calcPoints";
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
+import { StatDisplay, TextStat } from "./homePageStats";
+import CreateSeason from "./seasons/createSeason";
 
 export default async function Page() {
-  const supabase = createClient()
+  const supabase = createClient();
 
-  const { data: authUser } = await supabase.auth.getUser()
-  if (authUser?.user) {
-    const { data: publicUserCurrentSeason } = await supabase.from("users").select('*').eq("auth_id", authUser.user.id).single()
-
-    if (publicUserCurrentSeason?.current_season_id) {
-      const { data: allSeasonGames } = await supabase.from("games").select("*").eq("season_id", publicUserCurrentSeason.current_season_id)
-      const { data: allTeamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUserCurrentSeason.current_team_id as string)
-      const gameIds = allSeasonGames?.map(game => game.id) || [];
-      const { data: allGameDrives } = await supabase
-        .from("game_drives")
-        .select("*")
-        .in("game_id", gameIds);
-      const { data: allPlaysForDrives } = await supabase
-        .from("plays")
-        .select("*")
-        .in("game_drive_id", allGameDrives?.map(drive => drive.id) || []);
-
-      const qbStats = allTeamQbs?.map(qb => {
-        const qbDrives = allGameDrives?.filter(drive => drive.qb_id === qb.id);
-        const qbPlays = allPlaysForDrives?.filter(play => play.qb_id === qb.id);
-
-        if (qbDrives && qbPlays) {
-          const avgAvailableYdsPerc = qbDrives.length > 0
-            ? qbDrives.reduce((acc, drive) => {
-              const start = Number(drive.start);
-              const end = Number(drive.end);
-              if (!isNaN(start) && !isNaN(end)) {
-                const availableYdsPerc = (start - end) / start;
-                return acc + availableYdsPerc;
-              } else {
-                return acc;
-              }
-            }, 0) / qbDrives.length
-            : 0;
-
-          const totalYardsGained = qbDrives.length > 0
-            ? qbDrives.reduce((acc, drive) => {
-              const start = Number(drive.start);
-              const end = Number(drive.end);
-              if (!isNaN(start) && !isNaN(end)) {
-                const yardsGained = start - end;
-                return acc + yardsGained; // Add yardsGained to acc
-              } else {
-                return acc; // Return acc if start or end is NaN
-              }
-            }, 0)
-            : 0;
-
-          const totalYardsAvailable = qbDrives.length > 0
-            ? qbDrives.reduce((acc, drive) => {
-              const start = Number(drive.start);
-              const end = Number(drive.end);
-              if (!isNaN(start) && !isNaN(end)) {
-                const availableYds = start;
-                return acc + availableYds;
-              } else {
-                return acc;
-              }
-            }, 0)
-            : 0;
-
-          const ptsPerDrive = qbDrives.length > 0
-            ? qbDrives.reduce((acc, drive) => {
-              const points = calculatePoints(drive.result);
-              if (typeof points === 'number') {
-                return acc + points;
-              } else {
-                // Handle the case where points is not a number
-                return acc;
-              }
-            }, 0) / qbDrives.length
-            : 0;
-
-          const executionPercentage = qbPlays.length > 0
-            ? qbPlays.filter(play => play.qb_play_yn === 'Yes').length / qbPlays.length
-            : 0;
-
-          const readPercentage = qbPlays.length > 0
-            ? qbPlays.filter(play => play.qb_read_yn === 'Yes').length / qbPlays.length
-            : 0;
-
-          const completions = qbPlays.filter(play => play.type === 'Complete').length;
-          const attempts = qbPlays.filter(play => ['Complete', 'Incomplete', 'Interception'].includes(play.type)).length;
-
-          const completionPercentage = attempts > 0
-            ? completions / attempts
-            : 0;
-
-          const adjustedCompletionPercentage = attempts > 0
-            ? (completions + qbPlays.filter(play => play.type === 'Incomplete Drop').length) / attempts
-            : 0;
-
-          const explosivePasses = qbPlays.filter(play => Number(play.yards) >= 25 && play.type == "Complete" || Number(play.yards) >= 25 && play.type == "QB Rush").length;
-
-          const passes10PlusYards = qbPlays.filter(play => Number(play.yards) >= 10 && play.type == "Complete" || Number(play.yards) >= 10 && play.type == "QB Rush").length;
-
-          const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === 'Yes').length;
-
-          const turnoverWorthyPlayPercentage = qbPlays.length > 0
-            ? turnoverWorthyPlays / qbPlays.length
-            : 0;
-
-          return {
-            qbId: qb.id,
-            qbName: qb.full_name,
-            yardsGained: totalYardsGained,
-            totalYardsAvailable: totalYardsAvailable,
-            avgAvailableYdsPerc: avgAvailableYdsPerc.toFixed(2),
-            ptsPerDrive: ptsPerDrive.toFixed(2),
-            executionPercentage: (executionPercentage * 100).toFixed(2),
-            readPercentage: (readPercentage * 100).toFixed(2),
-            completionPercentage: (completionPercentage * 100).toFixed(2),
-            adjustedCompletionPercentage: (adjustedCompletionPercentage * 100).toFixed(2),
-            explosivePasses,
-            passes10PlusYards,
-            turnoverWorthyPlayPercentage: (turnoverWorthyPlayPercentage * 100).toFixed(2),
-          };
-        }
-      });
-
-      if (qbStats) {
-        return (
-          <div>
-            <h1 className="font-bold text-xl">Dashboard</h1>
-            <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
-            <div className="space-y-4 md:grid grid-cols-2 gap-2 w-full">
-              {qbStats.map(stat => (
-                <div key={stat?.qbId} className="mt-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>QB: {stat?.qbName}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="flex items-center">
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={(parseFloat(stat?.avgAvailableYdsPerc || '0')) * 100} max={100} />
-                          </div>
-                          <div>
-                            <p>{stat?.yardsGained} yds / {stat?.totalYardsAvailable} yds</p>
-                            <p className="text-muted-foreground">Avg Available Yards Gained per Drive %</p>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.ptsPerDrive || '0')} max={7} />
-                          </div>
-                          <div>
-                            <p>{stat?.ptsPerDrive}</p>
-                            <p className="text-muted-foreground">Avg Points Per Drive</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center">
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.executionPercentage || '0')} max={100} />
-                          </div>
-                          <div>
-                            <p>{`${stat?.executionPercentage}%`}</p>
-                            <p className="text-muted-foreground">Avg Play Maxed %</p>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.readPercentage || '0')} max={100} />
-                          </div>
-                          <div>
-                            <p>{`${stat?.readPercentage}%`}</p>
-                            <p className="text-muted-foreground">Avg Play Read %</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center">
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.completionPercentage || '0')} max={100} />
-                          </div>
-                          <div>
-                            <p>{`${stat?.completionPercentage}%`}</p>
-                            <p className="text-muted-foreground">Adjusted Completion %</p>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2 items-center md:w-1/2">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.adjustedCompletionPercentage || '0')} max={100} />
-                          </div>
-                          <div>
-                            <p>{`${stat?.adjustedCompletionPercentage}%`}</p>
-                            <p className="text-muted-foreground">Completion %</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center">
-                        <div className="flex gap-2 items-center md:w-1/3">
-                          <p className="text-4xl font-bold">{stat?.explosivePasses}</p>
-                          <p className="text-muted-foreground">Explosive Plays Responsible For</p>
-                        </div>
-                        <div className="flex gap-2 items-center md:w-1/3">
-                          <p className="text-4xl font-bold">{stat?.passes10PlusYards}</p>
-                          <p className="text-muted-foreground">10+ Yards Plays Responsible For</p>
-                        </div>
-                        <div className="flex gap-2 items-center md:w-1/3">
-                          <div>
-                            <CircularProgress value={parseFloat(stat?.turnoverWorthyPlayPercentage || '0')} max={100} />
-                          </div>
-                          <div>
-                            <p>{`${stat?.turnoverWorthyPlayPercentage}%`}</p>
-                            <p className="text-muted-foreground">Turnover Worthy Play %</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        )
-      }
-    } else {
-      return (
-        <CreateSeason />
-      )
-    }
-  } else {
+  const { data: authUser } = await supabase.auth.getUser();
+  if (!authUser?.user) {
     return (
       <div className="flex flex-col gap-4 mt-4 ml-4">
         <div className="flex gap-2 items-center select-none cursor-default">
@@ -248,26 +20,160 @@ export default async function Page() {
         <div className="flex gap-4">
           <Link href={"/login"}><Button variant={"outline"}>Login</Button></Link>
         </div>
-        {/* <div>
-          space for demo youtube video for alpha
-        </div> */}
+        {/* <div> space for demo youtube video for alpha </div> */}
       </div>
-    )
+    );
   }
-}
 
-function calculatePoints(result: any) {
-  switch (result) {
-    case "TD Pass":
-    case "TD Run":
-      return 7;
-    case "Field Goal Made":
-      return 3;
-    case "Field Goal Missed":
-      return 3;
-    case "Safety":
-      return -2;
-    default:
-      return 0;
+  const { data: publicUserCurrentSeason } = await supabase.from("users").select('*').eq("auth_id", authUser.user.id).single();
+
+  if (!publicUserCurrentSeason?.current_season_id) {
+    return <CreateSeason />;
   }
+
+  const { data: allSeasonGames } = await supabase.from("games").select("*").eq("season_id", publicUserCurrentSeason.current_season_id);
+  const { data: allTeamQbs } = await supabase.from("team_qbs").select("*").eq("team_id", publicUserCurrentSeason.current_team_id as string);
+  const gameIds = allSeasonGames?.map(game => game.id) || [];
+  const { data: allGameDrives } = await supabase.from("game_drives").select("*").in("game_id", gameIds);
+  const { data: allPlaysForDrives } = await supabase.from("plays").select("*").in("game_drive_id", allGameDrives?.map(drive => drive.id) || []);
+
+  const calculatePercentage = (num: number, denom: number) => (denom > 0 ? (num / denom) * 100 : 0).toFixed(2);
+
+  const qbStats = allTeamQbs?.map(qb => {
+    const qbDrives = allGameDrives?.filter(drive => drive.qb_id === qb.id) || [];
+    const qbPlays = allPlaysForDrives?.filter(play => play.qb_id === qb.id) || [];
+    const calculateTotal = (drives: any[], key: string) =>
+      drives.reduce((acc, drive) => {
+        const value = Number(drive[key]);
+        return !isNaN(value) ? acc + value : acc;
+      }, 0);
+    const avgAvailableYdsPerc = qbDrives.length > 0
+      ? qbDrives.reduce((acc, drive) => {
+        const start = Number(drive.start);
+        const end = Number(drive.end);
+        if (!isNaN(start) && !isNaN(end)) {
+          const availableYdsPerc = (start - end) / start;
+          return acc + availableYdsPerc;
+        } else {
+          return acc;
+        }
+      }, 0) / qbDrives.length
+      : 0;
+    const totalYardsGained = calculateTotal(qbDrives, "start") - calculateTotal(qbDrives, "end");
+    const totalYardsAvailable = calculateTotal(qbDrives, "start");
+    const ptsPerDrive = qbDrives.length ? qbDrives.reduce((acc, drive) => acc + calculatePoints(drive.result || ""), 0) / qbDrives.length : 0; const executionPercentage = parseFloat(calculatePercentage(
+      qbPlays.filter(play => play.qb_play_yn === "Yes").length,
+      qbPlays.length - qbPlays.filter(play => play.qb_play_yn === "NA").length
+    ));
+    const readPercentage = parseFloat(
+      calculatePercentage(
+        qbPlays.filter(play => play.qb_read_yn === "Yes").length,
+        qbPlays.length - qbPlays.filter(play => play.qb_read_yn === "NA").length
+      ));
+    const completions = qbPlays.filter(play => play.type === "Complete").length;
+    const attempts = qbPlays.filter(play => ["Complete", "Incomplete", "Interception", "Incomplete Drop"].includes(play.type)).length;
+    const completionPercentage = parseFloat(calculatePercentage(completions, attempts));
+    const adjustedCompletionPercentage = parseFloat(calculatePercentage(completions + qbPlays.filter(play => play.type === "Incomplete Drop").length, attempts));
+    const explosivePasses = qbPlays.filter(play => ["Complete", "QB Rush"].includes(play.type) && Number(play.yards) >= 25).length;
+    const passes10PlusYards = qbPlays.filter(play => ["Complete", "QB Rush"].includes(play.type) && Number(play.yards) >= 10).length;
+    const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === "Yes").length;
+    const turnoverWorthyPlayPercentage = parseFloat(calculatePercentage(turnoverWorthyPlays, qbPlays.length));
+
+    return {
+      qbId: qb.id,
+      qbName: qb.full_name,
+      yardsGained: totalYardsGained,
+      totalYardsAvailable,
+      avgAvailableYdsPerc,
+      ptsPerDrive: ptsPerDrive.toFixed(2),
+      executionPercentage,
+      readPercentage,
+      completionPercentage,
+      adjustedCompletionPercentage,
+      attempts,
+      completions,
+      adjustedCompletions: completions + qbPlays.filter(play => play.type === "Incomplete Drop").length,
+      explosivePasses,
+      passes10PlusYards,
+      turnoverWorthyPlayPercentage,
+      turnoverWorthyPlays,
+      playMaxedCount: qbPlays.filter(play => play.qb_play_yn === "Yes").length,
+      playMaxedCounting: qbPlays.length - qbPlays.filter(play => play.qb_play_yn === "NA").length,
+      playReadCount: qbPlays.filter(play => play.qb_read_yn === "Yes").length,
+      playReadCounting: qbPlays.length - qbPlays.filter(play => play.qb_read_yn === "NA").length,
+      allPlaysCount: qbPlays.length,
+    };
+  });
+
+  return (
+    <div>
+      <h1 className="font-bold text-xl">Dashboard</h1>
+      <h2 className="font-medium mt-1 text-lg">For All Games this Season</h2>
+      <div className="space-y-4 md:grid grid-cols-2 gap-2 w-full">
+        {qbStats?.map(stat => (
+          <div key={stat.qbId} className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>{stat.qbName}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex items-center">
+                  <StatDisplay
+                    value={stat.avgAvailableYdsPerc * 100}
+                    max={100}
+                    text={`${stat.yardsGained} yds / ${stat.totalYardsAvailable} yds`}
+                    subtext="Avg Available Yards Gained per Drive %"
+                  />
+                  <StatDisplay
+                    value={parseFloat(stat.ptsPerDrive)}
+                    max={7}
+                    text={stat.ptsPerDrive}
+                    subtext="Avg Points Per Drive"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <StatDisplay
+                    value={stat.executionPercentage}
+                    max={100}
+                    text={`${stat.playMaxedCount} / ${stat.playMaxedCounting}`}
+                    subtext="Avg Play Maxed %"
+                  />
+                  <StatDisplay
+                    value={stat.readPercentage}
+                    max={100}
+                    text={`${stat.playReadCount} / ${stat.playReadCounting}`}
+                    subtext="Avg Play Read %"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <StatDisplay
+                    value={stat.adjustedCompletionPercentage}
+                    max={100}
+                    text={`${stat.adjustedCompletions} / ${stat.attempts}`}
+                    subtext="Adjusted Completion %"
+                  />
+                  <StatDisplay
+                    value={stat.completionPercentage}
+                    max={100}
+                    text={`${stat.completions} / ${stat.attempts}`}
+                    subtext="Completion %"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <TextStat value={stat.explosivePasses} subtext="Explosive Plays Responsible For" />
+                  <TextStat value={stat.passes10PlusYards} subtext="10+ Yards Plays Responsible For" />
+                  <StatDisplay
+                    value={stat.turnoverWorthyPlayPercentage}
+                    max={100}
+                    text={`${stat.turnoverWorthyPlays} / ${stat.allPlaysCount} Total Plays`}
+                    subtext="Turnover Worthy Play %"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

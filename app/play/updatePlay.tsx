@@ -277,6 +277,7 @@ export default function UpdatePlay({
               <SelectContent>
                 <SelectItem value="Complete">Complete</SelectItem>
                 <SelectItem value="Incomplete">Incomplete</SelectItem>
+                <SelectItem value="Incomplete Drop">Incomplete Drop</SelectItem>
                 <SelectItem value="Rush">Rush</SelectItem>
                 <SelectItem value="QB Rush">QB Rush</SelectItem>
                 <SelectItem value="Sack">Sack</SelectItem>
