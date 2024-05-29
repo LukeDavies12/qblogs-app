@@ -127,7 +127,7 @@ export default async function Page() {
                   <StatDisplay
                     value={parseFloat(stat.ptsPerDrive)}
                     max={7}
-                    text={stat.ptsPerDrive}
+                    text={stat.ptsPerDrive + " pts / 7 pts"}
                     subtext="Avg Points Per Drive"
                   />
                 </div>
@@ -165,7 +165,7 @@ export default async function Page() {
                   <StatDisplay
                     value={stat.turnoverWorthyPlayPercentage}
                     max={100}
-                    text={`${stat.turnoverWorthyPlays} / ${stat.allPlaysCount} Total Plays`}
+                    text={`${stat.turnoverWorthyPlays} / ${stat.allPlaysCount}`}
                     subtext="Turnover Worthy Play %"
                   />
                 </div>
