@@ -1,9 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { CreateGameDrive } from "../createGameDrive";
-import { CreateGameDriveToggleOne } from "../createGameDriveTogglable";
-import { LogPlay } from "../logPlay";
-import SelectExistingDrive from "../selectExistingDrive";
+import { CreateGameDrive } from "./createGameDrive";
+import { CreateGameDriveToggleOne } from "./createGameDriveTogglable";
+import { LogPlay } from "./logPlay";
+import SelectExistingDrive from "./selectExistingDrive";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const supabase = createClient()

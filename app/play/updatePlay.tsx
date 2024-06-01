@@ -257,7 +257,7 @@ export default function UpdatePlay({
           </div>
         </div>
 
-        <div className="md:grid md:grid-cols-9 md:gap-2 md:mt-3">
+        <div className="md:grid md:grid-cols-8 md:gap-2 md:mt-3">
           <div className="flex flex-col gap-1">
             <Label htmlFor="result">Result*</Label>
             <Select
@@ -369,28 +369,6 @@ export default function UpdatePlay({
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
                 <SelectItem value="NA">NA</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="qb_ball_placement_good">QB Accurate*</Label>
-            <Select
-              name="qb_ball_placement_good"
-              defaultValue={formState.qb_ball_placement_good || ""}
-              onValueChange={(value: any) =>
-                setFormState((prevState) => ({
-                  ...prevState,
-                  qb_ball_placement_good: value,
-                }))
-              }
-            >
-              <SelectTrigger tabIndex={0} id="qb_ball_placement_good">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="NA">NA</SelectItem>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
               </SelectContent>
             </Select>
           </div>

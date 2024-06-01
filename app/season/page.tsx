@@ -1,5 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
-import CreateSpringGame from "../games/createSpringGame";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,10 +7,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import DeleteGame from "../game/deleteGame";
-import { Button } from "@/components/ui/button";
+import CreateSpringGame from "../games/createSpringGame";
 
 
 export default async function Page() {
@@ -28,7 +27,7 @@ export default async function Page() {
 
       return (
         <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">{currentSeason?.type} {currentSeason?.year}</h1>
+          <h1 className="font-bold">{currentSeason?.type} {currentSeason?.year}</h1>
           <Table className="md:w-1/2">
             <TableCaption>All Games for your current season.</TableCaption>
             <TableHeader>
@@ -43,7 +42,7 @@ export default async function Page() {
               <TableRow>
                 <TableCell className="font-medium">{springGame.name}</TableCell>
                 <TableCell>{springGame.date}</TableCell>
-                <TableCell><Link href={`/game/log/${springGame.id}`}><Button variant={"link"}>Log Plays</Button></Link></TableCell>
+                <TableCell><Link href={`/game/${springGame.id}/log`}><Button variant={"link"}>Log Plays</Button></Link></TableCell>
                 <TableCell><Link href={`/game/plays/${springGame.id}`}><Button variant={"link"}>View/Update Plays</Button></Link></TableCell>
               </TableRow>
             </TableBody>

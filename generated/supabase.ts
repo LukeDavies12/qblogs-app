@@ -1,3 +1,6 @@
+Need to install the following packages:
+supabase@1.172.2
+Ok to proceed? (y) 
 export type Json =
   | string
   | number
@@ -163,7 +166,6 @@ export type Database = {
           pass_pro: string | null
           personnel: string
           practice_block_id: string | null
-          qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
           qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
           qb_pressured: Database["public"]["Enums"]["yes_no_na"] | null
@@ -194,7 +196,6 @@ export type Database = {
           pass_pro?: string | null
           personnel: string
           practice_block_id?: string | null
-          qb_ball_placement_good: Database["public"]["Enums"]["yes_no_na"]
           qb_id: string
           qb_play_yn: Database["public"]["Enums"]["yes_no_na"]
           qb_pressured?: Database["public"]["Enums"]["yes_no_na"] | null
@@ -225,7 +226,6 @@ export type Database = {
           pass_pro?: string | null
           personnel?: string
           practice_block_id?: string | null
-          qb_ball_placement_good?: Database["public"]["Enums"]["yes_no_na"]
           qb_id?: string
           qb_play_yn?: Database["public"]["Enums"]["yes_no_na"]
           qb_pressured?: Database["public"]["Enums"]["yes_no_na"] | null

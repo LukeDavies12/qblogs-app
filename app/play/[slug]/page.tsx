@@ -1,8 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const supabase = createClient();
@@ -35,12 +35,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="font-bold text-xl">
+      <h1 className="font-bold">
         Drive {gameDrive?.drive_in_game} Play {play?.num_in_drive} from {game?.name}
       </h1>
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Play Details</CardTitle>
+          <CardTitle className="text-base font-bold">Play Details</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="md:flex md:gap-2">
@@ -109,7 +109,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </div>
           </div>
 
-          <div className="md:grid md:grid-cols-9 md:gap-2">
+          <div className="md:grid md:grid-cols-8 md:gap-2">
             <div>
               <Label className="text-muted-foreground">Result</Label>
               <div>{play.type}</div>
@@ -129,10 +129,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div>
               <Label className="text-muted-foreground">QB Maxed Execution</Label>
               <div>{play.qb_play_yn}</div>
-            </div>
-            <div>
-              <Label className="text-muted-foreground">QB Accurate</Label>
-              <div>{play.qb_ball_placement_good}</div>
             </div>
             <div>
               <Label className="text-muted-foreground">Turnover Worthy Play</Label>

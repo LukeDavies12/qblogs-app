@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
 import { Database } from "@/generated/supabase";
+import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -30,7 +30,6 @@ export async function updatePlayById(id: string, formData: FormData) {
     qb_pressured: formData.get("qb_pressured") as InsertParameters["qb_pressured"],
     qb_read_yn: formData.get("qb_read_yn") as InsertParameters["qb_read_yn"],
     qb_play_yn: formData.get("qb_play_yn") as InsertParameters["qb_play_yn"],
-    qb_ball_placement_good: formData.get("qb_ball_placement_good") as InsertParameters["qb_ball_placement_good"],
     turnover_worthy_play: formData.get("turnover_worthy_play") as InsertParameters["turnover_worthy_play"],
     defense_front: formData.get("defense_front") as InsertParameters["defense_front"],
     defense_coverage: formData.get("defense_coverage") as InsertParameters["defense_coverage"],

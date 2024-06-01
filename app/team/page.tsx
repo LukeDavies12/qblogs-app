@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,7 +7,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 
 export default async function Page() {
   const supabase = createClient();
@@ -54,10 +54,10 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="font-bold text-xl">My Team</h1>
-      <h2 className="font-medium text-lg">Members</h2>
+      <h1 className="font-bold">My Team</h1>
+      <h2 className="font-medium">Members</h2>
       <Table className="md:w-1/2">
-        <TableCaption>List of all team members.</TableCaption>
+        <TableCaption>(List of all team members.)</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Type</TableHead>

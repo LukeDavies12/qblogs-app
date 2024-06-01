@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="font-bold text-xl">
+      <h1 className="font-bold">
         Drive {gameDrive?.drive_in_game} Play {play?.num_in_drive} from {game?.name}
       </h1>
       <UpdatePlay playId={play.id} playToUpdate={play} teamQbs={teamQbs} />

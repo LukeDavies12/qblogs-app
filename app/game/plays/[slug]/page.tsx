@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import * as table from "@/components/ui/table";
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="font-bold text-xl">Plays for {game?.name}</h1>
+      <h1 className="font-bold">Plays for {game?.name}</h1>
       <table.Table className="mt-4">
         <table.TableCaption>List of all plays from drives.</table.TableCaption>
         <table.TableHeader>

@@ -97,7 +97,7 @@ export default async function RootLayout({
 
     return (
       <html lang="en" suppressHydrationWarning>
-        <body className="bg-neutral-100 dark:bg-neutral-900">
+        <body className="bg-white dark:bg-slate-900">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -105,7 +105,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <div className="flex">
-              <div className="min-h-screen bg-white dark:bg-neutral-950 w-12 md:w-16 flex flex-col gap-4 items-center py-4">
+              <div className="min-h-screen bg-slate-100 dark:bg-slate-950 w-12 md:w-16 flex flex-col gap-4 items-center py-4">
                 <LogoSpanNoText />
                 <TooltipProvider>
                   <Tooltip>

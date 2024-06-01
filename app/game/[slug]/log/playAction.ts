@@ -59,7 +59,6 @@ export async function LogPlayAction(
 
   if (
     !isHashType(hash) ||
-    !isYesNoNaType(qbBallPlacementGood) ||
     !isYesNoNaType(turnoverWorthyPlay) ||
     !isYesNoNaType(qbPlayYn) ||
     !isYesNoNaType(qbReadYn) ||
@@ -91,7 +90,6 @@ export async function LogPlayAction(
     qb_pressured: qbPressured,
     qb_read_yn: qbReadYn,
     qb_play_yn: qbPlayYn,
-    qb_ball_placement_good: qbBallPlacementGood,
     turnover_worthy_play: turnoverWorthyPlay,
     defense_front: formData.get("defense_front") as string,
     defense_coverage: formData.get("defense_coverage") as string,

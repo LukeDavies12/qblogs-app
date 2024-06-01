@@ -23,8 +23,8 @@ interface TextStatProps {
 }
 
 export const TextStat = ({ value, subtext }: TextStatProps) => (
-  <div className="flex gap-2 items-center md:w-1/3">
-    <p className="text-4xl font-bold">{value}</p>
+  <div className="flex gap-2 items-center">
+    <p className="text-3xl font-bold">{value}</p>
     <p className="text-muted-foreground">{subtext}</p>
   </div>
 );
