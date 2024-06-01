@@ -8,7 +8,7 @@ interface StatDisplayProps {
 }
 
 export const StatDisplay = ({ value, max, text, subtext }: StatDisplayProps) => (
-  <div className="flex gap-2 items-center md:w-1/2">
+  <div className="flex gap-3 items-center">
     <CircularProgress value={value} max={max} />
     <div>
       <p>{text}</p>

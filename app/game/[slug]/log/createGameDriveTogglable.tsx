@@ -66,6 +66,7 @@ export const CreateGameDriveToggleOne: React.FC<CreateGameDriveProps> = ({ gameI
                   <SelectContent>
                     <SelectItem value="TD Pass">TD Pass</SelectItem>
                     <SelectItem value="TD Run">TD Run</SelectItem>
+                    <SelectItem value="TD Run QB">TD Run QB</SelectItem>
                     <SelectItem value="Field Goal Made">Field Goal Made</SelectItem>
                     <SelectItem value="Field Goal Missed">Field Goal Missed</SelectItem>
                     <SelectItem value="Punt">Punt</SelectItem>

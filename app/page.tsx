@@ -79,8 +79,20 @@ export default async function Page() {
     const fivePlusPlays = qbPlays.filter(play => ["Complete", "QB Rush"].includes(play.type) && Number(play.yards) >= 5).length;
     const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === "Yes").length;
     const turnoverWorthyPlayPercentage = parseFloat(calculatePercentage(turnoverWorthyPlays, qbPlays.length));
+    const formatNumber = (num) => {
+      const formatted = Number(num).toFixed(2);
+      return formatted.endsWith('.00') ? formatted.split('.')[0] : formatted;
+    };
+    
+    const passingTds = qbDrives.filter(drive => drive.result === "TD Pass").length;
     const passingYards = qbPlays.filter(play => play.type === "Complete").reduce((acc, play) => acc + Number(play.yards), 0);
+    const passingYardsPerAtt = attempts > 0 ? passingYards / attempts : 0;
+    const rushingTds = qbDrives.filter(drive => drive.result === "TD Run QB").length;
     const rushingYards = qbPlays.filter(play => play.type === "QB Rush").reduce((acc, play) => acc + Number(play.yards), 0);
+    const rushingAttempts = qbPlays.filter(play => play.type === "QB Rush").length;
+    const rushingYardsPerAtt = rushingAttempts > 0 ? rushingYards / rushingAttempts : 0;
+    
+    
 
     return {
       qbId: qb.id,
@@ -106,8 +118,12 @@ export default async function Page() {
       playReadCount: qbPlays.filter(play => play.qb_read_yn === "Yes").length,
       playReadCounting: qbPlays.length - qbPlays.filter(play => play.qb_read_yn === "NA").length,
       allPlaysCount: qbPlays.length,
+      passingTds,
       passingYards,
-      rushingYards
+      passingYardsPerAtt,
+      rushingTds,
+      rushingYards,
+      rushingYardsPerAtt
     };
   });
 
@@ -126,7 +142,7 @@ export default async function Page() {
                 <CardTitle className="text-base font-bold">{stat.qbName}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 -mt-4">
-                <div className="flex items-center">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
                   <StatDisplay
                     value={stat.avgAvailableYdsPerc * 100}
                     max={100}
@@ -140,7 +156,7 @@ export default async function Page() {
                     subtext="Avg Points Per Drive"
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
                   <StatDisplay
                     value={stat.executionPercentage}
                     max={100}
@@ -154,7 +170,7 @@ export default async function Page() {
                     subtext="Avg Play Read %"
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
                   <StatDisplay
                     value={stat.adjustedCompletionPercentage}
                     max={100}
@@ -168,7 +184,7 @@ export default async function Page() {
                     subtext="Completion %"
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3">
                   <TextStat value={stat.expPlays} subtext="Explosive Plays Responsible For" />
                   <TextStat value={stat.tenPlusPlays} subtext="10+ Yards Plays Responsible For" />
                   <StatDisplay
@@ -178,13 +194,13 @@ export default async function Page() {
                     subtext="Turnover Worthy Play %"
                   />
                 </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3">
-                <TextStat value={stat.passingYards} subtext="Passing TDs" />
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <TextStat value={stat.passingTds} subtext="Passing TDs" />
                   <TextStat value={stat.passingYards} subtext="Passing Yards" />
-                  <TextStat value={stat.tenPlusPlays} subtext="Yards Per Att" />
-                  <TextStat value={stat.tenPlusPlays} subtext="Rushing TD" />
+                  <TextStat value={stat.passingYardsPerAtt} subtext="Yards Per Att" />
+                  <TextStat value={stat.rushingTds} subtext="Rushing TD" />
                   <TextStat value={stat.rushingYards} subtext="Rushing Yards" />
-                  <TextStat value={stat.tenPlusPlays} subtext="Rusing Yard Per Att" />
+                  <TextStat value={stat.rushingYardsPerAtt} subtext="Rusing Yard Per Att" />
                 </div>
               </CardContent>
             </Card>

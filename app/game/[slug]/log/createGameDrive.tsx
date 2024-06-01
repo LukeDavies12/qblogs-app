@@ -1,12 +1,12 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import { CreateGameDriveAction } from "./gameDriveAction";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useFormStatus } from "react-dom";
+import { CreateGameDriveAction } from "./gameDriveAction";
 
 interface CreateGameDriveProps {
   gameId: string;
@@ -47,6 +47,7 @@ export const CreateGameDrive: React.FC<CreateGameDriveProps> = ({ gameId, teamQb
               <SelectContent>
                 <SelectItem value="TD Pass">TD Pass</SelectItem>
                 <SelectItem value="TD Run">TD Run</SelectItem>
+                <SelectItem value="TD Run QB">TD Run QB</SelectItem>
                 <SelectItem value="Field Goal Made">Field Goal Made</SelectItem>
                 <SelectItem value="Field Goal Missed">Field Goal Missed</SelectItem>
                 <SelectItem value="Punt">Punt</SelectItem>

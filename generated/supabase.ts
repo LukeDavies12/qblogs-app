@@ -1,6 +1,3 @@
-Need to install the following packages:
-supabase@1.172.2
-Ok to proceed? (y) 
 export type Json =
   | string
   | number
@@ -489,6 +486,7 @@ export type Database = {
         | "Fumble"
         | "End of Half"
         | "Safety"
+        | "TD Run QB"
       hashes: "L" | "LM" | "M" | "RM" | "R"
       play_results:
         | "Complete"
