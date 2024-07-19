@@ -19,6 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { createClient } from "@/utils/supabase/server";
+import { GeistSans } from 'geist/font/sans';
 import { CalendarFold, Group, Home } from "lucide-react";
 import Link from "next/link";
 import "./globals.css";
@@ -96,8 +97,8 @@ export default async function RootLayout({
     allSeasons = allSeasons.filter(season => season.id !== currentSeasonId);
 
     return (
-      <html lang="en" suppressHydrationWarning>
-        <body className="bg-white dark:bg-slate-900">
+      <html lang="en" className={GeistSans.variable} suppressHydrationWarning>
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -105,7 +106,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <div className="flex">
-              <div className="min-h-screen bg-slate-100 dark:bg-slate-950 w-12 md:w-16 flex flex-col gap-4 items-center py-4">
+              <div className="min-h-screen w-12 md:w-16 flex flex-col gap-4 items-center py-4 border-r border-neutral-200 dark:border-neutral-800">
                 <LogoSpanNoText />
                 <TooltipProvider>
                   <Tooltip>
@@ -154,7 +155,7 @@ export default async function RootLayout({
                 <nav className="py-3 flex items-center justify-between">
                   <div className="flex gap-4 items-center justify-center">
                     <Select defaultValue={currentTeamId?.toString()} name="team">
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select Team" />
                       </SelectTrigger>
                       <SelectContent>
@@ -174,7 +175,7 @@ export default async function RootLayout({
                       </SelectContent>
                     </Select>
                     <Select defaultValue={currentSeasonId?.toString()} name="season">
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a Season" />
                       </SelectTrigger>
                       <SelectContent>
@@ -210,8 +211,8 @@ export default async function RootLayout({
     );
   } else {
     return (
-      <html lang="en" suppressHydrationWarning>
-        <body className="bg-neutral-100 dark:bg-neutral-900">
+      <html lang="en" className={GeistSans.variable} suppressHydrationWarning>
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

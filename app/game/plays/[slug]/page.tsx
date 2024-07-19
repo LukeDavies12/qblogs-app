@@ -96,8 +96,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <table.TableCell className="px-4 py-2">{play.distance}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.yard_line}</table.TableCell>
               <table.TableCell className="px-4 py-2">{play.type}</table.TableCell>
-              <table.TableCell className="px-4 py-2">{play.yards}</table.TableCell>
-              <table.TableCell className="px-4 py-2">{qbMap[play.qb_id]}</table.TableCell>
+              <table.TableCell className={`px-4 py-2 ${Number(play.yards) < 0
+                  ? 'text-red-900 bg-red-100 dark:text-red-300 dark:bg-red-900'
+                  : Number(play.yards) >= 25
+                    ? 'text-green-900 bg-green-200 font-bold underline dark:text-green-300 dark:bg-green-900'
+                    : Number(play.yards) >= 10
+                      ? 'text-green-700 bg-green-100 dark:text-green-400 dark:bg-green-800'
+                      : ''
+                }`}>
+                {play.yards}
+              </table.TableCell>              <table.TableCell className="px-4 py-2">{qbMap[play.qb_id]}</table.TableCell>
               <table.TableCell className="px-4 py-2"><Link href={`/play/${play.id}`}><Button variant={"link"}>View All Fields</Button></Link></table.TableCell>
               <table.TableCell className="px-4 py-2"><Link href={`/play/${play.id}/update`}><Button variant={"link"}>Update</Button></Link></table.TableCell>
             </table.TableRow>

@@ -79,20 +79,18 @@ export default async function Page() {
     const fivePlusPlays = qbPlays.filter(play => ["Complete", "QB Rush"].includes(play.type) && Number(play.yards) >= 5).length;
     const turnoverWorthyPlays = qbPlays.filter(play => play.turnover_worthy_play === "Yes").length;
     const turnoverWorthyPlayPercentage = parseFloat(calculatePercentage(turnoverWorthyPlays, qbPlays.length));
-    const formatNumber = (num) => {
+    const formatNumber = (num: number) => {
       const formatted = Number(num).toFixed(2);
       return formatted.endsWith('.00') ? formatted.split('.')[0] : formatted;
     };
     
     const passingTds = qbDrives.filter(drive => drive.result === "TD Pass").length;
     const passingYards = qbPlays.filter(play => play.type === "Complete").reduce((acc, play) => acc + Number(play.yards), 0);
-    const passingYardsPerAtt = attempts > 0 ? passingYards / attempts : 0;
+    const passingYardsPerAtt = attempts > 0 ? Number((passingYards / attempts).toFixed(1)) : 0;
     const rushingTds = qbDrives.filter(drive => drive.result === "TD Run QB").length;
     const rushingYards = qbPlays.filter(play => play.type === "QB Rush").reduce((acc, play) => acc + Number(play.yards), 0);
     const rushingAttempts = qbPlays.filter(play => play.type === "QB Rush").length;
     const rushingYardsPerAtt = rushingAttempts > 0 ? rushingYards / rushingAttempts : 0;
-    
-    
 
     return {
       qbId: qb.id,
@@ -147,7 +145,7 @@ export default async function Page() {
                     value={stat.avgAvailableYdsPerc * 100}
                     max={100}
                     text={`${stat.yardsGained} yds / ${stat.totalYardsAvailable} yds`}
-                    subtext="Avg Available Yards Gained per Drive %"
+                    subtext="Avg Yds per Drive"
                   />
                   <StatDisplay
                     value={parseFloat(stat.ptsPerDrive)}
@@ -161,13 +159,13 @@ export default async function Page() {
                     value={stat.executionPercentage}
                     max={100}
                     text={`${stat.playMaxedCount} / ${stat.playMaxedCounting}`}
-                    subtext="Avg Play Maxed %"
+                    subtext="Avg Play Maxed"
                   />
                   <StatDisplay
                     value={stat.readPercentage}
                     max={100}
                     text={`${stat.playReadCount} / ${stat.playReadCounting}`}
-                    subtext="Avg Play Read %"
+                    subtext="Avg Play Read"
                   />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -175,23 +173,23 @@ export default async function Page() {
                     value={stat.adjustedCompletionPercentage}
                     max={100}
                     text={`${stat.adjustedCompletions} / ${stat.attempts}`}
-                    subtext="Adjusted Completion %"
+                    subtext="Adjusted Completion"
                   />
                   <StatDisplay
                     value={stat.completionPercentage}
                     max={100}
                     text={`${stat.completions} / ${stat.attempts}`}
-                    subtext="Completion %"
+                    subtext="Completion"
                   />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3">
                   <TextStat value={stat.expPlays} subtext="Explosive Plays Responsible For" />
-                  <TextStat value={stat.tenPlusPlays} subtext="10+ Yards Plays Responsible For" />
+                  <TextStat value={stat.tenPlusPlays} subtext="10+ Yd Plays Responsible For" />
                   <StatDisplay
                     value={stat.turnoverWorthyPlayPercentage}
                     max={100}
                     text={`${stat.turnoverWorthyPlays} / ${stat.allPlaysCount}`}
-                    subtext="Turnover Worthy Play %"
+                    subtext="Turnover Worthy Play"
                   />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -200,7 +198,7 @@ export default async function Page() {
                   <TextStat value={stat.passingYardsPerAtt} subtext="Yards Per Att" />
                   <TextStat value={stat.rushingTds} subtext="Rushing TD" />
                   <TextStat value={stat.rushingYards} subtext="Rushing Yards" />
-                  <TextStat value={stat.rushingYardsPerAtt} subtext="Rusing Yard Per Att" />
+                  <TextStat value={stat.rushingYardsPerAtt} subtext="Rushing Yard Per Att" />
                 </div>
               </CardContent>
             </Card>

@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Database } from "@/generated/supabase";
 import { default as React, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { updatePlayById } from "./updatePlayAction";
@@ -22,8 +21,8 @@ export default function UpdatePlay({
   teamQbs,
 }: {
   playId: string;
-  playToUpdate: Database["public"]["Tables"]["plays"]["Update"];
-  teamQbs: Array<Database["public"]["Tables"]["team_qbs"]["Row"]> | null;
+  playToUpdate: any;
+  teamQbs: any[];
 }) {
   const updatePlay = updatePlayById.bind(null, playId);
   const ref = useRef<HTMLFormElement>(null);
@@ -32,7 +31,7 @@ export default function UpdatePlay({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormState((prevState) => ({
+    setFormState((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
@@ -92,7 +91,7 @@ export default function UpdatePlay({
               name="hash"
               defaultValue={formState.hash || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   hash: value,
                 }))
@@ -129,7 +128,7 @@ export default function UpdatePlay({
               name="qb_id"
               defaultValue={formState.qb_id || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   qb_id: value,
                 }))
@@ -264,7 +263,7 @@ export default function UpdatePlay({
               name="result"
               defaultValue={formState.type || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   type: value,
                 }))
@@ -305,7 +304,7 @@ export default function UpdatePlay({
               name="qb_pressured"
               defaultValue={formState.qb_pressured || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   qb_pressured: value,
                 }))
@@ -330,7 +329,7 @@ export default function UpdatePlay({
               name="qb_read_yn"
               defaultValue={formState.qb_read_yn || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   qb_read_yn: value,
                 }))
@@ -355,7 +354,7 @@ export default function UpdatePlay({
               name="qb_play_yn"
               defaultValue={formState.qb_play_yn || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   qb_play_yn: value,
                 }))
@@ -378,7 +377,7 @@ export default function UpdatePlay({
               name="turnover_worthy_play"
               defaultValue={formState.turnover_worthy_play || ""}
               onValueChange={(value: any) =>
-                setFormState((prevState) => ({
+                setFormState((prevState: any) => ({
                   ...prevState,
                   turnover_worthy_play: value,
                 }))

@@ -16,7 +16,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ value, max, size = 
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <circle
         stroke="currentColor"
-        className="text-slate-300 dark:text-slate-700"
+        className="text-neutral-300 dark:text-neutral-700"
         fill="transparent"
         strokeWidth={strokeWidth}
         r={radius}
@@ -25,7 +25,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ value, max, size = 
       />
       <circle
         stroke="currentColor"
-        className="text-slate-800 dark:text-slate-300"
+        className="text-neutral-800 dark:text-neutral-300"
         fill="transparent"
         strokeWidth={strokeWidth}
         r={radius}
@@ -39,7 +39,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ value, max, size = 
         dy=".3em"
         textAnchor="middle"
         fontSize="14"
-        className="fill-current text-slate-900 dark:text-white"
+        className="fill-current text-neutral-900 dark:text-white font-mono"
       >
         {`${((value / max) * 100).toFixed(0)}%`}
       </text>

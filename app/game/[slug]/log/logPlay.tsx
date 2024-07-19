@@ -19,12 +19,11 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   const LogPlayOnDrive = LogPlayAction.bind(null, gameId, gameDriveId);
   const ref = useRef<HTMLFormElement>(null);
 
-  const [hash, setHash] = useState("");
   const [qbId, setQbId] = useState("");
   const [result, setResult] = useState("");
-  const [qbPressured, setQbPressured] = useState("");
-  const [qbReadYn, setQbReadYn] = useState("");
-  const [qbPlayYn, setQbPlayYn] = useState("");
+  const [qbRead, setQbRead] = useState("");
+  const [qbExecution, setQbExecution] = useState("");
+  const [qbExceptionalPlay, setQbExceptionalPlay] = useState("");
   const [turnoverWorthyPlay, setTurnoverWorthyPlay] = useState("");
 
   async function onLog(formData: FormData) {
@@ -34,52 +33,21 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   }
 
   function resetSelectComponents() {
-    setHash("");
     setQbId("");
     setResult("");
-    setQbPressured("");
-    setQbReadYn("");
-    setQbPlayYn("");
+    setQbRead("");
+    setQbExecution("");
+    setQbExceptionalPlay("");
     setTurnoverWorthyPlay("");
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <form className="flex flex-col gap-1" action={onLog} ref={ref}>
-        <div className="md:flex md:gap-2 md:w-full">
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="num_in_drive">Play # in Drive*</Label>
-            <Input type="number" name="num_in_drive" id="num_in_drive" placeholder="1" required />
-          </div>
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="down">Down*</Label>
-            <Input type="number" name="down" id="down" placeholder="1" required />
-          </div>
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="distance">Distance*</Label>
-            <Input type="number" name="distance" id="distance" placeholder="10" required />
-          </div>
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="yard_line">Yard Line*</Label>
-            <Input type="number" name="yard_line" id="yard_line" placeholder="67" required />
-          </div>
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="hash">Hash*</Label>
-            <Select name="hash" required value={hash} onValueChange={setHash}>
-              <SelectTrigger tabIndex={0} id="hash">
-                <SelectValue placeholder="Select a Hash" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="L">L</SelectItem>
-                <SelectItem value="LM">LM</SelectItem>
-                <SelectItem value="M">M</SelectItem>
-                <SelectItem value="RM">RM</SelectItem>
-                <SelectItem value="R">R</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="md:w-1/6 flex flex-col gap-1">
-            <Label htmlFor="qb_id">Qb In*</Label>
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6">Log Play</h2>
+      <form className="space-y-6" action={onLog} ref={ref}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="qb_id">QB In*</Label>
             <Select name="qb_id" required value={qbId} onValueChange={setQbId}>
               <SelectTrigger tabIndex={0} id="qb_id">
                 <SelectValue placeholder="Choose QB" />
@@ -93,55 +61,21 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
               </SelectContent>
             </Select>
           </div>
-        </div>
-
-        <div className="md:flex md:gap-2 md:w-full mt-3">
-          <div className="md:w-1/9 flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="down">Down*</Label>
+            <Input type="number" name="down" id="down" placeholder="1" required />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="distance">Distance*</Label>
+            <Input type="number" name="distance" id="distance" placeholder="10" required />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="yard_line">Yard Line*</Label>
+            <Input type="number" name="yard_line" id="yard_line" placeholder="67" required />
+          </div>
+          <div className="flex flex-col gap-1">
             <Label htmlFor="personnel">Personnel*</Label>
-            <Input type="text" name="personnel" id="personnel" placeholder="20" required />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="formation">Formation*</Label>
-            <Input type="text" name="formation" id="formation" placeholder="Strong" required />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="back_tag">Back Tag</Label>
-            <Input type="text" name="back_tag" id="back_tag" placeholder="B" />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="strength">Strength*</Label>
-            <Input type="text" name="strength" id="strength" placeholder="R" required />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="motion">Motion</Label>
-            <Input type="text" name="motion" id="motion" placeholder="Fap" />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="pass_pro">Pass Pro</Label>
-            <Input type="text" name="pass_pro" id="pass_pro" placeholder="57" />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="call">Play Call*</Label>
-            <Input type="text" name="call" id="call" placeholder="Even Elk" required />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="tags">Tags</Label>
-            <Input type="text" name="tags" id="tags" placeholder="Call Tag if one" />
-          </div>
-          <div className="md:w-1/9 flex flex-col gap-1">
-            <Label htmlFor="call_family">Play Family*</Label>
-            <Input type="text" name="call_family" id="call_family" placeholder="OZ RPO" required />
-          </div>
-        </div>
-
-        <div className="md:grid md:grid-cols-8 md:gap-2 md:mt-3">
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="defense_front">Defense Front</Label>
-            <Input type="text" name="defense_front" id="defense_front" placeholder="Enter defense front" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="defense_coverage">Defense Coverage</Label>
-            <Input type="text" name="defense_coverage" id="defense_coverage" placeholder="Enter defense coverage" />
+            <Input type="text" name="personnel" id="personnel" placeholder="11" required />
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="result">Result*</Label>
@@ -162,46 +96,55 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
               </SelectContent>
             </Select>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex flex-col gap-1">
-            <Label htmlFor="yards">Yards*</Label>
-            <Input type="text" name="yards" id="yards" placeholder="7" />
+            <Label htmlFor="call">Play Call*</Label>
+            <Input type="text" name="call" id="call" placeholder="Even Elk" required />
           </div>
           <div className="flex flex-col gap-1">
-            <Label htmlFor="qb_pressured">QB Pressured*</Label>
-            <Select name="qb_pressured" required value={qbPressured} onValueChange={setQbPressured}>
-              <SelectTrigger tabIndex={0} id="qb_pressured">
+            <Label htmlFor="call_family">Play Family*</Label>
+            <Input type="text" name="call_family" id="call_family" placeholder="OZ RPO" required />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="qb_read" className="font-bold">QB Read*</Label>
+            <Select name="qb_read" required value={qbRead} onValueChange={setQbRead}>
+              <SelectTrigger tabIndex={0} id="qb_read">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="NA">NA</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-                <SelectItem value="Yes">Yes</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="qb_read_yn" className="font-bold">QB Read Correct*</Label>
-            <Select name="qb_read_yn" required value={qbReadYn} onValueChange={setQbReadYn}>
-              <SelectTrigger tabIndex={0} id="qb_read_yn">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
+                <SelectItem value="Good">Good</SelectItem>
+                <SelectItem value="Bad">Bad</SelectItem>
                 <SelectItem value="NA">NA</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="flex flex-col gap-1">
-            <Label htmlFor="qb_play_yn" className="font-bold">QB Maxed Execution*</Label>
-            <Select name="qb_play_yn" required value={qbPlayYn} onValueChange={setQbPlayYn}>
-              <SelectTrigger tabIndex={0} id="qb_play_yn">
+            <Label htmlFor="qb_execution">QB Execution*</Label>
+            <Select name="qb_execution" required value={qbExecution} onValueChange={setQbExecution}>
+              <SelectTrigger tabIndex={0} id="qb_execution">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Good">Good</SelectItem>
+                <SelectItem value="Bad">Bad</SelectItem>
+                <SelectItem value="NA">NA</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="qb_exceptional_play">QB Exceptional Play*</Label>
+            <Select name="qb_exceptional_play" required value={qbExceptionalPlay} onValueChange={setQbExceptionalPlay}>
+              <SelectTrigger tabIndex={0} id="qb_exceptional_play">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
-                <SelectItem value="NA">NA</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -219,12 +162,12 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
         </div>
 
-        <div className="md:flex md:gap-2 md:w-full md:mt-3">
-          <div className="md:w-1/2 flex flex-col gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="notes">Notes</Label>
             <Textarea name="notes" id="notes" placeholder="Enter Notes"></Textarea>
           </div>
-          <div className="md:w-1/2 flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="bad_play_reason">Bad Play Reason</Label>
             <Textarea name="bad_play_reason" id="bad_play_reason" placeholder="If it was a bad play explain why"></Textarea>
           </div>
@@ -238,7 +181,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
 const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
-    <Button className='md:w-full mt-3' type="submit" disabled={pending}>
+    <Button className='w-full' type="submit" disabled={pending}>
       {pending ? "Logging" : "Log"} Play
     </Button>
   );

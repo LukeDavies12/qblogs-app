@@ -75,7 +75,7 @@ export async function CreateGameDriveAction(
     }
 
     revalidatePath("/", "layout");
-    redirect(`/game/log/${gameId}`);
+    redirect(`/game/${gameId}/log`);
   } else {
     console.log("Invalid Result");
     redirect("/error");
