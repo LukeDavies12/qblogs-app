@@ -19,7 +19,6 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   const LogPlayOnDrive = LogPlayAction.bind(null, gameId, gameDriveId);
   const ref = useRef<HTMLFormElement>(null);
 
-  const [qbId, setQbId] = useState("");
   const [result, setResult] = useState("");
   const [qbRead, setQbRead] = useState("");
   const [qbExecution, setQbExecution] = useState("");
@@ -33,7 +32,6 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   }
 
   function resetSelectComponents() {
-    setQbId("");
     setResult("");
     setQbRead("");
     setQbExecution("");
@@ -42,40 +40,24 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6">Log Play</h2>
       <form className="space-y-6" action={onLog} ref={ref}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="qb_id">QB In*</Label>
-            <Select name="qb_id" required value={qbId} onValueChange={setQbId}>
-              <SelectTrigger tabIndex={0} id="qb_id">
-                <SelectValue placeholder="Choose QB" />
-              </SelectTrigger>
-              <SelectContent>
-                {teamQbs.map((qb) => (
-                  <SelectItem key={qb.id} value={qb.id}>
-                    {qb.full_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="down">Down*</Label>
-            <Input type="number" name="down" id="down" placeholder="1" required />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="distance">Distance*</Label>
-            <Input type="number" name="distance" id="distance" placeholder="10" required />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="yard_line">Yard Line*</Label>
-            <Input type="number" name="yard_line" id="yard_line" placeholder="67" required />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">
             <Label htmlFor="personnel">Personnel*</Label>
             <Input type="text" name="personnel" id="personnel" placeholder="11" required />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="call">Play Call*</Label>
+            <Input type="text" name="call" id="call" placeholder="Even Elk" required />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="call_family">Play Family*</Label>
+            <Input type="text" name="call_family" id="call_family" placeholder="OZ RPO" required />
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="result">Result*</Label>
@@ -98,18 +80,7 @@ export const LogPlay: React.FC<CreateGameDriveProps> = ({ gameId, gameDriveId, t
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="call">Play Call*</Label>
-            <Input type="text" name="call" id="call" placeholder="Even Elk" required />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="call_family">Play Family*</Label>
-            <Input type="text" name="call_family" id="call_family" placeholder="OZ RPO" required />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="flex flex-col gap-1">
             <Label htmlFor="qb_read" className="font-bold">QB Read*</Label>
             <Select name="qb_read" required value={qbRead} onValueChange={setQbRead}>

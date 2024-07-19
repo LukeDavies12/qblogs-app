@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { CreateGameDrive } from "./createGameDrive";
 import { CreateGameDriveToggleOne } from "./createGameDriveTogglable";
 import { LogPlay } from "./logPlay";
-import SelectExistingDrive from "./selectExistingDrive";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const supabase = createClient()
@@ -32,15 +31,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
-          <h2 className="text-muted-foreground">Game: <span className="font-medium text-foreground">{game?.name}</span>, Game Drive: <span className="font-medium text-foreground">{gameDrive?.drive_in_game}</span></h2>
-          <div className="w-full flex flex-col md:grid md:grid-cols-2 md:gap-2">
+          <ul className="list-none p-0 m-0 text-neutral-900">
+            <li>Game: <span className="font-medium">{game?.name}</span></li>
+            <li>Game Drive: <span className="font-medium">{gameDrive?.drive_in_game}</span></li>
+          </ul>
+          <div>
             <CreateGameDriveToggleOne gameId={game?.id as string} teamQbs={teamQbs} />
-            <SelectExistingDrive
-              current_game_drive_id={publicUser.current_game_drive_id}
-              currentGameId={game?.id as string}
-              currentUserId={publicUser.auth_id}
-              existingGameDrives={gameDrives || []}
-            />
           </div>
           <LogPlay gameId={game?.id as string} gameDriveId={publicUser.current_game_drive_id} teamQbs={teamQbs} />
         </div>
@@ -53,7 +49,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
       return (
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Log Play</h1>
-          <h2 className="font-medium">Game: {game?.name}, Game Drive: No Drive Selected</h2>
+          <ul className="list-none p-0 m-0 text-neutral-900">
+            <li>Game: <span className="font-medium">{game?.name}</span></li>
+            <li>Game Drive: <span className="font-medium">No Drive Selected</span></li>
+          </ul>
           <CreateGameDrive gameId={game?.id as string} teamQbs={teamQbs} />
         </div>
       )

@@ -19,9 +19,6 @@ export const CreateGameDrive: React.FC<CreateGameDriveProps> = ({ gameId, teamQb
   return (
     <div className="flex flex-col gap-4">
       <h3 className="font-bold">Create Game Drive</h3>
-      <p className="-mt-3">
-        Start is yards away from the end zone, for example the -22 is 78 yards away.
-      </p>
       <form className="flex flex-col gap-1 -mt-3" action={CreateGameDriveForGameId}>
         <div className='flex gap-2'>
           <div className='md:w-1/3'>
@@ -30,7 +27,7 @@ export const CreateGameDrive: React.FC<CreateGameDriveProps> = ({ gameId, teamQb
           </div>
           <div className='md:w-1/3'>
             <Label htmlFor="start">Start</Label>
-            <Input type="number" name="start" id="start" placeholder="78" required />
+            <Input type="number" name="start" id="start" placeholder="-30" required />
           </div>
           <div className='md:w-1/3'>
             <Label htmlFor="end">End</Label>

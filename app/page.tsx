@@ -145,13 +145,13 @@ export default async function Page() {
                     value={stat.avgAvailableYdsPerc * 100}
                     max={100}
                     text={`${stat.yardsGained} yds / ${stat.totalYardsAvailable} yds`}
-                    subtext="Avg Yds per Drive"
+                    subtext="Yds Gained / Available"
                   />
                   <StatDisplay
                     value={parseFloat(stat.ptsPerDrive)}
                     max={7}
                     text={stat.ptsPerDrive + " pts / 7 pts"}
-                    subtext="Avg Points Per Drive"
+                    subtext="Points Per Drive"
                   />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -159,13 +159,13 @@ export default async function Page() {
                     value={stat.executionPercentage}
                     max={100}
                     text={`${stat.playMaxedCount} / ${stat.playMaxedCounting}`}
-                    subtext="Avg Play Maxed"
+                    subtext="Play Maxed"
                   />
                   <StatDisplay
                     value={stat.readPercentage}
                     max={100}
                     text={`${stat.playReadCount} / ${stat.playReadCounting}`}
-                    subtext="Avg Play Read"
+                    subtext="Play Read Correct"
                   />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
