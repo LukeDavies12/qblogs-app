@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -83,18 +83,6 @@ export async function CreateNewMember(formData: FormData) {
 
   if (publicUserError) {
     console.log(publicUserError.message);
-    redirect("/error");
-  }
-
-  const { data: newMemberData, error: newMemberError } = await supabase
-    .from("members")
-    .insert({
-      user_id: newPublicUser.auth_id as string,
-      team_id: newPublicUser.current_team_id as string,
-    });
-
-  if (newMemberError) {
-    console.log(newMemberError.message);
     redirect("/error");
   }
 
