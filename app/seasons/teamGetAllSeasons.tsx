@@ -15,8 +15,10 @@ export default async function GetAllSeasons() {
   // Map the fetched data to the desired format
   if (seasons) {
     const formattedSeasons = seasons.map(season => ({
+      name: `${season.type} ${season.year}`,
+      year: season.year,
+      type: season.type,
       id: season.id,
-      name: `${season.type} ${season.year}`
     }))
 
     return formattedSeasons

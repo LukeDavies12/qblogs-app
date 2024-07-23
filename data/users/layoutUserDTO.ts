@@ -39,11 +39,11 @@ export async function layoutUserDTO() {
 
   allSeasons = allSeasons
     .filter((season) => season.id !== currentSeasonId)
-    .map(({ id, ...rest }) => rest); // Exclude 'id' from each season object
 
   return {
     currentTeamName,
     currentSeasonName,
-    allSeasons,
+    currentSeasonId,
+    allSeasons
   };
 }
