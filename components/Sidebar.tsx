@@ -1,4 +1,4 @@
-import LogoSpanNoText from "@/components/LogoSpanNoText";
+import LogoSpanNoText from "@/components/brand/LogoSpanNoText";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CalendarFold, Group, Home } from "lucide-react";

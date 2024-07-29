@@ -11,11 +11,12 @@ export async function Login(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   });
+
   if (signInError) {
     console.log(signInError);
     redirect("/error");
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath('/', 'layout')
+  redirect('/')
 }

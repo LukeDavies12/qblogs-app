@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { QBStat, fetchQBStats } from "@/utils/qbStatsHelpers";
 import { SupabaseClient } from '@supabase/supabase-js';
+import { QBStat, fetchQBStats } from "./QBStatsHelpers";
 
 type QBStatsDashboardProps = {
   supabase: SupabaseClient;
@@ -18,7 +18,7 @@ export async function QBStatsDashboard({ supabase }: QBStatsDashboardProps) {
           <QBStatCard key={stat.qbId} stat={stat} />
         ))}
       </div>
-    </div>
+    </div>  
   );
 }
 

@@ -1,16 +1,15 @@
 "use client"
 
-import * as React from "react"
 import { User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuItem
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useFormStatus } from "react-dom"
@@ -29,7 +28,7 @@ export function UserDropdownMenu() {
         <DropdownMenuSeparator />
         <Link href={'/settings'}>
           <DropdownMenuItem className="cursor-pointer">
-            Settings
+            Account Settings
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
