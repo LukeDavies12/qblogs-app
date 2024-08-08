@@ -1,4 +1,4 @@
-import CircularProgress from "@/components/ProgressBar";
+import CircularProgress from "@/components/ui/ProgressBar";
 
 interface StatDisplayProps {
   value: number;

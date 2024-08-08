@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function LogoSpan() {
   const { theme, systemTheme } = useTheme();
@@ -13,7 +13,6 @@ export default function LogoSpan() {
     setMounted(true);
   }, []);
 
-  // Determine the actual theme taking into account the system preference
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
   const logoSrc = currentTheme === 'dark'
@@ -21,7 +20,7 @@ export default function LogoSpan() {
     : '/qblogs_logo_lightmode.svg';
 
   if (!mounted) {
-    return null; // or a placeholder/loading state if preferred
+    return null;
   }
 
   return (

@@ -20,3 +20,22 @@ export async function Login(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/')
 }
+
+
+export async function sendResetPasswordEmail(email: string) {  const supabase = createClient();
+  try {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/reset-password`,
+    })
+
+    if (error) {
+      throw error
+    }
+
+    // Password reset email sent successfully
+    return { success: true, message: "Password reset email sent. Please check your inbox." }
+  } catch (error) {
+    console.error("Error sending password reset email:", error)
+    return { success: false, message: "Failed to send password reset email. Please try again." }
+  }
+}

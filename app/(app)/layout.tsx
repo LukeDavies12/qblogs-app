@@ -1,6 +1,6 @@
 // app/layout.tsx
-import NavBar from "@/components/NavBar";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import NavBar from "@/components/sections/NavBar";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { GeistSans } from 'geist/font/sans';
 import "../globals.css";
 
